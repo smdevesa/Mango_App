@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Mango$</string>
+    <string name="hello_message">Hola</string>
+    <string name="login_button">Iniciar sesión</string>
+</resources>
