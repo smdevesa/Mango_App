@@ -3,7 +3,9 @@ package com.example.mango_app.ui.screen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -32,13 +34,14 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
+    val scrollState = rememberScrollState()
 
     Scaffold(
-        containerColor = BackgroundColor,
-        topBar = { TopAppBar(title = { Text("Register") }) },
+        containerColor = MaterialTheme.colorScheme.background,
         content = { padding ->
             Column(
                 modifier = Modifier
+                    .verticalScroll(scrollState)
                     .padding(padding)
                     .fillMaxSize()
                     .wrapContentHeight()
@@ -105,7 +108,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
                 // Login Link
                 Text(
                     text = "Already have an account? Login",
-                    style = MaterialTheme.typography.bodyMedium.copy(color = Color.Black),
+                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
                     modifier = Modifier.clickable { onLoginClick() }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -113,12 +116,12 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
                 // Register Button
                 Button(onClick = { onRegisterSuccess() },
                     modifier = Modifier.height(60.dp).width(200.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MangoOrange)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Text(
                         text = "Registrarse",
                         style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp), // Tamaño personalizado
-                        color = Color.White // Color del texto
+                        color = MaterialTheme.colorScheme.onPrimary // Color del texto
                     )
                 }
             }
@@ -126,8 +129,20 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
     )
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun PreviewRegisterScreen() {
-    RegisterScreen(onRegisterSuccess = {}, onLoginClick = {})
+fun RegisterScreenPreviewLight() {
+    Mango_AppTheme(darkTheme = false, content = {
+        RegisterScreen(onRegisterSuccess = {}, onLoginClick = {})
+    }
+    )
+}
+
+@Preview
+@Composable
+fun RegisterScreenPreviewDark() {
+    Mango_AppTheme(darkTheme = true, content = {
+        RegisterScreen(onRegisterSuccess = {}, onLoginClick = {})
+    }
+    )
 }

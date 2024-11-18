@@ -1,6 +1,5 @@
 package com.example.mango_app.ui.screen
 
-import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,16 +15,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
-import com.example.mango_app.ui.theme.BackgroundColor
-import com.example.mango_app.ui.theme.MangoOrange
+import com.example.mango_app.ui.theme.Mango_AppTheme
 import com.example.mango_app.utils.CustomTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,8 +29,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onForgotPassword: () -> Unit, onRegi
     var password by remember { mutableStateOf("") }
 
     Scaffold(
-        containerColor = BackgroundColor,
-        topBar = { TopAppBar(title = { Text("Login") }) },
+        containerColor = MaterialTheme.colorScheme.background,
         content = { padding ->
             Column(
                 modifier = Modifier
@@ -81,36 +74,34 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onForgotPassword: () -> Unit, onRegi
                     // Lógica de autenticación
                     onLoginSuccess() },
                     modifier = Modifier.height(60.dp).width(200.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MangoOrange)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 )
                 {
                     Text(
                         text = "Iniciar sesión",
-                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp), // Tamaño personalizado
-                        color = Color.White // Color del texto
+                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp),
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
 
-                // Links para acciones adicionales
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    // Link para registro
                     Text(
                         text = "Don't have an account? Register",
-                        style = MaterialTheme.typography.bodyMedium.copy(color = Color.Black),
+                        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
                         modifier = Modifier.clickable {
                             onRegisterClick()
                         }
                     )
                     Spacer(modifier = Modifier.width(16.dp))
-                    // Link para recuperar contraseña
+
                     Text(
                         text = "Forgot your password?",
-                        style = MaterialTheme.typography.bodyMedium.copy(color = Color.Black),
+                        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
                         modifier = Modifier.clickable {
                             onForgotPassword()
                         }
@@ -123,10 +114,16 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onForgotPassword: () -> Unit, onRegi
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewLoginScreen() {
-    LoginScreen(
-        onLoginSuccess = {},
-        onForgotPassword = {},
-        onRegisterClick = {}
-    )
+fun LoginScreenPreviewLight() {
+    Mango_AppTheme(darkTheme = false, content = {
+        LoginScreen(onLoginSuccess = {}, onForgotPassword = {}, onRegisterClick = {})
+    })
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreviewDark() {
+    Mango_AppTheme(darkTheme = true, content = {
+        LoginScreen(onLoginSuccess = {}, onForgotPassword = {}, onRegisterClick = {})
+    })
 }
