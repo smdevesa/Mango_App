@@ -47,6 +47,8 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onForgotPassword: () -> Unit, onRegi
             )
 
             {
+                Spacer(modifier = Modifier.height(32.dp))
+
                 Image(
                     painter = painterResource(id = R.drawable.mango_logo),
                     contentDescription = "Logo de Mango",

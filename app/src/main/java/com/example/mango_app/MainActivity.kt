@@ -68,11 +68,12 @@ fun AppContent() {
                         onLoginClick = {
                             navController.navigate("login")
                         }
+                        
                     )
                 }
-                composable("home") {
+                /*composable("home") {
                     HomeScreen(navController)
-                }
+                }*/
             }
         }
     }

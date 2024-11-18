@@ -106,13 +106,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
                 )
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Login Link
-                Text(
-                    text = stringResource(id = R.string.login_message),
-                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
-                    modifier = Modifier.clickable { onLoginClick() }
-                )
-                Spacer(modifier = Modifier.height(16.dp))
+
 
                 // Register Button
                 Button(onClick = { onRegisterSuccess() },
@@ -125,6 +119,14 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
                         color = MaterialTheme.colorScheme.onPrimary // Color del texto
                     )
                 }
+
+                Spacer(modifier = Modifier.height(8.dp))
+                // Login Link
+                Text(
+                    text = stringResource(id = R.string.login_message),
+                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
+                    modifier = Modifier.clickable { onLoginClick() }
+                )
             }
         }
     )

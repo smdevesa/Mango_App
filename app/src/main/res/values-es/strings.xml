@@ -16,4 +16,12 @@
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="register_message">¿No tienes cuenta? ¡Regístrate ahora!</string>
     <string name="login_message">¿Ya tienes cuenta? ¡Inicia sesión!</string>
+    <string name="transfer">Transferir</string>
+    <string name="withdraw">Retirar</string>
+    <string name="deposit">Depositar</string>
+    <string name="invest">Invertir</string>
+    <string name="available_balance">Dinero disponible</string>
+    <string name="invested_balance">Dinero invertido</string>
+
+
 </resources>
