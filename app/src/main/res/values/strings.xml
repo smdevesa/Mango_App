@@ -2,4 +2,18 @@
     <string name="app_name">Mango$</string>
     <string name="hello_message">Hello</string>
     <string name="login_button">Log In</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="phone_number_hint">Phone Number</string>
+    <string name="email_hint">Email</string>
+    <string name="full_name_hint">Full Name</string>
+    <string name="repeat_password_hint">Repeat Password</string>
+    <string name="login_error">Invalid username or password</string>
+    <string name="login_success">Login successful</string>
+    <string name="login_title">Login</string>
+    <string name="register_title">Register</string>
+    <string name="register_button">Register</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="register_message">Don\'t have an account? Register now!</string>
+    <string name="login_message">Already have an account? Log in!</string>
 </resources>

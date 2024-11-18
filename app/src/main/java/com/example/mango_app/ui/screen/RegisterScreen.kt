@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.input.KeyboardType
@@ -60,7 +61,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
                 CustomTextField(
                     value = fullName,
                     onValueChange = { fullName = it },
-                    label = "Usuario",
+                    label = stringResource(id = R.string.full_name_hint),
                     leadingIcon = Icons.Default.Person
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -69,7 +70,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
                 CustomTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = "Mail",
+                    label = stringResource(id = R.string.email_hint),
                     leadingIcon = Icons.Default.Email,
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
                 )
@@ -79,7 +80,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
                 CustomTextField(
                     value = phoneNumber,
                     onValueChange = { phoneNumber = it },
-                    label = "Teléfono",
+                    label = stringResource(id = R.string.phone_number_hint),
                     leadingIcon = Icons.Default.Phone,
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
                 )
@@ -89,7 +90,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
                 CustomTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = "Contraseña",
+                    label = stringResource(id = R.string.password_hint),
                     leadingIcon = Icons.Default.Lock,
                     visualTransformation = PasswordVisualTransformation()
                 )
@@ -99,7 +100,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
                 CustomTextField(
                     value = confirmPassword,
                     onValueChange = { confirmPassword = it },
-                    label = "Repetir Contraseña",
+                    label = stringResource(id = R.string.repeat_password_hint),
                     leadingIcon = Icons.Default.Lock,
                     visualTransformation = PasswordVisualTransformation()
                 )
@@ -107,7 +108,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
 
                 // Login Link
                 Text(
-                    text = "Already have an account? Login",
+                    text = stringResource(id = R.string.login_message),
                     style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
                     modifier = Modifier.clickable { onLoginClick() }
                 )
@@ -119,7 +120,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onLoginClick: () -> Unit) {
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Text(
-                        text = "Registrarse",
+                        text = stringResource(id = R.string.register_button),
                         style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp), // Tamaño personalizado
                         color = MaterialTheme.colorScheme.onPrimary // Color del texto
                     )
