@@ -32,8 +32,8 @@ fun CustomTextField(
             unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
             focusedLabelColor = MaterialTheme.colorScheme.primary,
             unfocusedLabelColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-            containerColor = MaterialTheme.colorScheme.onBackground,
-            cursorColor = MaterialTheme.colorScheme.primary
+            cursorColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation

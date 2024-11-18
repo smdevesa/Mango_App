@@ -19,8 +19,8 @@ private val DarkColorScheme = darkColorScheme(
     background = Color(0xFF1A1C1B), // Fondo oscuro clásico
     onPrimary = Color.Black, // Texto claro sobre colores primarios
     onSurface = Color.LightGray, // Texto claro sobre fondo oscuro
-    surface = Color(0xFF333333), // Fondo más oscuro para contenedores
-    onBackground = Color(0xFF121212)
+    onBackground = Color(0xFF333333), // Fondo más oscuro para contenedores
+    surface = Color(0xFF121212)
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -30,7 +30,7 @@ private val LightColorScheme = lightColorScheme(
     background = LightBackgroundColor,
     onPrimary = Color.White,
     onSurface = MangoGray,
-    onBackground = Color(0xFFF5F5F5)
+    surface = Color(0xFFF5F5F5)
 )
 
 @Composable
