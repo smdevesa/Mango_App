@@ -15,6 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.mango_app.ui.theme.BalanceGreen
+import com.example.mango_app.ui.theme.BalanceRed
 //import com.example.mango_app.ui.screen.HomeScreen
 import com.example.mango_app.ui.theme.Mango_AppTheme
 import java.text.SimpleDateFormat
@@ -120,7 +122,7 @@ fun TransactionItem(
             Text(
                 text = "${if (transaction.amount > 0) "+" else ""}${transaction.amount} ${transaction.currency}",
                 style = MaterialTheme.typography.bodyLarge.copy(
-                    color = if (transaction.amount > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+                    color = if (transaction.amount > 0) BalanceGreen else BalanceRed,
                     fontWeight = FontWeight.Bold
                 ),
                 textAlign = TextAlign.End

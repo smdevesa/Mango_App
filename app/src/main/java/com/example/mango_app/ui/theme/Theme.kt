@@ -14,12 +14,13 @@ import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     primary = MangoOrange, // Mantienes el mismo naranja, ya que es un color llamativo
-    secondary = MangoGray, // Color secundario oscuro
+    secondary = Color(0xFF121212), // Color secundario oscuro
     tertiary = MangoGreen, // Verde suave que se puede usar en detalles
     background = Color(0xFF1A1C1B), // Fondo oscuro clásico
     onPrimary = Color.Black, // Texto claro sobre colores primarios
     onSurface = Color.LightGray, // Texto claro sobre fondo oscuro
     onBackground = Color(0xFF333333), // Fondo más oscuro para contenedores
+    onSecondary = Color.White, // Texto claro sobre colores secundarios
     surface = Color(0xFF121212)
 )
 

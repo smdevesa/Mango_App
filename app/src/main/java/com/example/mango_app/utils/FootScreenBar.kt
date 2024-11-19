@@ -66,7 +66,7 @@ Row(
 @Preview(showBackground = true)
 @Composable
 fun NavigationBarLightPreview() {
-    Mango_AppTheme(darkTheme = true, content = {
+    Mango_AppTheme(darkTheme = false, content = {
         FootScreenBar(
             onClickHome = { /* No hace nada, solo para el Preview */ },
             onClickHistory = { /* No hace nada, solo para el Preview */ },
@@ -79,7 +79,7 @@ fun NavigationBarLightPreview() {
 @Preview(showBackground = true)
 @Composable
 fun NavigationBarDarkPreview() {
-    Mango_AppTheme(darkTheme = false, content = {
+    Mango_AppTheme(darkTheme = true, content = {
         FootScreenBar(
             onClickHome = { /* No hace nada, solo para el Preview */ },
             onClickHistory = { /* No hace nada, solo para el Preview */ },
