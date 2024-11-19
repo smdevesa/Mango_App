@@ -22,6 +22,8 @@
     <string name="invest">Invest</string>
     <string name="available_balance">Available balance</string>
     <string name="invested_balance">Invested balance</string>
+    <string name="data">Data</string>
+
 
 
 </resources>

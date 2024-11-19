@@ -22,6 +22,7 @@
     <string name="invest">Invertir</string>
     <string name="available_balance">Dinero disponible</string>
     <string name="invested_balance">Dinero invertido</string>
+    <string name="data">Datos</string>
 
 
 </resources>

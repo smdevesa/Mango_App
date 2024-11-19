@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.mango_app.ui.screen.HomeScreen
+//import com.example.mango_app.ui.screen.HomeScreen
+import com.example.mango_app.ui.screen.HomeScreenTF
 import com.example.mango_app.ui.screen.LoginScreen
 import com.example.mango_app.ui.screen.RegisterScreen
 import com.example.mango_app.ui.theme.Mango_AppTheme
@@ -68,12 +68,30 @@ fun AppContent() {
                         onLoginClick = {
                             navController.navigate("login")
                         }
-                        
                     )
                 }
-                /*composable("home") {
-                    HomeScreen(navController)
-                }*/
+                composable("home") {
+                    HomeScreenTF(
+                        20.0, // Balance
+                        onClickHome = {
+                            navController.navigate("home")
+                        },
+                        onClickHistory = {
+                            navController.navigate("history")
+                        },
+                        onClickData = {
+                            navController.navigate("data")
+                        },
+                        onClickProfile = {
+                            navController.navigate("profile")
+                        },
+                        onTransferClick = {}, // Acción vacía temporalmente
+                        onDepositClick = {},  // Acción vacía temporalmente
+                        onInvestClick = {},   // Acción vacía temporalmente
+                        onSeeMyDataClick = {}, // Acción vacía temporalmente
+                        onViewAllTransactions = {} // Acción vacía temporalmente
+                    )
+                }
             }
         }
     }

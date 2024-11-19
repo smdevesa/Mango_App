@@ -1,4 +1,4 @@
-package com.example.mango_app.ui.screen
+/*package com.example.mango_app.ui.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -279,4 +279,4 @@ fun DonutChart(
 }
 
 
-
+*/

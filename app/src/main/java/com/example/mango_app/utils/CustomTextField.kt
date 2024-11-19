@@ -38,5 +38,4 @@ fun CustomTextField(
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation
     )
-
 }
