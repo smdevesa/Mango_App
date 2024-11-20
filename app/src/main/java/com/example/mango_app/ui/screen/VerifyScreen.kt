@@ -13,11 +13,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -43,6 +45,7 @@ fun VerifyScreen(verifyViewModel: VerifyViewModel, onVerifySuccess: () -> Unit) 
 
     val scrollState = rememberScrollState()
     val hasNavigated = remember { mutableStateOf(false) }
+    val showDialog = remember { mutableStateOf(false) }
     val verificationCode: String by verifyViewModel.verificationCode.observeAsState("")
     val verifyEnable: Boolean by verifyViewModel.verifyEnable.observeAsState(false)
     val event: VerifyEvent by verifyViewModel.event.observeAsState(VerifyEvent.None)
@@ -85,9 +88,16 @@ fun VerifyScreen(verifyViewModel: VerifyViewModel, onVerifySuccess: () -> Unit) 
         VerifyButton(verifyEnable, event is VerifyEvent.Loading, verifyViewModel::onVerifyClick)
     }
      if(event is VerifyEvent.VerifySuccess && !hasNavigated.value) {
-         hasNavigated.value = true
-         onVerifySuccess()
+        showDialog.value = true
      }
+
+    if(showDialog.value) {
+        SuccessDialog(onDismiss = {
+            showDialog.value = false
+            hasNavigated.value = true
+            onVerifySuccess()
+        })
+    }
 }
 
 sealed class VerifyEvent {
@@ -95,6 +105,32 @@ sealed class VerifyEvent {
     data object VerifySuccess : VerifyEvent()
     data object Loading : VerifyEvent()
     data object None : VerifyEvent()
+}
+
+@Composable
+fun SuccessDialog(onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = stringResource(id = R.string.complete_verification),
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center
+            )
+        },
+        text = {
+            Text(
+                text = stringResource(id = R.string.complete_verification_message),
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
+            )
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text("OK")
+            }
+        }
+    )
 }
 
 @Composable
@@ -132,6 +168,14 @@ fun VerifyButton(verifyEnable: Boolean, loading: Boolean, onVerifyClick: () -> U
                 color = MaterialTheme.colorScheme.onPrimary
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun SuccessDialogPreview() {
+    Mango_AppTheme(false) {
+        SuccessDialog {}
     }
 }
 

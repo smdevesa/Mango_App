@@ -82,7 +82,7 @@ fun AppContent(apiService: ApiService) {
                     VerifyScreen(
                         VerifyViewModel(apiService),
                         onVerifySuccess = {
-                            navController.navigate("home")
+                            navController.navigate("login")
                         }
                     )
                 }

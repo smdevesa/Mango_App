@@ -27,5 +27,7 @@
     <string name="verify_account">Verificar cuenta</string>
     <string name="verify_account_title">¡Estás a un paso!</string>
     <string name="verify_account_subtitle">Te hemos enviado un código de verificación a tu correo electrónico. Ingresa el código a continuación para verificar tu cuenta.</string>
-
+    <string name="complete_verification">¡Verificación Completa!</string>
+    <string name="complete_verification_message">Tu cuenta ha sido verificada con éxito. Por favor, inicia sesión para continuar.</string>
+    <string name="accept">Aceptar</string>
 </resources>
