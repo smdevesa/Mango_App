@@ -199,7 +199,7 @@ fun PhoneTextField(phoneNumber: String = "", onValueChange: (String) -> Unit) {
 fun RegisterButton(registerEnable: Boolean, loading: Boolean, onClick: () -> Unit) {
     Button(
         onClick = onClick,
-        enabled = registerEnable,
+        enabled = registerEnable && !loading,
         modifier = Modifier.height(60.dp).width(200.dp),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {

@@ -3,6 +3,7 @@ package com.example.mango_app.model
 import com.example.mango_app.model.data.RegisterRequest
 import com.example.mango_app.model.data.RegisterResponse
 import com.example.mango_app.model.data.VerifyRequest
+import com.example.mango_app.model.data.VerifyResponse
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,7 +20,7 @@ interface ApiService {
     @POST("api/user/verify")
     suspend fun verifyUser(
         @Body verifyRequest: VerifyRequest
-    ): Response<RegisterResponse>
+    ): Response<VerifyResponse>
 }
 
 object RetrofitServiceFactory {

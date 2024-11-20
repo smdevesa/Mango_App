@@ -15,7 +15,7 @@ fun CustomTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    leadingIcon: ImageVector,
+    leadingIcon: ImageVector? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None
 ){
@@ -23,7 +23,7 @@ fun CustomTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
-        leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = null) },
+        leadingIcon = leadingIcon?.let { { Icon(it, contentDescription = null) } },
         modifier = Modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
         singleLine = true,

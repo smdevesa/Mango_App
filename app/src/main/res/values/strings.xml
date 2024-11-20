@@ -24,4 +24,7 @@
     <string name="invested_balance">Invested balance</string>
     <string name="data">Data</string>
     <string name="verification_code_hint">Verification code</string>
+    <string name="verify_account">Verify account</string>
+    <string name="verify_account_title">You\'re one step closer!</string>
+    <string name="verify_account_subtitle">We\'ve sent you a verification code to your email. Enter the code below to verify your account.</string>
 </resources>

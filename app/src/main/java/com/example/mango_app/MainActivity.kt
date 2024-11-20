@@ -19,6 +19,7 @@ import com.example.mango_app.ui.theme.Mango_AppTheme
 import androidx.compose.foundation.isSystemInDarkTheme
 import com.example.mango_app.model.ApiService
 import com.example.mango_app.model.RetrofitServiceFactory
+import com.example.mango_app.ui.screen.VerifyScreen
 import com.example.mango_app.viewmodel.*
 
 class MainActivity : ComponentActivity() {
@@ -73,6 +74,14 @@ fun AppContent(apiService: ApiService) {
                             navController.navigate("login")
                         },
                         onRegisterSuccess = {
+                            navController.navigate("verify")
+                        }
+                    )
+                }
+                composable("verify") {
+                    VerifyScreen(
+                        VerifyViewModel(apiService),
+                        onVerifySuccess = {
                             navController.navigate("home")
                         }
                     )
