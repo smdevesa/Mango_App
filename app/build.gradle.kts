@@ -60,4 +60,7 @@ dependencies {
     implementation(libs.androidx.material.icons.core)
     implementation(libs.material)
     implementation(libs.androidx.lifecycle.runtime.android)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
 }
