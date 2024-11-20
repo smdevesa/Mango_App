@@ -23,7 +23,5 @@
     <string name="available_balance">Available balance</string>
     <string name="invested_balance">Invested balance</string>
     <string name="data">Data</string>
-
-
-
+    <string name="verification_code_hint">Verification code</string>
 </resources>

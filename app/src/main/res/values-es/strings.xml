@@ -23,6 +23,6 @@
     <string name="available_balance">Dinero disponible</string>
     <string name="invested_balance">Dinero invertido</string>
     <string name="data">Datos</string>
-
+    <string name="verification_code_hint">Código de verificación</string>
 
 </resources>
