@@ -17,6 +17,8 @@ import com.example.mango_app.ui.screen.LoginScreen
 import com.example.mango_app.ui.screen.RegisterScreen
 import com.example.mango_app.ui.theme.Mango_AppTheme
 import androidx.compose.foundation.isSystemInDarkTheme
+import com.example.mango_app.viewmodel.LoginViewModel
+import com.example.mango_app.viewmodel.RegisterViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +39,7 @@ fun AppContent() {
         darkModeState.value = systemDarkMode
     }
 
-    Mango_AppTheme(darkTheme = darkModeState.value, content = {
+    Mango_AppTheme(darkTheme = darkModeState.value) {
         val navController = rememberNavController()
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -49,24 +51,26 @@ fun AppContent() {
             ) {
                 composable("login") {
                     LoginScreen(
-                        onLoginSuccess = {
-                            navController.navigate("home")
-                        },
-                        onForgotPassword = {
-                            // Aquí iría la lógica para recuperar contraseña
-                        },
+                        LoginViewModel(),
                         onRegisterClick = {
                             navController.navigate("register")
+                        },
+                        onForgotPasswordClick = {
+                            // TODO: Ver si se implementa esta funcionalidad
+                        },
+                        onLoginSuccess = {
+                            navController.navigate("home")
                         }
                     )
                 }
                 composable("register") {
                     RegisterScreen(
-                        onRegisterSuccess = {
-                            navController.navigate("home")
-                        },
+                        RegisterViewModel(),
                         onLoginClick = {
                             navController.navigate("login")
+                        },
+                        onRegisterSuccess = {
+                            navController.navigate("home")
                         }
                     )
                 }
@@ -95,5 +99,4 @@ fun AppContent() {
             }
         }
     }
-    )
 }
