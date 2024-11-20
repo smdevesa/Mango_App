@@ -173,14 +173,6 @@ fun VerifyButton(verifyEnable: Boolean, loading: Boolean, onVerifyClick: () -> U
 
 @Preview
 @Composable
-fun SuccessDialogPreview() {
-    Mango_AppTheme(false) {
-        SuccessDialog {}
-    }
-}
-
-@Preview
-@Composable
 fun VerifyScreenPreviewLight() {
     Mango_AppTheme(false) {
         VerifyScreen(VerifyViewModel(RetrofitServiceFactory.makeRetrofitService()), {})
@@ -192,5 +184,13 @@ fun VerifyScreenPreviewLight() {
 fun VerifyScreenPreviewDark() {
     Mango_AppTheme(true) {
         VerifyScreen(VerifyViewModel(RetrofitServiceFactory.makeRetrofitService()), {})
+    }
+}
+
+@Preview
+@Composable
+fun SuccessDialogPreview() {
+    Mango_AppTheme(false) {
+        SuccessDialog {}
     }
 }

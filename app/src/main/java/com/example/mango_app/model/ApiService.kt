@@ -1,5 +1,7 @@
 package com.example.mango_app.model
 
+import com.example.mango_app.model.data.LoginRequest
+import com.example.mango_app.model.data.LoginResponse
 import com.example.mango_app.model.data.RegisterRequest
 import com.example.mango_app.model.data.RegisterResponse
 import com.example.mango_app.model.data.VerifyRequest
@@ -21,6 +23,11 @@ interface ApiService {
     suspend fun verifyUser(
         @Body verifyRequest: VerifyRequest
     ): Response<VerifyResponse>
+
+    @POST("api/user/login")
+    suspend fun loginUser(
+        @Body loginRequest: LoginRequest
+    ): Response<LoginResponse>
 }
 
 object RetrofitServiceFactory {

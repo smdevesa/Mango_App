@@ -26,7 +26,9 @@ fun LoginScreen(loginViewModel: LoginViewModel, onRegisterClick : () -> Unit, on
     val email by loginViewModel.email.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
     val loginEnable by loginViewModel.loginEnable.observeAsState(false)
+    val event by loginViewModel.event.observeAsState(LoginEvent.None)
 
+    val hasNavigated = remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -62,6 +64,12 @@ fun LoginScreen(loginViewModel: LoginViewModel, onRegisterClick : () -> Unit, on
                     }
                 }
                 Spacer(modifier = Modifier.height(32.dp))
+                if(event is LoginEvent.Error) {
+                    Text(
+                        text = (event as LoginEvent.Error).message,
+                        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.error)
+                    )
+                }
                 LoginButton(loginEnable) {
                     loginViewModel.onLoginClick()
                 }
@@ -71,6 +79,11 @@ fun LoginScreen(loginViewModel: LoginViewModel, onRegisterClick : () -> Unit, on
             }
         }
     )
+
+    if(event is LoginEvent.Success && !hasNavigated.value) {
+        hasNavigated.value = true
+        onLoginSuccess()
+    }
 }
 
 @Composable
@@ -98,6 +111,13 @@ fun LoginButton(enable: Boolean, onClick: () -> Unit) {
     }
 }
 
+sealed class LoginEvent {
+    data class Error(val message: String) : LoginEvent()
+    data object Success : LoginEvent()
+    data object Loading : LoginEvent()
+    data object None : LoginEvent()
+}
+
 @Composable
 fun GoToRegisterText(onClick: () -> Unit) {
     Text(
@@ -105,20 +125,4 @@ fun GoToRegisterText(onClick: () -> Unit) {
         style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
         modifier = Modifier.clickable { onClick() }
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreviewLight() {
-    Mango_AppTheme(darkTheme = false) {
-        LoginScreen(LoginViewModel(RetrofitServiceFactory.makeRetrofitService()), {}, {}, {})
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreviewDark() {
-    Mango_AppTheme(darkTheme = true) {
-        LoginScreen(LoginViewModel(RetrofitServiceFactory.makeRetrofitService()), {}, {}, {})
-    }
 }
