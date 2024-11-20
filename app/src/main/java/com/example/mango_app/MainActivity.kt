@@ -17,20 +17,23 @@ import com.example.mango_app.ui.screen.LoginScreen
 import com.example.mango_app.ui.screen.RegisterScreen
 import com.example.mango_app.ui.theme.Mango_AppTheme
 import androidx.compose.foundation.isSystemInDarkTheme
-import com.example.mango_app.viewmodel.LoginViewModel
-import com.example.mango_app.viewmodel.RegisterViewModel
+import com.example.mango_app.model.ApiService
+import com.example.mango_app.model.RetrofitServiceFactory
+import com.example.mango_app.viewmodel.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val apiService: ApiService = RetrofitServiceFactory.makeRetrofitService()
+
         setContent {
-            AppContent()
+            AppContent(apiService)
         }
     }
 }
 
 @Composable
-fun AppContent() {
+fun AppContent(apiService: ApiService) {
     val systemDarkMode = isSystemInDarkTheme()
 
     val darkModeState = remember { mutableStateOf(systemDarkMode) }
@@ -51,7 +54,7 @@ fun AppContent() {
             ) {
                 composable("login") {
                     LoginScreen(
-                        LoginViewModel(),
+                        LoginViewModel(apiService),
                         onRegisterClick = {
                             navController.navigate("register")
                         },
@@ -65,7 +68,7 @@ fun AppContent() {
                 }
                 composable("register") {
                     RegisterScreen(
-                        RegisterViewModel(),
+                        RegisterViewModel(apiService),
                         onLoginClick = {
                             navController.navigate("login")
                         },

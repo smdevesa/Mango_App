@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.mango_app.ui.theme.*
 import com.example.mango_app.utils.CustomTextField
 import com.example.mango_app.R
+import com.example.mango_app.model.RetrofitServiceFactory
 import com.example.mango_app.viewmodel.RegisterViewModel
 
 @Composable
@@ -203,7 +204,7 @@ fun GoToLoginText(onClick: () -> Unit) {
 @Composable
 fun RegisterScreenPreviewLight() {
     Mango_AppTheme(darkTheme = false) {
-        RegisterScreen(RegisterViewModel(), {}, {})
+        RegisterScreen(RegisterViewModel(RetrofitServiceFactory.makeRetrofitService()), {}, {})
     }
 }
 
@@ -211,6 +212,6 @@ fun RegisterScreenPreviewLight() {
 @Composable
 fun RegisterScreenPreviewDark() {
     Mango_AppTheme(darkTheme = true) {
-        RegisterScreen(RegisterViewModel(), {}, {})
+        RegisterScreen(RegisterViewModel(RetrofitServiceFactory.makeRetrofitService()), {}, {})
     }
 }

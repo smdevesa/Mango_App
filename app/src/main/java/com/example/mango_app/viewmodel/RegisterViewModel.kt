@@ -3,8 +3,9 @@ package com.example.mango_app.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mango_app.model.ApiService
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel(apiService: ApiService) : ViewModel() {
 
     // Live data
     private val _fullName = MutableLiveData<String>()

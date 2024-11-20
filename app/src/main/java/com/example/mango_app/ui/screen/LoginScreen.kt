@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
+import com.example.mango_app.model.ApiService
+import com.example.mango_app.model.RetrofitServiceFactory
 import com.example.mango_app.ui.theme.Mango_AppTheme
 import com.example.mango_app.utils.MangoLogo
 import com.example.mango_app.viewmodel.LoginViewModel
@@ -109,7 +111,7 @@ fun GoToRegisterText(onClick: () -> Unit) {
 @Composable
 fun LoginScreenPreviewLight() {
     Mango_AppTheme(darkTheme = false) {
-        LoginScreen(LoginViewModel(), {}, {}, {})
+        LoginScreen(LoginViewModel(RetrofitServiceFactory.makeRetrofitService()), {}, {}, {})
     }
 }
 
@@ -117,6 +119,6 @@ fun LoginScreenPreviewLight() {
 @Composable
 fun LoginScreenPreviewDark() {
     Mango_AppTheme(darkTheme = true) {
-        LoginScreen(LoginViewModel(), {}, {}, {})
+        LoginScreen(LoginViewModel(RetrofitServiceFactory.makeRetrofitService()), {}, {}, {})
     }
 }
