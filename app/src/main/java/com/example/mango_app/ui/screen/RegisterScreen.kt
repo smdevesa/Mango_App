@@ -223,7 +223,7 @@ fun RegisterButton(registerEnable: Boolean, loading: Boolean, onClick: () -> Uni
 fun GoToLoginText(onClick: () -> Unit) {
     Text(
         text = stringResource(id = R.string.login_message),
-        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
+        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onBackground),
         modifier = Modifier.clickable { onClick() }
     )
 }

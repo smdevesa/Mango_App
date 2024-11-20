@@ -13,15 +13,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = MangoOrange, // Mantienes el mismo naranja, ya que es un color llamativo
-    secondary = Color(0xFF121212), // Color secundario oscuro
-    tertiary = MangoGreen, // Verde suave que se puede usar en detalles
-    background = Color(0xFF1A1C1B), // Fondo oscuro clásico
-    onPrimary = Color.Black, // Texto claro sobre colores primarios
-    onSurface = Color.LightGray, // Texto claro sobre fondo oscuro
-    onBackground = Color(0xFF333333), // Fondo más oscuro para contenedores
-    onSecondary = Color.White, // Texto claro sobre colores secundarios
-    surface = Color(0xFF121212)
+    primary = MangoOrange,
+    secondary = Color(0xFF121212),
+    tertiary = MangoGreen,
+    background = Color(0xFF1A1C1B),
+    onPrimary = Color.Black,
+    surface = Color(0xFF333333),
+    onSurface = Color.White,
+    onBackground = Color.White,
+    onSecondary = Color.White,
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -31,8 +31,9 @@ private val LightColorScheme = lightColorScheme(
     background = LightBackgroundColor,
     onPrimary = Color.White,
     onSecondary = Color.White,
-    onSurface = MangoGray,
-    surface = Color(0xFFF5F5F5)
+    surface = Color.White,
+    onSurface = Color.Black,
+    onBackground = Color.Black
 )
 
 @Composable
