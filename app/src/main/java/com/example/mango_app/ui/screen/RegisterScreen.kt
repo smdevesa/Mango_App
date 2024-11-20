@@ -2,7 +2,6 @@ package com.example.mango_app.ui.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -29,6 +28,13 @@ import com.example.mango_app.R
 import com.example.mango_app.model.RetrofitServiceFactory
 import com.example.mango_app.viewmodel.RegisterViewModel
 
+sealed class RegisterEvent {
+    data class Error(val message: String) : RegisterEvent()
+    data object RegisterSuccess : RegisterEvent()
+    data object Loading : RegisterEvent()
+    data object None : RegisterEvent()
+}
+
 @Composable
 fun RegisterScreen(registerViewModel: RegisterViewModel, onLoginClick: () -> Unit, onRegisterSuccess: () -> Unit) {
 
@@ -40,6 +46,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onLoginClick: () -> Uni
     val password: String by registerViewModel.password.observeAsState("")
     val repeatPassword: String by registerViewModel.repeatPassword.observeAsState("")
     val registerEnable: Boolean by registerViewModel.registerEnable.observeAsState(false)
+    val event: RegisterEvent by registerViewModel.event.observeAsState(RegisterEvent.None)
+
+    val hasNavigated = remember { mutableStateOf(false) }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -105,8 +114,10 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onLoginClick: () -> Uni
                     )
                 }
                 Spacer(modifier = Modifier.height(32.dp))
-
-                RegisterButton(registerEnable) {
+                if(event is RegisterEvent.Error) {
+                    ErrorMessage((event as RegisterEvent.Error).message)
+                }
+                RegisterButton(registerEnable, event is RegisterEvent.Loading) {
                     registerViewModel.onRegisterClick()
                 }
 
@@ -118,6 +129,16 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onLoginClick: () -> Uni
             }
         }
     )
+
+    when(event) {
+        is RegisterEvent.RegisterSuccess -> {
+            if(!hasNavigated.value) {
+                hasNavigated.value = true
+                onRegisterSuccess()
+            }
+        }
+        else -> {}
+    }
 }
 
 @Composable
@@ -175,18 +196,25 @@ fun PhoneTextField(phoneNumber: String = "", onValueChange: (String) -> Unit) {
 }
 
 @Composable
-fun RegisterButton(registerEnable: Boolean, onClick: () -> Unit) {
+fun RegisterButton(registerEnable: Boolean, loading: Boolean, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         enabled = registerEnable,
         modifier = Modifier.height(60.dp).width(200.dp),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {
-        Text(
-            text = stringResource(id = R.string.register_button),
-            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp),
-            color = MaterialTheme.colorScheme.onPrimary
-        )
+        if(loading) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.size(24.dp)
+            )
+        } else {
+            Text(
+                text = stringResource(id = R.string.register_button),
+                style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp),
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+        }
     }
 
 }
@@ -197,6 +225,14 @@ fun GoToLoginText(onClick: () -> Unit) {
         text = stringResource(id = R.string.login_message),
         style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
         modifier = Modifier.clickable { onClick() }
+    )
+}
+
+@Composable
+fun ErrorMessage(message: String) {
+    Text(
+        text = message,
+        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.error)
     )
 }
 

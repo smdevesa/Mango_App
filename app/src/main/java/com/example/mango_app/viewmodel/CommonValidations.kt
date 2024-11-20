@@ -3,7 +3,7 @@ package com.example.mango_app.viewmodel
 class CommonValidations {
     companion object {
         fun isValidFullName(fullName: String): Boolean {
-            return fullName.isNotEmpty()
+            return "^[a-zA-Z]+ [a-zA-Z]+$".toRegex().matches(fullName)
         }
 
         fun isValidEmail(email: String): Boolean {
