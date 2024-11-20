@@ -29,13 +29,13 @@ Row(
 
 ) {
     ActionButton(
-        icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
+        icon = painterResource(id = R.drawable.baseline_home_24),
         text = "Inicio",
         color = Color.White,
         onClick = { onClickHome()}
     )
     ActionButton(
-        icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
+        icon = painterResource(id = R.drawable.baseline_find_in_page_24),
         text = "Historial",
         color = Color.White,
         onClick = { onClickHistory() }
@@ -47,13 +47,13 @@ Row(
         onClick = { /* No hace nada, solo para el Preview */ }
     )
     ActionButton(
-        icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
+        icon = painterResource(id = R.drawable.baseline_account_balance_wallet_24),
         text = "Mis datos",
         color = Color.White,
         onClick = { onClickData() }
     )
     ActionButton(
-        icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
+        icon = painterResource(id = R.drawable.baseline_account_circle_24),
         text = "Perfil",
         color = Color.White,
         onClick = { onClickProfile() }
