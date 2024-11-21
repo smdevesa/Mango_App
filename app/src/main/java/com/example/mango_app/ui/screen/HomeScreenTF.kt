@@ -314,6 +314,7 @@ fun HomeScreenTF(
                                     date = Date()
                                 )
                             ) { }
+                            Spacer(modifier = Modifier.height(8.dp))
                             TransactionItem(
                                 Transaction(
                                     id = "1",
@@ -322,6 +323,7 @@ fun HomeScreenTF(
                                     date = Date()
                                 )
                             ){}
+                            Spacer(modifier = Modifier.height(8.dp))
                             TransactionItem(
                                 Transaction(
                                     id = "1",
