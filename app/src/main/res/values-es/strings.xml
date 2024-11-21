@@ -20,6 +20,7 @@
     <string name="withdraw">Retirar</string>
     <string name="deposit">Depositar</string>
     <string name="invest">Invertir</string>
+    <string name="card">Tarjetas</string>
     <string name="available_balance">Dinero disponible</string>
     <string name="invested_balance">Dinero invertido</string>
     <string name="data">Datos</string>
@@ -30,4 +31,6 @@
     <string name="complete_verification">¡Verificación Completa!</string>
     <string name="complete_verification_message">Tu cuenta ha sido verificada con éxito. Por favor, inicia sesión para continuar.</string>
     <string name="accept">Aceptar</string>
+    <string name="add_card">Agregar tarjeta</string>
+
 </resources>

@@ -16,3 +16,5 @@ val MangoOrange = Color(0xFFF19743)
 val MangoGray = Color(0xFF3C3D37)
 val BalanceGreen = Color(0xFF00712D)
 val BalanceRed = Color(0xFFFF3131)
+
+val MangoGreenForDark = Color(0xFF44a132)

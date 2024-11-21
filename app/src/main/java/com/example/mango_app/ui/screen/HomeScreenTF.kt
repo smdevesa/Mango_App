@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -20,50 +19,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
 import com.example.mango_app.model.Transaction
 import com.example.mango_app.ui.theme.Mango_AppTheme
+import com.example.mango_app.utils.ActionButton
 import com.example.mango_app.utils.FootScreenBar
+import com.example.mango_app.utils.TopScreenBarForHome
 import com.example.mango_app.utils.TransactionItem
 import java.util.Date
-
-
-@Composable
-fun ActionButton(
-    icon: Painter,
-    text: String,
-    color: Color = MaterialTheme.colorScheme.onBackground,
-    backgroundColor: Color = MaterialTheme.colorScheme.secondary, // Nuevo parámetro para el fondo
-    onClick: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .size(75.dp) // Tamaño del contenedor
-            .background(color = backgroundColor, shape = CircleShape) // Fondo con forma
-            .border(width = 1.5.dp, color = MaterialTheme.colorScheme.secondary, shape = CircleShape) // Borde negro
-            .clickable(onClick = onClick)
-            .padding(1.dp), // Padding para el contenedor completo
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                painter = icon,
-                contentDescription = text,
-                modifier = Modifier.size(32.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = text,
-                style = MaterialTheme.typography.bodySmall.copy(color = color)
-            )
-        }
-    }
-}
 
 
 
@@ -207,13 +174,16 @@ fun HomeScreenTF(
     onInvestClick: () -> Unit,
     onSeeMyDataClick: () -> Unit,
     onViewAllTransactions: () -> Unit,
-    // Parámetros para la NavigationBar
+    // Parámetros para la NavigationBar DESPUES DEL CAMBIO EN FOOTSCREENBAR NO VAN A SER NECESARIOS
     onClickHome: () -> Unit,
     onClickHistory: () -> Unit,
     onClickData: () -> Unit,
     onClickProfile: () -> Unit
 ) {
     Scaffold(
+        topBar = {
+            TopScreenBarForHome()
+        },
         bottomBar = {
             FootScreenBar(
                 onClickHome,
@@ -226,12 +196,18 @@ fun HomeScreenTF(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
+                .padding(padding)
+                .background(color = MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(bottom = 2.dp)
             ) {
+                Box(){
+
+                }
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -265,52 +241,63 @@ fun HomeScreenTF(
                 Box(
                     Modifier
                         .background(MaterialTheme.colorScheme.tertiary)
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .padding(top = 20.dp),
                 ) {
                     Column(
-                        modifier = Modifier.padding(vertical = 30.dp),
+                        modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
                     ) {
                         // Acciones rápidas
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-                            ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
+                             ActionButton(
+                                icon = painterResource(id = R.drawable.baseline_send_24),
                                 text = stringResource(id = R.string.transfer),
                                 onClick = onTransferClick,
                                 color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background
+                                backgroundColor = MaterialTheme.colorScheme.background,
+                                size = 85.dp,
+                                fontSize = 15.sp
                             )
                             ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
+                                icon = painterResource(id = R.drawable.baseline_call_received_24),
                                 text = stringResource(id = R.string.deposit),
                                 onClick = onDepositClick,
                                 color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background
+                                backgroundColor = MaterialTheme.colorScheme.background,
+                                size = 85.dp,
+                                fontSize = 15.sp
                             )
                             ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
+                                icon = painterResource(id = R.drawable.baseline_trending_up_24),
                                 text = stringResource(id = R.string.invest),
                                 onClick = onInvestClick,
                                 color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background
+                                backgroundColor = MaterialTheme.colorScheme.background,
+                                size = 85.dp,
+                                fontSize = 15.sp
                             )
                             ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
-                                text = stringResource(id = R.string.data),
+                                icon = painterResource(id = R.drawable.baseline_credit_card_24),
+                                text = stringResource(id = R.string.card),
                                 onClick = onSeeMyDataClick,
                                 color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background
+                                backgroundColor = MaterialTheme.colorScheme.background,
+                                size = 85.dp,
+                                fontSize = 15.sp
                             )
                         }
 
-                        Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.height(30.dp))
 
                         Text(
                             text = "Ultimas transacciones",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground
+                            color = MaterialTheme.colorScheme.onBackground,
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(horizontal = 16.dp)
                         )
 
                         Column (

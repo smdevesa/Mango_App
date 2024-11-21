@@ -20,6 +20,7 @@
     <string name="withdraw">Withdraw</string>
     <string name="deposit">Deposit</string>
     <string name="invest">Invest</string>
+    <string name="card">Cards</string>
     <string name="available_balance">Available balance</string>
     <string name="invested_balance">Invested balance</string>
     <string name="data">Data</string>
@@ -30,4 +31,6 @@
     <string name="complete_verification">Verification Complete!</string>
     <string name="complete_verification_message">Your account has been successfully verified. Please log in to continue.</string>
     <string name="accept">Accept</string>
+    <string name="add_card">Add card</string>
+
 </resources>

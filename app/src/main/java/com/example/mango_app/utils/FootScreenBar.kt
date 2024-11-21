@@ -10,13 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.mango_app.ui.screen.ActionButton
 import com.example.mango_app.R
 import com.example.mango_app.ui.theme.Mango_AppTheme
 
 @Composable
 fun FootScreenBar(
-    onClickHome: () -> Unit,
+    onClickHome: () -> Unit, //SACAR TODAS ESTAS Y ASIGNARLAS DIRECTAMENTE AL ACTION BUTTON
     onClickHistory: () -> Unit,
     onClickData: () -> Unit,
     onClickProfile: () -> Unit
