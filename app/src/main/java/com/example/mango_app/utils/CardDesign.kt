@@ -82,7 +82,7 @@ fun CardDesign(card: Card) {
             ) {
                 // Número de tarjeta
                 Text(
-                    text = card.cardNumber.chunked(4).joinToString(" "), // Formato 4-4-4-4
+                    text = card.number.chunked(4).joinToString(" "), // Formato 4-4-4-4
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.padding(start = 16.dp)
@@ -100,13 +100,13 @@ fun CardDesign(card: Card) {
                         .fillMaxWidth(),
                     fontSize = 18.sp,
                     )
-                Text(
-                    text = card.fullName.uppercase(), // Nombre en mayúsculas
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.padding(start = 16.dp)
-                        .fillMaxWidth(),
-                    fontSize = 18.sp,
+
+                    Text(
+                        text = card.fullName.uppercase(), // Nombre en mayúsculas
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.padding(start = 16.dp),
+                        fontSize = 18.sp,
                     )
             }
         }
@@ -116,10 +116,10 @@ fun CardDesign(card: Card) {
 
 
 
-@Preview(showBackground = true)
-@Composable
-fun CardDesignPreviewDarkTF() {
-    Mango_AppTheme(darkTheme = true, content = {
-            CardDesign(card = Card(id = 0, cardNumber = "1234567891011121", type = "CREDIT", fullName = "John Doe", expirationDate = "12/23", cvv = "123"))
-    })
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun CardDesignPreviewDarkTF() {
+//    Mango_AppTheme(darkTheme = true, content = {
+//            CardDesign(card = Card(id = 0, cumber = "1234567891011121", type = "CREDIT", fullName = "John Doe", expirationDate = "12/23", cvv = "123"))
+//    })
+//}

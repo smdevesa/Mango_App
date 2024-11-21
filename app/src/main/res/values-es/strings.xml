@@ -32,5 +32,7 @@
     <string name="complete_verification_message">Tu cuenta ha sido verificada con éxito. Por favor, inicia sesión para continuar.</string>
     <string name="accept">Aceptar</string>
     <string name="add_card">Agregar tarjeta</string>
+    <string name="no_cards">No tienes tarjetas</string>
+
 
 </resources>

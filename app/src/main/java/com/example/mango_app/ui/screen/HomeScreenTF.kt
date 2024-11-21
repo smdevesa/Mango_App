@@ -2,10 +2,7 @@ package com.example.mango_app.ui.screen
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,13 +13,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
@@ -36,140 +30,6 @@ import com.example.mango_app.utils.TransactionItem
 import com.example.mango_app.viewmodel.HomeViewModel
 import java.util.Date
 
-
-
-/*@Composable
-fun HomeScreenTF(
-    balance: Double,
-    onTransferClick: () -> Unit,
-    onDepositClick: () -> Unit,
-    onInvestClick: () -> Unit,
-    onSeeMyDataClick: () -> Unit,
-    onViewAllTransactions: () -> Unit,
-    // Parámetros para la NavigationBar
-    onClickHome: () -> Unit,
-    onClickHistory: () -> Unit,
-    onClickData: () -> Unit,
-    onClickProfile: () -> Unit
-) {
-    Scaffold { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 32.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    DonutChart(
-                        backgroundColor = Color.Blue,
-                        sliceColor = Color.Blue,
-                        slicePercentage = 1f // 100% del círculo
-                    )
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Saldo disponible",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        Text(
-                            text = "$ $balance",
-                            style = MaterialTheme.typography.displaySmall.copy(
-                                fontSize = 32.sp,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                Box(
-                    Modifier
-                        .background(MaterialTheme.colorScheme.tertiary)
-                        //.fillMaxWidth()
-                        .fillMaxSize(),
-                ) {
-                    Column(
-                        modifier = Modifier.padding(vertical = 30.dp),
-                    ) {
-                        // Acciones rápidas
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
-                        ) {
-                            ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
-                                text = stringResource(id = R.string.transfer),
-                                onClick = onTransferClick,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background
-                            )
-                            ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
-                                text = stringResource(id = R.string.deposit),
-                                onClick = onDepositClick,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background
-                            )
-                            ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
-                                text = stringResource(id = R.string.invest),
-                                onClick = onInvestClick,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background
-                            )
-                            ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
-                                text = stringResource(id = R.string.data),
-                                onClick = onSeeMyDataClick,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background
-                            )
-
-
-                        }
-
-                        Spacer(modifier = Modifier.height(20.dp))
-
-                        Text(
-                            text = "Ultimas transacciones",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-
-                        Column {
-                            TransactionItem(
-                                Transaction(
-                                    id = "1",
-                                    description = "Pago en Supermercado",
-                                    amount = -50.25,
-                                    date = Date()
-                                )
-                            ) { }
-                        }
-                    }
-                }
-
-                FootScreenBar(
-                    onClickHome,
-                    onClickHistory,
-                    onClickData,
-                    onClickProfile
-                )
-            }
-        }
-    }
-}*/
-
 @Composable
 fun HomeScreenTF(
     balance: Double,
@@ -178,12 +38,12 @@ fun HomeScreenTF(
     onTransferClick: () -> Unit,
     onDepositClick: () -> Unit,
     onInvestClick: () -> Unit,
-    onSeeMyDataClick: () -> Unit,
+    onClickData:  () -> Unit,
     onViewAllTransactions: () -> Unit,
     // Parámetros para la NavigationBar DESPUES DEL CAMBIO EN FOOTSCREENBAR NO VAN A SER NECESARIOS
     onClickHome: () -> Unit,
     onClickHistory: () -> Unit,
-    onClickData: () -> Unit,
+    onClickCard: () -> Unit,
     onClickProfile: () -> Unit
 ) {
     val firstName: String by homeViewModel.firstName.observeAsState("")
@@ -196,7 +56,7 @@ fun HomeScreenTF(
             FootScreenBar(
                 onClickHome,
                 onClickHistory,
-                onClickData,
+                onClickCard,
                 onClickProfile
             )
         }
@@ -229,7 +89,7 @@ fun HomeScreenTF(
                     )
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = "Saldo disponible",
+                            text = stringResource(id = R.string.available_balance),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground
                         )
@@ -288,9 +148,9 @@ fun HomeScreenTF(
                                 fontSize = 15.sp
                             )
                             ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_credit_card_24),
-                                text = stringResource(id = R.string.card),
-                                onClick = onSeeMyDataClick,
+                                icon = painterResource(id = R.drawable.baseline_account_balance_wallet_24),
+                                text = stringResource(id = R.string.data),
+                                onClick = onClickData,
                                 color = MaterialTheme.colorScheme.onBackground,
                                 backgroundColor = MaterialTheme.colorScheme.background,
                                 size = 85.dp,
@@ -317,7 +177,7 @@ fun HomeScreenTF(
                             TransactionItem(
                                 Transaction(
                                     id = "1",
-                                    description = "Pago en Supermercado",
+                                    description = "Pago en supermercado",
                                     amount = -50.25,
                                     date = Date()
                                 )
@@ -326,7 +186,7 @@ fun HomeScreenTF(
                             TransactionItem(
                                 Transaction(
                                     id = "1",
-                                    description = "Pago en Cobayeria",
+                                    description = "Pago en cobayeria",
                                     amount = -50.25,
                                     date = Date()
                                 )
@@ -335,7 +195,7 @@ fun HomeScreenTF(
                             TransactionItem(
                                 Transaction(
                                     id = "1",
-                                    description = "Pago en Devesa",
+                                    description = "Pago en devesa",
                                     amount = -50.25,
                                     date = Date()
                                 )
@@ -382,3 +242,43 @@ fun DonutChart(
     }
 }
 
+
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeScreenPreviewDarkTF() {
+//    Mango_AppTheme(darkTheme = true, content = {
+//        HomeScreenTF(
+//            balance = 1250.75,
+//            onTransferClick = {},
+//            onDepositClick = {},
+//            onInvestClick = {},
+//            onClickData = {},
+//            onViewAllTransactions = {},
+//            // Parámetros para la NavigationBar
+//            onClickHome = {},
+//            onClickHistory = {},
+//            onClickCard = {},
+//            onClickProfile = {}
+//        )
+//    })
+//}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeScreenPreviewLightTF() {
+//    Mango_AppTheme(darkTheme = false, content = {
+//        HomeScreenTF(
+//            balance = 1250.75,
+//            onTransferClick = {},
+//            onDepositClick = {},
+//            onInvestClick = {},
+//            onClickData = {},
+//            onViewAllTransactions = {},
+//            // Parámetros para la NavigationBar
+//            onClickHome = {},
+//            onClickHistory = {},
+//            onClickCard = {},
+//            onClickProfile = {}
+//        )
+//    })
+//}

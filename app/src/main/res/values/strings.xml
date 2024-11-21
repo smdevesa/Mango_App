@@ -32,5 +32,7 @@
     <string name="complete_verification_message">Your account has been successfully verified. Please log in to continue.</string>
     <string name="accept">Accept</string>
     <string name="add_card">Add card</string>
+    <string name="no_cards">No tienes tarjetas</string>
+
 
 </resources>

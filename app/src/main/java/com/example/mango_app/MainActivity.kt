@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-//import com.example.mango_app.ui.screen.HomeScreen
 import com.example.mango_app.ui.screen.HomeScreenTF
 import com.example.mango_app.ui.screen.LoginScreen
 import com.example.mango_app.ui.screen.RegisterScreen
@@ -20,6 +19,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import com.example.mango_app.model.ApiService
 import com.example.mango_app.model.RetrofitServiceFactory
 import com.example.mango_app.model.UserDataStore
+import com.example.mango_app.ui.screen.CardsScreen
 import com.example.mango_app.ui.screen.VerifyScreen
 import com.example.mango_app.viewmodel.*
 
@@ -97,19 +97,36 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                             navController.navigate("home")
                         },
                         onClickHistory = {
-                            navController.navigate("history")
+                            //navController.navigate("history")
                         },
-                        onClickData = {
-                            navController.navigate("data")
+                        onClickCard = {
+                            navController.navigate("card")
                         },
                         onClickProfile = {
-                            navController.navigate("profile")
+                            //navController.navigate("profile")
                         },
                         onTransferClick = {}, // Acción vacía temporalmente
                         onDepositClick = {},  // Acción vacía temporalmente
                         onInvestClick = {},   // Acción vacía temporalmente
-                        onSeeMyDataClick = {}, // Acción vacía temporalmente
+                        onClickData = {}, // Acción vacía temporalmente
                         onViewAllTransactions = {} // Acción vacía temporalmente
+                    )
+                }
+                composable("card"){
+                    CardsScreen(
+                        CardViewModel(apiService, userDataStore),
+                        onClickHome = {
+                            navController.navigate("home")
+                        },
+                        onClickHistory = {
+                            //navController.navigate("history")
+                        },
+                        onClickData = {
+                            navController.navigate("card")
+                        },
+                        onClickProfile = {
+                            //navController.navigate("profile")
+                        }
                     )
                 }
             }

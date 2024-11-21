@@ -2,9 +2,10 @@ package com.example.mango_app.model.data
 
 data class Card (
     val id: Int,
-    val cardNumber: String,
+    val number: String,
     val type : String,
     val fullName: String,
     val expirationDate: String,
-    val cvv: String
+    val createdAt: String,
+    val updatedAt: String
 )

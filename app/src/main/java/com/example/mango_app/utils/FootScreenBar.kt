@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.mango_app.R
 import com.example.mango_app.ui.theme.Mango_AppTheme
@@ -17,9 +18,9 @@ import com.example.mango_app.ui.theme.Mango_AppTheme
 fun FootScreenBar(
     onClickHome: () -> Unit, //SACAR TODAS ESTAS Y ASIGNARLAS DIRECTAMENTE AL ACTION BUTTON
     onClickHistory: () -> Unit,
-    onClickData: () -> Unit,
-    onClickProfile: () -> Unit
-) {
+    onClickCard: () -> Unit,
+    onClickProfile: () -> Unit,
+    ) {
 Row(
     horizontalArrangement = Arrangement.SpaceEvenly,
     modifier = Modifier
@@ -46,10 +47,10 @@ Row(
         onClick = { /* No hace nada, solo para el Preview */ }
     )
     ActionButton(
-        icon = painterResource(id = R.drawable.baseline_account_balance_wallet_24),
-        text = "Mis datos",
+        icon = painterResource(id = R.drawable.baseline_credit_card_24),
+        text = stringResource(id = R.string.card),
         color = Color.White,
-        onClick = { onClickData() }
+        onClick = { onClickCard() }
     )
     ActionButton(
         icon = painterResource(id = R.drawable.baseline_account_circle_24),
@@ -69,7 +70,7 @@ fun NavigationBarLightPreview() {
         FootScreenBar(
             onClickHome = { /* No hace nada, solo para el Preview */ },
             onClickHistory = { /* No hace nada, solo para el Preview */ },
-            onClickData = { /* No hace nada, solo para el Preview */ },
+            onClickCard = { /* No hace nada, solo para el Preview */ },
             onClickProfile = { /* No hace nada, solo para el Preview */ }
         )
     })
@@ -82,7 +83,7 @@ fun NavigationBarDarkPreview() {
         FootScreenBar(
             onClickHome = { /* No hace nada, solo para el Preview */ },
             onClickHistory = { /* No hace nada, solo para el Preview */ },
-            onClickData = { /* No hace nada, solo para el Preview */ },
+            onClickCard = { /* No hace nada, solo para el Preview */ },
             onClickProfile = { /* No hace nada, solo para el Preview */ }
         )
     })
