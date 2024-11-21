@@ -4,12 +4,15 @@ import com.example.mango_app.model.data.LoginRequest
 import com.example.mango_app.model.data.LoginResponse
 import com.example.mango_app.model.data.RegisterRequest
 import com.example.mango_app.model.data.RegisterResponse
+import com.example.mango_app.model.data.UserInfoResponse
 import com.example.mango_app.model.data.VerifyRequest
 import com.example.mango_app.model.data.VerifyResponse
+import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -18,6 +21,9 @@ interface ApiService {
     suspend fun registerUser(
         @Body registerRequest: RegisterRequest
     ): Response<RegisterResponse>
+
+    @GET("api/user")
+    suspend fun getUserInfo(): Response<UserInfoResponse>
 
     @POST("api/user/verify")
     suspend fun verifyUser(
@@ -33,10 +39,18 @@ interface ApiService {
 object RetrofitServiceFactory {
     private const val BASE_URL = "http://10.0.2.2:8080/"
 
-    fun makeRetrofitService(): ApiService {
+    fun makeRetrofitService(userDataStore: UserDataStore): ApiService {
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(TokenInterceptor(userDataStore))
+            .authenticator(TokenAuthenticator(userDataStore))
+            .build()
+
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
-            .build().create(ApiService::class.java)
+            .build()
+            .create(ApiService::class.java)
     }
 }

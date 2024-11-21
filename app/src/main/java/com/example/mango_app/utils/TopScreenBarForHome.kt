@@ -22,7 +22,7 @@ import com.example.mango_app.R
 import com.example.mango_app.ui.theme.Mango_AppTheme
 
 @Composable
-fun TopScreenBarForHome() {
+fun TopScreenBarForHome(username: String = "user") {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,8 +48,8 @@ fun TopScreenBarForHome() {
             )
 
             Text(
-                text = "Bienvenido \nNOMBRE USUARIO!",
-                color = MaterialTheme.colorScheme.onPrimary,
+                text = "Bienvenido \n${username}!",
+                color = MaterialTheme.colorScheme.onSecondary,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .weight(1f), // Ocupa todo el espacio disponible

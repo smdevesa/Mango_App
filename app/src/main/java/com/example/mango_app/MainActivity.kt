@@ -26,8 +26,8 @@ import com.example.mango_app.viewmodel.*
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val apiService: ApiService = RetrofitServiceFactory.makeRetrofitService()
         val userDataStore = UserDataStore(this)
+        val apiService: ApiService = RetrofitServiceFactory.makeRetrofitService(userDataStore)
 
         setContent {
             AppContent(apiService, userDataStore)
@@ -90,7 +90,9 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                 }
                 composable("home") {
                     HomeScreenTF(
-                        20.0, // Balance
+                        balance = 20.0,
+                        HomeViewModel(apiService, userDataStore),
+                        userDataStore,
                         onClickHome = {
                             navController.navigate("home")
                         },

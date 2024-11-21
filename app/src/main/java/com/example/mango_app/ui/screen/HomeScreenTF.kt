@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -25,11 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
 import com.example.mango_app.model.Transaction
+import com.example.mango_app.model.UserDataStore
 import com.example.mango_app.ui.theme.Mango_AppTheme
 import com.example.mango_app.utils.ActionButton
 import com.example.mango_app.utils.FootScreenBar
 import com.example.mango_app.utils.TopScreenBarForHome
 import com.example.mango_app.utils.TransactionItem
+import com.example.mango_app.viewmodel.HomeViewModel
 import java.util.Date
 
 
@@ -169,6 +173,8 @@ fun HomeScreenTF(
 @Composable
 fun HomeScreenTF(
     balance: Double,
+    homeViewModel: HomeViewModel,
+    userDataStore: UserDataStore,
     onTransferClick: () -> Unit,
     onDepositClick: () -> Unit,
     onInvestClick: () -> Unit,
@@ -180,9 +186,11 @@ fun HomeScreenTF(
     onClickData: () -> Unit,
     onClickProfile: () -> Unit
 ) {
+    val firstName: String by homeViewModel.firstName.observeAsState("")
+    val lastName: String by homeViewModel.lastName.observeAsState("")
     Scaffold(
         topBar = {
-            TopScreenBarForHome()
+            TopScreenBarForHome(username = "$firstName $lastName")
         },
         bottomBar = {
             FootScreenBar(
@@ -341,78 +349,36 @@ fun HomeScreenTF(
 }
 
 
-    @Preview(showBackground = true)
-    @Composable
-    fun HomeScreenPreviewLightTF() {
-        Mango_AppTheme(darkTheme = false, content = {
-            HomeScreenTF(
-                balance = 1250.75,
-                onTransferClick = {},
-                onDepositClick = {},
-                onInvestClick = {},
-                onSeeMyDataClick = {},
-                onViewAllTransactions = {},
-                // Parámetros para la NavigationBar
-                onClickHome = {},
-                onClickHistory = {},
-                onClickData = {},
-                onClickProfile = {}
-            )
-        })
-    }
-
-
-    @Preview(showBackground = true)
-    @Composable
-    fun HomeScreenPreviewDarkTF() {
-        Mango_AppTheme(darkTheme = true, content = {
-            HomeScreenTF(
-                balance = 1250.75,
-                onTransferClick = {},
-                onDepositClick = {},
-                onInvestClick = {},
-                onSeeMyDataClick = {},
-                onViewAllTransactions = {},
-                // Parámetros para la NavigationBar
-                onClickHome = {},
-                onClickHistory = {},
-                onClickData = {},
-                onClickProfile = {}
-            )
-        })
-    }
-
-
-    @Composable
-    fun DonutChart(
-        backgroundColor: Color,
-        sliceColor: Color,
-        slicePercentage: Float // Porcentaje del segmento (0.0f a 1.0f)
+@Composable
+fun DonutChart(
+    backgroundColor: Color,
+    sliceColor: Color,
+    slicePercentage: Float // Porcentaje del segmento (0.0f a 1.0f)
+) {
+    Canvas(
+        modifier = Modifier
+            .size(200.dp) // Tamaño de la dona
     ) {
-        Canvas(
-            modifier = Modifier
-                .size(200.dp) // Tamaño de la dona
-        ) {
-            val size = size.minDimension // Tamaño del lienzo
-            val strokeWidth = size * 0.1f // Grosor de la dona
+        val size = size.minDimension // Tamaño del lienzo
+        val strokeWidth = size * 0.1f // Grosor de la dona
 
-            // Fondo de la dona
-            drawCircle(
-                color = backgroundColor,
-                radius = size / 2 - strokeWidth / 2,
-                style = Stroke(width = strokeWidth)
-            )
+        // Fondo de la dona
+        drawCircle(
+            color = backgroundColor,
+            radius = size / 2 - strokeWidth / 2,
+            style = Stroke(width = strokeWidth)
+        )
 
-            // Segmento coloreado
-            drawArc(
-                color = sliceColor,
-                startAngle = -90f, // Comienza desde la parte superior
-                sweepAngle = slicePercentage * 360f, // Ángulo del segmento
-                useCenter = false,
-                style = Stroke(width = strokeWidth),
-                size = Size(size, size),
-                topLeft = Offset((this.size.width - size) / 2, (this.size.height - size) / 2)
-            )
-        }
+        // Segmento coloreado
+        drawArc(
+            color = sliceColor,
+            startAngle = -90f, // Comienza desde la parte superior
+            sweepAngle = slicePercentage * 360f, // Ángulo del segmento
+            useCenter = false,
+            style = Stroke(width = strokeWidth),
+            size = Size(size, size),
+            topLeft = Offset((this.size.width - size) / 2, (this.size.height - size) / 2)
+        )
     }
+}
 

@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.mango_app.model.data.UserInfoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -17,29 +19,16 @@ class UserDataStore(private val context: Context) {
 
     companion object {
         val AUTH_TOKEN = stringPreferencesKey("user_auth_token")
-        val EMAIL = stringPreferencesKey("user_email")
-        val NAME = stringPreferencesKey("user_name")
-    }
-
-    suspend fun saveAuthData(token: String, email: String, name: String) {
-        dataStore.edit { preferences ->
-            preferences[AUTH_TOKEN] = token
-            preferences[EMAIL] = email
-            preferences[NAME] = name
-        }
+        val USER_ID = intPreferencesKey("user_id")
+        val USER_FIRST_NAME = stringPreferencesKey("user_first_name")
+        val USER_LAST_NAME = stringPreferencesKey("user_last_name")
+        val USER_EMAIL = stringPreferencesKey("user_email")
+        val USER_BIRTH_DATE = stringPreferencesKey("user_birth_date")
     }
 
     suspend fun saveAuthToken(token: String) {
         dataStore.edit { preferences ->
             preferences[AUTH_TOKEN] = token
-        }
-    }
-
-    suspend fun clearAuthData() {
-        dataStore.edit { preferences ->
-            preferences.remove(AUTH_TOKEN)
-            preferences.remove(EMAIL)
-            preferences.remove(NAME)
         }
     }
 
@@ -49,15 +38,25 @@ class UserDataStore(private val context: Context) {
         }
     }
 
-    fun getEmail(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            preferences[EMAIL]
+    suspend fun saveUserInfo(userInfoResponse: UserInfoResponse) {
+        dataStore.edit { preferences ->
+            preferences[USER_ID] = userInfoResponse.id
+            preferences[USER_FIRST_NAME] = userInfoResponse.firstName
+            preferences[USER_LAST_NAME] = userInfoResponse.lastName
+            preferences[USER_EMAIL] = userInfoResponse.email
+            preferences[USER_BIRTH_DATE] = userInfoResponse.birthDate
         }
     }
 
-    fun getName(): Flow<String?> {
+    fun getUserInfo(): Flow<UserInfoResponse?> {
         return dataStore.data.map { preferences ->
-            preferences[NAME]
+            UserInfoResponse(
+                id = preferences[USER_ID] ?: 0,
+                firstName = preferences[USER_FIRST_NAME] ?: "",
+                lastName = preferences[USER_LAST_NAME] ?: "",
+                email = preferences[USER_EMAIL] ?: "",
+                birthDate = preferences[USER_BIRTH_DATE] ?: ""
+            )
         }
     }
 

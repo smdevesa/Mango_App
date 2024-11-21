@@ -42,6 +42,7 @@ class LoginViewModel(private val apiService: ApiService, private val userDataSto
                     val response: Response<LoginResponse> = apiService.loginUser(req)
                     if(response.isSuccessful) {
                         userDataStore.saveAuthToken(response.body()!!.token)
+                        fetchUserInfo()
                         _event.postValue(LoginEvent.Success)
                     } else {
                         _event.postValue(LoginEvent.Error(response.message()))
@@ -50,6 +51,13 @@ class LoginViewModel(private val apiService: ApiService, private val userDataSto
                     _event.postValue(e.message?.let { LoginEvent.Error(it) })
                 }
             }
+        }
+    }
+
+    private suspend fun fetchUserInfo() {
+        val response = apiService.getUserInfo()
+        if(response.isSuccessful) {
+            userDataStore.saveUserInfo(response.body()!!)
         }
     }
 

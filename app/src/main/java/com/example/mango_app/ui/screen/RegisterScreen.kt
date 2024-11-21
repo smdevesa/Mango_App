@@ -235,19 +235,3 @@ fun ErrorMessage(message: String) {
         style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.error)
     )
 }
-
-@Preview
-@Composable
-fun RegisterScreenPreviewLight() {
-    Mango_AppTheme(darkTheme = false) {
-        RegisterScreen(RegisterViewModel(RetrofitServiceFactory.makeRetrofitService()), {}, {})
-    }
-}
-
-@Preview
-@Composable
-fun RegisterScreenPreviewDark() {
-    Mango_AppTheme(darkTheme = true) {
-        RegisterScreen(RegisterViewModel(RetrofitServiceFactory.makeRetrofitService()), {}, {})
-    }
-}
