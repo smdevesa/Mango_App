@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.example.mango_app.model.Transaction
 import com.example.mango_app.ui.theme.BalanceGreen
 import com.example.mango_app.ui.theme.BalanceRed
-import com.example.wallet.ui.history.formatDate
+import com.example.mango_app.ui.screen.formatDate
 
 // Item de transacción
 @Composable

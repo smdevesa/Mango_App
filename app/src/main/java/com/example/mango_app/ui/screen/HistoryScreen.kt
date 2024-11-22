@@ -1,4 +1,4 @@
-package com.example.wallet.ui.history
+package com.example.mango_app.ui.screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

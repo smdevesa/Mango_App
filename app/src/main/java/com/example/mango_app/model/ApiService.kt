@@ -3,11 +3,13 @@ package com.example.mango_app.model
 import com.example.mango_app.model.data.Card
 import com.example.mango_app.model.data.LoginRequest
 import com.example.mango_app.model.data.LoginResponse
+import com.example.mango_app.model.data.RechargeRequest
 import com.example.mango_app.model.data.RegisterRequest
 import com.example.mango_app.model.data.RegisterResponse
 import com.example.mango_app.model.data.UserInfoResponse
 import com.example.mango_app.model.data.VerifyRequest
 import com.example.mango_app.model.data.VerifyResponse
+import com.example.mango_app.model.data.WalletDetailsResponse
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -45,6 +47,14 @@ interface ApiService {
     suspend fun deleteCard(
         @Path("cardId") cardId: Int
     ): Response<Unit>
+
+    @POST("api/wallet/recharge")
+    suspend fun rechargeWallet(
+        @Body rechargeRequest: RechargeRequest
+    ): Response<Unit>
+
+    @GET("api/wallet/details")
+    suspend fun getWalletDetails(): Response<WalletDetailsResponse>
 }
 
 object RetrofitServiceFactory {

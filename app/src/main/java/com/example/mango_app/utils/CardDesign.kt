@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
 import com.example.mango_app.model.data.Card
+import com.example.mango_app.ui.theme.CardColor
 import com.example.mango_app.ui.theme.Mango_AppTheme
 
 
@@ -35,18 +36,17 @@ import com.example.mango_app.ui.theme.Mango_AppTheme
 fun CardDesign(card: Card) {
     Box(
         modifier = Modifier
-            .height(180.dp) // Altura fija
-            .width(300.dp) // Ancho más reducido
-            .clip(RoundedCornerShape(16.dp)) // Esquinas redondeadas
-            .background(color = MaterialTheme.colorScheme.surfaceContainer)
-            .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(16.dp))
-            .padding(16.dp) // Espaciado interior
+            .height(180.dp)
+            .width(300.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(color = CardColor)
+            .border(2.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(16.dp))
+            .padding(16.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
                 .padding(bottom = 0.dp),
         ) {
-            // Parte superior: Tipo de tarjeta o logo
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -112,14 +112,3 @@ fun CardDesign(card: Card) {
         }
     }
 }
-
-
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun CardDesignPreviewDarkTF() {
-//    Mango_AppTheme(darkTheme = true, content = {
-//            CardDesign(card = Card(id = 0, cumber = "1234567891011121", type = "CREDIT", fullName = "John Doe", expirationDate = "12/23", cvv = "123"))
-//    })
-//}

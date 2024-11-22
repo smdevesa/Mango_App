@@ -3,6 +3,8 @@ package com.example.mango_app.ui.screen
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -36,7 +38,6 @@ import java.util.Date
 
 @Composable
 fun HomeScreenTF(
-    balance: Double,
     homeViewModel: HomeViewModel,
     onTransferClick: () -> Unit,
     onDepositClick: () -> Unit,
@@ -45,6 +46,7 @@ fun HomeScreenTF(
 ) {
     val firstName: String by homeViewModel.firstName.observeAsState("")
     val lastName: String by homeViewModel.lastName.observeAsState("")
+    val balance: Int by homeViewModel.balance.observeAsState(0)
 
     Scaffold(
         topBar = {
@@ -64,7 +66,7 @@ fun HomeScreenTF(
                     .padding(bottom = 2.dp)
             ) {
                 BalanceIndicator(
-                    balance = balance
+                    balance = balance.toDouble()
                 )
 
                 ThinDivider()
@@ -104,127 +106,47 @@ fun HomeScreenTF(
                         Spacer(modifier = Modifier.height(10.dp))
                         ThinDivider()
 
-                        Spacer(modifier = Modifier.height(30.dp))
-
                         Text(
-                            text = "Ultimas transacciones",
+                            text = "Últimas transacciones",
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
                             fontSize = 20.sp,
-                            modifier = Modifier.padding(horizontal = 16.dp)
+                            modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)
                         )
 
-                        Column (
-                            modifier = Modifier.fillMaxWidth()
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxWidth()
                                 .padding(horizontal = 16.dp),
-                        )
-
-                        {
-                            TransactionItem(
+                            verticalArrangement = Arrangement.spacedBy(8.dp) // Espacio entre ítems
+                        ) {
+                            items(listOf(
                                 Transaction(
                                     id = "1",
                                     description = "Pago en supermercado",
                                     amount = -50.25,
                                     date = Date()
-                                )
-                            ) {}
-                            Spacer(modifier = Modifier.height(8.dp))
-                            TransactionItem(
+                                ),
                                 Transaction(
-                                    id = "1",
+                                    id = "2",
                                     description = "Pago en cobayeria",
-                                    amount = -50.25,
+                                    amount = -20.00,
                                     date = Date()
-                                )
-                            ){}
-                            Spacer(modifier = Modifier.height(8.dp))
-                            TransactionItem(
+                                ),
                                 Transaction(
-                                    id = "1",
+                                    id = "3",
                                     description = "Pago en devesa",
-                                    amount = -50.25,
+                                    amount = -35.00,
                                     date = Date()
                                 )
-                            ){}
+                            )) { transaction ->
+                                TransactionItem(transaction = transaction) {}
+                            }
                         }
+
                     }
                 }
             }
         }
     }
 }
-
-
-@Composable
-fun DonutChart(
-    backgroundColor: Color,
-    sliceColor: Color,
-    slicePercentage: Float // Porcentaje del segmento (0.0f a 1.0f)
-) {
-    Canvas(
-        modifier = Modifier
-            .size(200.dp) // Tamaño de la dona
-    ) {
-        val size = size.minDimension // Tamaño del lienzo
-        val strokeWidth = size * 0.1f // Grosor de la dona
-
-        // Fondo de la dona
-        drawCircle(
-            color = backgroundColor,
-            radius = size / 2 - strokeWidth / 2,
-            style = Stroke(width = strokeWidth)
-        )
-
-        // Segmento coloreado
-        drawArc(
-            color = sliceColor,
-            startAngle = -90f, // Comienza desde la parte superior
-            sweepAngle = slicePercentage * 360f, // Ángulo del segmento
-            useCenter = false,
-            style = Stroke(width = strokeWidth),
-            size = Size(size, size),
-            topLeft = Offset((this.size.width - size) / 2, (this.size.height - size) / 2)
-        )
-    }
-}
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun HomeScreenPreviewDarkTF() {
-//    Mango_AppTheme(darkTheme = true, content = {
-//        HomeScreenTF(
-//            balance = 1250.75,
-//            onTransferClick = {},
-//            onDepositClick = {},
-//            onInvestClick = {},
-//            onClickData = {},
-//            onViewAllTransactions = {},
-//            // Parámetros para la NavigationBar
-//            onClickHome = {},
-//            onClickHistory = {},
-//            onClickCard = {},
-//            onClickProfile = {}
-//        )
-//    })
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun HomeScreenPreviewLightTF() {
-//    Mango_AppTheme(darkTheme = false, content = {
-//        HomeScreenTF(
-//            balance = 1250.75,
-//            onTransferClick = {},
-//            onDepositClick = {},
-//            onInvestClick = {},
-//            onClickData = {},
-//            onViewAllTransactions = {},
-//            // Parámetros para la NavigationBar
-//            onClickHome = {},
-//            onClickHistory = {},
-//            onClickCard = {},
-//            onClickProfile = {}
-//        )
-//    })
-//}

@@ -62,7 +62,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.lifecycle.runtime.android)
     implementation(libs.androidx.datastore.preferences)
-
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
 }

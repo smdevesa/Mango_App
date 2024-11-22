@@ -19,10 +19,14 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import com.example.mango_app.model.ApiService
 import com.example.mango_app.model.RetrofitServiceFactory
 import com.example.mango_app.model.UserDataStore
+import com.example.mango_app.ui.screen.AddMoneyScreen
 import com.example.mango_app.ui.screen.CardsScreen
 import com.example.mango_app.ui.screen.VerifyScreen
 import com.example.mango_app.utils.NavbarScaffold
 import com.example.mango_app.viewmodel.*
+import com.example.mango_app.ui.screen.TransactionHistoryScreen
+import com.example.mango_app.ui.screen.fakeTransactions
+import com.example.mango_app.utils.TopBarScaffold
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,10 +96,9 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                 composable("home") {
                     NavbarScaffold(navController) {
                         HomeScreenTF(
-                            balance = 20.0,
                             HomeViewModel(apiService, userDataStore),
                             onTransferClick = {}, // Acción vacía temporalmente
-                            onDepositClick = {},  // Acción vacía temporalmente
+                            onDepositClick = { navController.navigate("add-money") },
                             onInvestClick = {},   // Acción vacía temporalmente
                             onClickData = {}, // Acción vacía temporalmente
                         )
@@ -103,9 +106,21 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                 }
                 composable("card"){
                     NavbarScaffold(navController) {
-                        CardsScreen(
-                            CardViewModel(apiService)
-                        )
+                        CardsScreen(CardViewModel(apiService))
+                    }
+                }
+                composable("history") {
+                    NavbarScaffold(navController) {
+                        TransactionHistoryScreen(fakeTransactions(), {})
+                    }
+                }
+                composable("add-money") {
+                    TopBarScaffold(
+                        navController,
+                        backRoute = "home",
+                        title = "Agregar dinero",
+                    ) {
+                        AddMoneyScreen(AddMoneyViewModel(apiService))
                     }
                 }
             }

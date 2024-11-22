@@ -26,6 +26,7 @@ import com.example.mango_app.ui.theme.Mango_AppTheme
 @Composable
 fun TopScreenBar(
     title: String,
+    onClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -50,7 +51,7 @@ fun TopScreenBar(
                     painter = painterResource(id = R.drawable.baseline_arrow_back_24),
                     contentDescription = "back",
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable { /* acción de retroceder */ }
+                    modifier = Modifier.clickable { onClick() }
                         .size(28.dp) // Tamaño del ícono
                 )
             }
@@ -64,7 +65,7 @@ fun TopScreenBar(
             ) {
                 Text(
                     text = title,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     style = MaterialTheme.typography.titleMedium,
                     fontSize = 20.sp // Ajusta el tamaño según el diseño
                 )

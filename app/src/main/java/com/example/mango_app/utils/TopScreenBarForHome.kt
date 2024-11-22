@@ -2,6 +2,7 @@ package com.example.mango_app.utils
 
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,13 +31,18 @@ fun TopScreenBarForHome(username: String = "user") {
             .padding(16.dp)
             .background(
                 color = MaterialTheme.colorScheme.secondary,
-                shape = RoundedCornerShape(32.dp) // Ajusta el valor para un mayor redondeo de las esquinas
+                shape = RoundedCornerShape(32.dp)
+            )
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+                shape = RoundedCornerShape(32.dp)
             ),
         contentAlignment = Alignment.Center
     ) {
         Row(
-            modifier = Modifier.padding(start = 32.dp, end = 4.dp), // Añadimos padding para que el contenido no esté pegado a los bordes
-            verticalAlignment = Alignment.CenterVertically // Centra verticalmente el contenido
+            modifier = Modifier.padding(start = 32.dp, end = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_account_circle_24),
@@ -52,24 +58,16 @@ fun TopScreenBarForHome(username: String = "user") {
                 color = MaterialTheme.colorScheme.onSecondary,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .weight(1f), // Ocupa todo el espacio disponible
+                    .weight(1f),
             )
 
             Row(
                 modifier = Modifier.padding(end = 10.dp),
-                verticalAlignment = Alignment.CenterVertically // Centra verticalmente el contenido
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_notifications_24),
                     contentDescription = "Notificaciones",
-                    modifier = Modifier
-                        .padding(vertical = 12.dp)
-                        .size(30.dp),
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_more_vert_24),
-                    contentDescription = "Ajustes",
                     modifier = Modifier
                         .padding(vertical = 12.dp)
                         .size(30.dp),

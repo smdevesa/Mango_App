@@ -92,7 +92,6 @@ fun CardsScreen(
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                // Indicador de carga (puedes usar CircularProgressIndicator o cualquier otro widget)
                 CircularProgressIndicator(
                     modifier = Modifier.size(48.dp)
                 )

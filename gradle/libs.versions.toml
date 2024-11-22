@@ -1,4 +1,5 @@
 [versions]
+accompanistPager = "0.32.0"
 agp = "8.7.2"
 datastorePreferences = "1.1.1"
 kotlin = "2.0.0"
@@ -17,6 +18,8 @@ retrofit = "2.11.0"
 datastoreCoreAndroid = "1.1.1"
 
 [libraries]
+accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
+accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanistPager" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-lifecycle-runtime-android = { module = "androidx.lifecycle:lifecycle-runtime-android", version.ref = "lifecycleRuntimeKtx" }
