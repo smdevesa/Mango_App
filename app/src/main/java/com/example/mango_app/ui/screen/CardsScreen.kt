@@ -42,61 +42,81 @@ fun CardsScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp), // Padding interno
-            verticalArrangement = Arrangement.spacedBy(16.dp) // Espaciado entre elementos
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.Center, // Centra verticalmente el contenido
+            horizontalAlignment = Alignment.CenterHorizontally // Centra horizontalmente el contenido
         ) {
-            if (cards.isEmpty()) {
+            if (isLoading) {
+                // Indicador de carga
                 item {
                     Box(
                         modifier = Modifier
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.Center // Centra el contenido
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            text = stringResource(id = R.string.no_cards),
-                            fontSize = 20.sp,
-                            modifier = Modifier.padding(top = 18.dp),
-                            color = MaterialTheme.colorScheme.onSurface, // Asegúrate de usar un color contrastante
-                            textAlign = TextAlign.Center
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(48.dp)
                         )
                     }
                 }
             } else {
-                items(cards) { card ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                if (cards.isEmpty()) {
+                    // Mensaje de "No hay tarjetas"
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.no_cards),
+                                fontSize = 20.sp,
+                                color = MaterialTheme.colorScheme.onSurface, // Asegúrate de usar un color contrastante
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                } else {
+                    // Lista de tarjetas
+                    items(cards) { card ->
+                        Box(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(bottom = 16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .width(390.dp), // Ancho fijo
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                CardDesign(
+                                    card = card,
+                                )
+                                Spacer(modifier = Modifier.width(16.dp))
+                                ActionButton(
+                                    icon = painterResource(id = R.drawable.baseline_delete_24),
+                                    onClick = { cardViewModel.deleteCard(card.id) }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                // Botón para agregar tarjeta
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
                     ) {
-                        CardDesign(card = card)
-                        Spacer(modifier = Modifier.width(16.dp))
-                        ActionButton(
-                            icon = painterResource(id = R.drawable.baseline_delete_24),
-                            onClick = { cardViewModel.deleteCard(card.id) }
-                        )
+                        ButtonMango(text = stringResource(id = R.string.add_card))
                     }
                 }
             }
-
-            item {
-                ButtonMango(text = stringResource(id = R.string.add_card))
-            }
         }
-
-        if (isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(48.dp)
-                )
-            }
-        }
-
     }
 }
+
+
+

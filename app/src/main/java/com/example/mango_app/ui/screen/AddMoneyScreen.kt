@@ -22,6 +22,7 @@ import com.example.mango_app.viewmodel.AddMoneyViewModel
 fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel) {
     val cards by addMoneyViewModel.cards.observeAsState(emptyList())
     val amount by addMoneyViewModel.amount.observeAsState("")
+    val successMessageVisible by addMoneyViewModel.successMessageVisible.observeAsState(false)
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { cards.size })
 
     if (cards.isEmpty()) {
@@ -50,19 +51,16 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                // Paginador para mostrar una tarjeta a la vez
                 HorizontalPager(
                     state = pagerState,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp)
-                        .padding(horizontal = 32.dp),
-                    contentPadding = PaddingValues(0.dp)
+                        .padding(horizontal = 32.dp)
                 ) { page ->
                     CardDesign(card = cards[page])
                 }
 
-                // Indicador de paginación
                 Row(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
@@ -72,14 +70,15 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel) {
                     repeat(cards.size) { index ->
                         Box(
                             modifier = Modifier
-                                .size(16.dp) // Aumentar el tamaño de los círculos
-                                .padding(horizontal = 6.dp) // Separación mayor entre indicadores
+                                .size(16.dp)
+                                .padding(horizontal = 6.dp)
                                 .background(
                                     color = if (index == pagerState.currentPage) {
                                         MaterialTheme.colorScheme.primary
                                     } else {
                                         MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
-                                    }
+                                    },
+                                    shape = CircleShape
                                 )
                         )
                     }
@@ -87,7 +86,6 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel) {
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Entrada para el monto
                 OutlinedTextField(
                     value = amount,
                     onValueChange = { addMoneyViewModel.setAmount(it) },
@@ -99,7 +97,6 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel) {
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Botón para confirmar
                 Button(
                     onClick = {
                         val selectedCardId = cards[pagerState.currentPage].id
@@ -112,5 +109,18 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel) {
                 }
             }
         }
+    }
+    // Diálogo de éxito
+    if (successMessageVisible) {
+        AlertDialog(
+            onDismissRequest = { addMoneyViewModel.dismissSuccessMessage() },
+            confirmButton = {
+                TextButton(onClick = { addMoneyViewModel.dismissSuccessMessage() }) {
+                    Text(text = "Cerrar")
+                }
+            },
+            title = { Text(text = "¡Éxito!") },
+            text = { Text(text = "El dinero se ha agregado correctamente.") },
+        )
     }
 }

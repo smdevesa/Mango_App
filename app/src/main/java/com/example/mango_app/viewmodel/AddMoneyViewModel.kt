@@ -20,6 +20,9 @@ class AddMoneyViewModel(private val apiService: ApiService) : ViewModel() {
     private val _cardId = MutableLiveData<Int>()
     val cardId: LiveData<Int> = _cardId
 
+    private val _successMessageVisible = MutableLiveData(false)
+    val successMessageVisible: LiveData<Boolean> = _successMessageVisible
+
     init {
         fetchCards()
     }
@@ -46,6 +49,13 @@ class AddMoneyViewModel(private val apiService: ApiService) : ViewModel() {
         viewModelScope.launch {
             val req = RechargeRequest(_amount.value?.toDouble() ?: 0.0)
             val response = apiService.rechargeWallet(req)
+            if(response.isSuccessful) {
+                _successMessageVisible.value = true // Actualizar estado de éxito
+            }
         }
+    }
+
+    fun dismissSuccessMessage() {
+        _successMessageVisible.value = false
     }
 }
