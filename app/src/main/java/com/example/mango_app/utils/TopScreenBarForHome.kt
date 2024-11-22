@@ -48,7 +48,7 @@ fun TopScreenBarForHome(username: String = "user") {
             )
 
             Text(
-                text = "Bienvenido \n${username}!",
+                text = "Bienvenido, \n${username}",
                 color = MaterialTheme.colorScheme.onSecondary,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)

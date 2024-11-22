@@ -37,23 +37,10 @@ import com.example.mango_app.viewmodel.CardViewModel
 @Composable
 fun CardsScreen(
     cardViewModel: CardViewModel,
-    onClickHome: () -> Unit,
-    onClickHistory: () -> Unit,
-    onClickData: () -> Unit,
-    onClickProfile: () -> Unit
 ) {
     val cards by cardViewModel.cards.observeAsState(emptyList())
 
-    Scaffold(
-        bottomBar = {
-            FootScreenBar(
-                onClickHome,
-                onClickHistory,
-                onClickData,
-                onClickProfile
-            )
-        }
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

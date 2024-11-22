@@ -21,6 +21,7 @@ import com.example.mango_app.model.RetrofitServiceFactory
 import com.example.mango_app.model.UserDataStore
 import com.example.mango_app.ui.screen.CardsScreen
 import com.example.mango_app.ui.screen.VerifyScreen
+import com.example.mango_app.utils.NavbarScaffold
 import com.example.mango_app.viewmodel.*
 
 class MainActivity : ComponentActivity() {
@@ -89,45 +90,23 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                     )
                 }
                 composable("home") {
-                    HomeScreenTF(
-                        balance = 20.0,
-                        HomeViewModel(apiService, userDataStore),
-                        userDataStore,
-                        onClickHome = {
-                            navController.navigate("home")
-                        },
-                        onClickHistory = {
-                            //navController.navigate("history")
-                        },
-                        onClickCard = {
-                            navController.navigate("card")
-                        },
-                        onClickProfile = {
-                            //navController.navigate("profile")
-                        },
-                        onTransferClick = {}, // Acción vacía temporalmente
-                        onDepositClick = {},  // Acción vacía temporalmente
-                        onInvestClick = {},   // Acción vacía temporalmente
-                        onClickData = {}, // Acción vacía temporalmente
-                        onViewAllTransactions = {} // Acción vacía temporalmente
-                    )
+                    NavbarScaffold(navController) {
+                        HomeScreenTF(
+                            balance = 20.0,
+                            HomeViewModel(apiService, userDataStore),
+                            onTransferClick = {}, // Acción vacía temporalmente
+                            onDepositClick = {},  // Acción vacía temporalmente
+                            onInvestClick = {},   // Acción vacía temporalmente
+                            onClickData = {}, // Acción vacía temporalmente
+                        )
+                    }
                 }
                 composable("card"){
-                    CardsScreen(
-                        CardViewModel(apiService, userDataStore),
-                        onClickHome = {
-                            navController.navigate("home")
-                        },
-                        onClickHistory = {
-                            //navController.navigate("history")
-                        },
-                        onClickData = {
-                            navController.navigate("card")
-                        },
-                        onClickProfile = {
-                            //navController.navigate("profile")
-                        }
-                    )
+                    NavbarScaffold(navController) {
+                        CardsScreen(
+                            CardViewModel(apiService, userDataStore)
+                        )
+                    }
                 }
             }
         }

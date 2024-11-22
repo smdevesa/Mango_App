@@ -3,6 +3,8 @@ package com.example.mango_app.ui.screen
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,7 +26,9 @@ import com.example.mango_app.model.Transaction
 import com.example.mango_app.model.UserDataStore
 import com.example.mango_app.ui.theme.Mango_AppTheme
 import com.example.mango_app.utils.ActionButton
+import com.example.mango_app.utils.BalanceIndicator
 import com.example.mango_app.utils.FootScreenBar
+import com.example.mango_app.utils.ThinDivider
 import com.example.mango_app.utils.TopScreenBarForHome
 import com.example.mango_app.utils.TransactionItem
 import com.example.mango_app.viewmodel.HomeViewModel
@@ -34,32 +38,18 @@ import java.util.Date
 fun HomeScreenTF(
     balance: Double,
     homeViewModel: HomeViewModel,
-    userDataStore: UserDataStore,
     onTransferClick: () -> Unit,
     onDepositClick: () -> Unit,
     onInvestClick: () -> Unit,
     onClickData:  () -> Unit,
-    onViewAllTransactions: () -> Unit,
-    // Parámetros para la NavigationBar DESPUES DEL CAMBIO EN FOOTSCREENBAR NO VAN A SER NECESARIOS
-    onClickHome: () -> Unit,
-    onClickHistory: () -> Unit,
-    onClickCard: () -> Unit,
-    onClickProfile: () -> Unit
 ) {
     val firstName: String by homeViewModel.firstName.observeAsState("")
     val lastName: String by homeViewModel.lastName.observeAsState("")
+
     Scaffold(
         topBar = {
             TopScreenBarForHome(username = "$firstName $lastName")
         },
-        bottomBar = {
-            FootScreenBar(
-                onClickHome,
-                onClickHistory,
-                onClickCard,
-                onClickProfile
-            )
-        }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -73,90 +63,46 @@ fun HomeScreenTF(
                     .weight(1f)
                     .padding(bottom = 2.dp)
             ) {
-                Box(){
+                BalanceIndicator(
+                    balance = balance
+                )
 
-                }
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 32.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    DonutChart(
-                        backgroundColor = Color.Blue,
-                        sliceColor = Color.Blue,
-                        slicePercentage = 1f // 100% del círculo
-                    )
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = stringResource(id = R.string.available_balance),
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        Text(
-                            text = "$ $balance",
-                            style = MaterialTheme.typography.displaySmall.copy(
-                                fontSize = 32.sp,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(32.dp))
+                ThinDivider()
 
                 Box(
                     Modifier
-                        .background(MaterialTheme.colorScheme.tertiary)
+                        .background(MaterialTheme.colorScheme.background)
                         .fillMaxSize()
-                        .padding(top = 20.dp),
+                        .padding(top = 10.dp),
                 ) {
                     Column(
                         modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
                     ) {
                         // Acciones rápidas
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-                             ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_send_24),
-                                text = stringResource(id = R.string.transfer),
-                                onClick = onTransferClick,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background,
-                                size = 85.dp,
-                                fontSize = 15.sp
-                            )
-                            ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_call_received_24),
-                                text = stringResource(id = R.string.deposit),
-                                onClick = onDepositClick,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background,
-                                size = 85.dp,
-                                fontSize = 15.sp
-                            )
-                            ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_trending_up_24),
-                                text = stringResource(id = R.string.invest),
-                                onClick = onInvestClick,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background,
-                                size = 85.dp,
-                                fontSize = 15.sp
-                            )
-                            ActionButton(
-                                icon = painterResource(id = R.drawable.baseline_account_balance_wallet_24),
-                                text = stringResource(id = R.string.data),
-                                onClick = onClickData,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                backgroundColor = MaterialTheme.colorScheme.background,
-                                size = 85.dp,
-                                fontSize = 15.sp
-                            )
+                            listOf(
+                                Triple(R.drawable.baseline_send_24, R.string.transfer, onTransferClick),
+                                Triple(R.drawable.baseline_call_received_24, R.string.deposit, onDepositClick),
+                                Triple(R.drawable.baseline_trending_up_24, R.string.invest, onInvestClick),
+                                Triple(R.drawable.baseline_account_balance_wallet_24, R.string.data, onClickData)
+                            ).forEach { (icon, textId, onClick) ->
+                                ActionButton(
+                                    icon = painterResource(id = icon),
+                                    text = stringResource(id = textId),
+                                    onClick = onClick,
+                                    size = 60.dp,
+                                    fontSize = 15.sp,
+                                    modifier = Modifier.width(80.dp)
+                                )
+                            }
                         }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        ThinDivider()
 
                         Spacer(modifier = Modifier.height(30.dp))
 
@@ -181,7 +127,7 @@ fun HomeScreenTF(
                                     amount = -50.25,
                                     date = Date()
                                 )
-                            ) { }
+                            ) {}
                             Spacer(modifier = Modifier.height(8.dp))
                             TransactionItem(
                                 Transaction(

@@ -4,13 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.mango_app.R
 import com.example.mango_app.ui.theme.Mango_AppTheme
 
@@ -20,42 +24,55 @@ fun FootScreenBar(
     onClickHistory: () -> Unit,
     onClickCard: () -> Unit,
     onClickProfile: () -> Unit,
+    selectedRoute: String = ""
     ) {
 Row(
     horizontalArrangement = Arrangement.SpaceEvenly,
+    verticalAlignment = Alignment.CenterVertically,
     modifier = Modifier
         .fillMaxWidth()
         .background(color = MaterialTheme.colorScheme.secondary)
+        .padding(vertical = 8.dp)
 
 ) {
-    ActionButton(
+    NavbarButton(
         icon = painterResource(id = R.drawable.baseline_home_24),
         text = "Inicio",
-        color = Color.White,
+        iconColor = if(selectedRoute == "home") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary,
+        size = 72,
+        fontSize = 12,
         onClick = { onClickHome()}
     )
-    ActionButton(
+    NavbarButton(
         icon = painterResource(id = R.drawable.baseline_find_in_page_24),
         text = "Historial",
-        color = Color.White,
+        iconColor = if(selectedRoute == "history") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary,
+        size = 72,
+        fontSize = 12,
         onClick = { onClickHistory() }
     )
-    ActionButton(
+    NavbarButton(
         icon = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
         text = "",
-        color = Color.White,
+        iconColor = MaterialTheme.colorScheme.primary,
+        size = 72,
+        fontSize = 12,
         onClick = { /* No hace nada, solo para el Preview */ }
     )
-    ActionButton(
+    NavbarButton(
         icon = painterResource(id = R.drawable.baseline_credit_card_24),
-        text = stringResource(id = R.string.card),
-        color = Color.White,
+        text = "Tarjetas",
+        iconColor = if(selectedRoute == "card") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary,
+        size = 72,
+        fontSize = 12,
         onClick = { onClickCard() }
     )
-    ActionButton(
+    NavbarButton(
         icon = painterResource(id = R.drawable.baseline_account_circle_24),
         text = "Perfil",
-        color = Color.White,
+        iconColor = if(selectedRoute == "profile") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary,
+        size = 72,
+        fontSize = 12,
         onClick = { onClickProfile() }
     )
 }
@@ -71,7 +88,8 @@ fun NavigationBarLightPreview() {
             onClickHome = { /* No hace nada, solo para el Preview */ },
             onClickHistory = { /* No hace nada, solo para el Preview */ },
             onClickCard = { /* No hace nada, solo para el Preview */ },
-            onClickProfile = { /* No hace nada, solo para el Preview */ }
+            onClickProfile = { /* No hace nada, solo para el Preview */ },
+            selectedRoute = "Perfil"
         )
     })
 }
@@ -84,7 +102,8 @@ fun NavigationBarDarkPreview() {
             onClickHome = { /* No hace nada, solo para el Preview */ },
             onClickHistory = { /* No hace nada, solo para el Preview */ },
             onClickCard = { /* No hace nada, solo para el Preview */ },
-            onClickProfile = { /* No hace nada, solo para el Preview */ }
+            onClickProfile = { /* No hace nada, solo para el Preview */ },
+            selectedRoute = "Inicio"
         )
     })
 }
