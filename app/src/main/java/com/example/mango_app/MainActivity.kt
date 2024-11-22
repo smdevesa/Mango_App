@@ -104,7 +104,7 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                 composable("card"){
                     NavbarScaffold(navController) {
                         CardsScreen(
-                            CardViewModel(apiService, userDataStore)
+                            CardViewModel(apiService)
                         )
                     }
                 }

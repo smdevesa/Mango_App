@@ -1,7 +1,6 @@
 package com.example.mango_app.model
 
 import com.example.mango_app.model.data.Card
-import com.example.mango_app.model.data.GetCardResponse
 import com.example.mango_app.model.data.LoginRequest
 import com.example.mango_app.model.data.LoginResponse
 import com.example.mango_app.model.data.RegisterRequest
@@ -17,6 +16,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -39,12 +39,12 @@ interface ApiService {
     ): Response<LoginResponse>
 
     @GET("api/wallet/cards")
-    suspend fun getCards(): Response<GetCardResponse>
+    suspend fun getCards(): Response<List<Card>>
 
-    @DELETE("api/wallet/cards/{id}")
+    @DELETE("api/wallet/cards/{cardId}")
     suspend fun deleteCard(
-        id: Int
-    ): Response<String>
+        @Path("cardId") cardId: Int
+    ): Response<Unit>
 }
 
 object RetrofitServiceFactory {

@@ -12,10 +12,13 @@ import com.example.mango_app.model.data.LoginResponse
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class CardViewModel (private val apiService: ApiService, private val userDataStore: UserDataStore) : ViewModel() {
+class CardViewModel (private val apiService: ApiService) : ViewModel() {
 
     private val _cards = MutableLiveData<List<Card>>()
     val cards: LiveData<List<Card>> = _cards
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
     init {
         fetchCards()
@@ -24,12 +27,20 @@ class CardViewModel (private val apiService: ApiService, private val userDataSto
 
     private fun fetchCards() {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
-                val response: Response<GetCardResponse> = apiService.getCards()
-                _cards.value = response.body()?.cards
+                val response: Response<List<Card>> = apiService.getCards()
+                if(response.isSuccessful) {
+                    _cards.value = response.body()?.toList()
+                } else {
+                    //TODO Handle error
+                }
             }
             catch (e: Exception) {
                 //TODO Handle error
+            }
+            finally {
+                _isLoading.postValue(false)
             }
         }
     }
@@ -37,7 +48,7 @@ class CardViewModel (private val apiService: ApiService, private val userDataSto
     fun deleteCard(id: Int) {
         viewModelScope.launch {
             try {
-                val response: Response<String> = apiService.deleteCard(id)
+                val response: Response<Unit> = apiService.deleteCard(id)
                 if(response.isSuccessful) {
                     fetchCards()
                 } else {

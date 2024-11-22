@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,17 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
-import com.example.mango_app.model.data.Card
-import com.example.mango_app.ui.theme.Mango_AppTheme
 import com.example.mango_app.utils.ActionButton
 import com.example.mango_app.utils.ButtonMango
 import com.example.mango_app.utils.CardDesign
-import com.example.mango_app.utils.FootScreenBar
-import com.example.mango_app.utils.TopScreenBar
 import com.example.mango_app.viewmodel.CardViewModel
 
 @Composable
@@ -39,6 +36,7 @@ fun CardsScreen(
     cardViewModel: CardViewModel,
 ) {
     val cards by cardViewModel.cards.observeAsState(emptyList())
+    val isLoading by cardViewModel.isLoading.observeAsState(false)
 
     Scaffold { paddingValues ->
         LazyColumn(
@@ -84,6 +82,20 @@ fun CardsScreen(
 
             item {
                 ButtonMango(text = stringResource(id = R.string.add_card))
+            }
+        }
+
+        if (isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                // Indicador de carga (puedes usar CircularProgressIndicator o cualquier otro widget)
+                CircularProgressIndicator(
+                    modifier = Modifier.size(48.dp)
+                )
             }
         }
 
