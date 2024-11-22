@@ -1,5 +1,5 @@
 package com.example.mango_app.model.data
 
 data class VerifyRequest(
-    val token: String
+    val code: String
 )

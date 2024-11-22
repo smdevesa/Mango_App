@@ -31,8 +31,8 @@ class VerifyViewModel(private val apiService: ApiService) : ViewModel() {
     fun onVerifyClick() {
         if (isValidVerifyForm(verificationCode.value!!)) {
             _event.postValue(VerifyEvent.Loading)
-            val req: VerifyRequest = VerifyRequest(
-                token = verificationCode.value!!
+            val req = VerifyRequest(
+                code = verificationCode.value!!
             )
             viewModelScope.launch {
                 try {
