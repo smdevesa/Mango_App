@@ -55,6 +55,9 @@ interface ApiService {
 
     @GET("api/wallet/details")
     suspend fun getWalletDetails(): Response<WalletDetailsResponse>
+
+    @POST("api/user/logout")
+    suspend fun logout(): Response<Unit>
 }
 
 object RetrofitServiceFactory {

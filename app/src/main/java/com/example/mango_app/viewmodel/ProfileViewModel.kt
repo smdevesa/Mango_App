@@ -30,11 +30,10 @@ class ProfileViewModel(private val apiService: ApiService) : ViewModel() {
                     _event.postValue(ProfileEvent.Logout)
                 } else {
                     //TODO Handle error
+                    _event.postValue(ProfileEvent.None)
                 }
             } catch (e: Exception) {
                 //TODO Handle error
-            }
-            finally {
                 _event.postValue(ProfileEvent.None)
             }
         }

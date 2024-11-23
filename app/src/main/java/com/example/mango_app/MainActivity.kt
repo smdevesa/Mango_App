@@ -117,7 +117,9 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                 }
                 composable("profile"){
                     NavbarScaffold(navController) {
-                        ProfileScreen(ProfileViewModel(apiService), {})
+                        ProfileScreen(ProfileViewModel(apiService)) {
+                            navController.navigate("login")
+                        }
                     }
                 }
                 composable("add-money") {

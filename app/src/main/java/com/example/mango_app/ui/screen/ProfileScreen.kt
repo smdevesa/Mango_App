@@ -16,6 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -29,6 +32,7 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
     val email by profileViewModel.email.observeAsState("")
     val startDate by profileViewModel.startDate.observeAsState("")
     val event by profileViewModel.event.observeAsState(ProfileEvent.None)
+    val hasNavigated = remember { mutableStateOf(false) }
 
     val profileItems = listOf(
         UserProfileItem(icon = R.drawable.baseline_account_circle_24, label = "Nombre", value = fullName),
@@ -64,26 +68,25 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
         }
     }
 
-    // Manejo del estado del evento
     when (event) {
         is ProfileEvent.Loading -> {
-            // Puedes mostrar un indicador de carga
             CircularProgressIndicator()
         }
         is ProfileEvent.Logout -> {
-            // Llama al callback de logout exitoso
-            onLogoutSuccess()
+            if(!hasNavigated.value) {
+                hasNavigated.value = true
+                onLogoutSuccess()
+            }
         }
         is ProfileEvent.None -> {
-            // No hacer nada
         }
     }
 }
 
 sealed class ProfileEvent {
-    object Loading : ProfileEvent()
-    object Logout : ProfileEvent()
-    object None: ProfileEvent()
+    data object Loading : ProfileEvent()
+    data object Logout : ProfileEvent()
+    data object None: ProfileEvent()
 }
 data class UserProfileItem(
     val icon: Int, // Referencia al recurso del ícono
