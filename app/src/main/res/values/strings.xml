@@ -18,6 +18,7 @@
     <string name="login_message">Already have an account? Log in!</string>
     <string name="welcome">Welcome,</string>
     <string name="transfer">Transfer</string>
+    <string name="pay">Pay</string>
     <string name="withdraw">Withdraw</string>
     <string name="deposit">Deposit</string>
     <string name="invest">Invest</string>
@@ -27,7 +28,6 @@
     <string name="data">My CVU</string>
     <string name="home">Home</string>
     <string name="history">History</string>
-
     <string name="verification_code_hint">Verification code</string>
     <string name="verify_account">Verify account</string>
     <string name="verify_account_title">You\'re one step closer!</string>
@@ -45,6 +45,10 @@
     <string name="close">Close</string>
     <string name="created_at">Created at</string>
     <string name="profile">Profile</string>
+    <string name="information">Account information</string>
+    <string name="add_money">Add money</string>
+    <string name="payment_link">Payment link</string>
+    <string name="next">Continue</string>
     <string name="logout">Log out</string>
 
 

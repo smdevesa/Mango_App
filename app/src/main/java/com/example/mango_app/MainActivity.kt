@@ -16,11 +16,14 @@ import com.example.mango_app.ui.screen.LoginScreen
 import com.example.mango_app.ui.screen.RegisterScreen
 import com.example.mango_app.ui.theme.Mango_AppTheme
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import com.example.mango_app.model.ApiService
 import com.example.mango_app.model.RetrofitServiceFactory
 import com.example.mango_app.model.UserDataStore
 import com.example.mango_app.ui.screen.AddMoneyScreen
 import com.example.mango_app.ui.screen.CardsScreen
+import com.example.mango_app.ui.screen.PayScreen
 import com.example.mango_app.ui.screen.ProfileScreen
 import com.example.mango_app.ui.screen.VerifyScreen
 import com.example.mango_app.utils.NavbarScaffold
@@ -98,13 +101,13 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                     NavbarScaffold(navController) {
                         HomeScreenTF(
                             HomeViewModel(apiService, userDataStore),
-                            onTransferClick = {}, // Acción vacía temporalmente
+                            onPayClick = { navController.navigate("pay") }, // Acción vacía temporalmente
                             onDepositClick = { navController.navigate("add-money") },
                             onInvestClick = {},   // Acción vacía temporalmente
                         )
                     }
                 }
-                composable("card"){
+                composable("card") {
                     NavbarScaffold(navController) {
                         CardsScreen(CardViewModel(apiService))
                     }
@@ -114,7 +117,7 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                         TransactionHistoryScreen(fakeTransactions(), {})
                     }
                 }
-                composable("profile"){
+                composable("profile") {
                     NavbarScaffold(navController) {
                         ProfileScreen(ProfileViewModel(apiService)) {
                             navController.navigate("login")
@@ -125,9 +128,18 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                     TopBarScaffold(
                         navController,
                         backRoute = "home",
-                        title = "Agregar dinero",
+                        title = stringResource(id = R.string.add_money),
                     ) {
                         AddMoneyScreen(AddMoneyViewModel(apiService))
+                    }
+                }
+                composable("pay") {
+                    TopBarScaffold(
+                        navController,
+                        backRoute = "home",
+                        title = stringResource(id = R.string.pay),
+                    ) {
+                        PayScreen(PayViewModel(apiService))
                     }
                 }
             }

@@ -39,7 +39,7 @@ fun DataPopUp(
         onDismissRequest = onDismissRequest,
         title = {
             Text(
-                text = "Datos de la cuenta",
+                text = stringResource(id = R.string.information),
                 style = MaterialTheme.typography.titleMedium
             )
         },

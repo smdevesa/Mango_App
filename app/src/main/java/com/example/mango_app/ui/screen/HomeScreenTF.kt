@@ -44,7 +44,7 @@ import java.util.Date
 @Composable
 fun HomeScreenTF(
     homeViewModel: HomeViewModel,
-    onTransferClick: () -> Unit,
+    onPayClick: () -> Unit,
     onDepositClick: () -> Unit,
     onInvestClick: () -> Unit,
 ) {
@@ -87,8 +87,8 @@ fun HomeScreenTF(
                             listOf(
                                 Triple(
                                     R.drawable.baseline_send_24,
-                                    R.string.transfer,
-                                    onTransferClick
+                                    R.string.pay,
+                                    onPayClick
                                 ),
                                 Triple(
                                     R.drawable.baseline_call_received_24,
