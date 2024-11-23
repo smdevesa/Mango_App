@@ -1,5 +1,6 @@
 package com.example.mango_app.utils
 
+import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -21,39 +22,15 @@ fun BalanceIndicator(
 ) {
     // Formato del balance con el signo "$" y dos decimales
     val formattedBalance = DecimalFormat("$#,##0.00").format(balance)
-
-    Box(
+    Text(
+        text = formattedBalance,
+        style = MaterialTheme.typography.titleMedium.copy(
+            fontSize = 32.sp,
+            color = MaterialTheme.colorScheme.onSurface
+        ),
         modifier = Modifier
-            .fillMaxWidth() // Ajusta el tamaño al 90% del ancho de la pantalla
             .padding(16.dp)
-            .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(16.dp))
-            .border(1.dp, MaterialTheme.colorScheme.outline, shape = RoundedCornerShape(16.dp))
-            .padding(24.dp)
-    ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.Start, // Alineación izquierda
-            verticalArrangement = Arrangement.Center
-        ) {
-            // Texto "Balance Actual" en la esquina superior izquierda
-            Text(
-                text = "Balance Actual",
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.bodySmall.copy(fontSize = 16.sp),
-                modifier = Modifier.align(Alignment.Start)
-            )
-
-            Spacer(modifier = Modifier.height(8.dp)) // Espaciado entre el título y el balance
-
-            // Balance con formato en el centro y letra en negrita
-            Text(
-                text = formattedBalance,
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.bodyLarge.copy(fontSize = 32.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold),
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        }
-    }
+    )
 }
 
 @Composable
