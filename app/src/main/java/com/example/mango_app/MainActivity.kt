@@ -101,7 +101,6 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                             onTransferClick = {}, // Acción vacía temporalmente
                             onDepositClick = { navController.navigate("add-money") },
                             onInvestClick = {},   // Acción vacía temporalmente
-                            onClickData = {}, // Acción vacía temporalmente
                         )
                     }
                 }

@@ -11,14 +11,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -32,75 +35,42 @@ fun DataPopUp(
     alias: String,
     onDismissRequest: () -> Unit
 ) {
-    Dialog(onDismissRequest = { onDismissRequest() }) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.85f) // Ocupa el 90% del ancho
-                .wrapContentHeight()
-                .clip(RoundedCornerShape(16.dp)) // Esquinas redondeadas
-                .background(MaterialTheme.colorScheme.surface), // Fondo del popup
-            contentAlignment = Alignment.TopCenter // Centra el contenido en el popup
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(top = 4.dp, bottom = 20.dp, end = 4.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally // Centra horizontalmente
-            ) {
-                // Botón de cerrar (cruz)
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                        //.padding(bottom = 16.dp),
-                    contentAlignment = Alignment.TopEnd
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_close_24),
-                        contentDescription = "Cerrar",
-                        tint = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier
-                            .size(24.dp)
-                            .clickable { onDismissRequest() }
-                    )
-                }
-
-                //Spacer(modifier = Modifier.height(16.dp)) // Espaciado entre la cruz y los textos
-
-                // Textos centrados
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = {
+            Text(
+                text = "Datos de la cuenta",
+                style = MaterialTheme.typography.titleMedium
+            )
+        },
+        text = {
+            Column {
                 Text(
-                    text = "CVU: $cvu",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                    modifier = Modifier.align(Alignment.CenterHorizontally) // Asegura que esté centrado
+                    text = "CVU:",
+                    style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Alias: $alias",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                    modifier = Modifier.align(Alignment.CenterHorizontally) // Asegura que esté centrado
+                    text = cvu,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Alias:",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = alias,
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = onDismissRequest
+            ) {
+                Text(text = stringResource(id = R.string.close))
+            }
         }
-    }
-}
 
-
-
-@Preview(showBackground = true)
-@Composable
-fun PopUpPreviewDarkTF() {
-    Mango_AppTheme(darkTheme = true, content = {
-        DataPopUp("1234567890", "alias123") { }
-    })
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PopUpPreviewLightTF() {
-    Mango_AppTheme(darkTheme = false , content = {
-        DataPopUp("1234567890", "alias123") { }
-    })
+    )
 }

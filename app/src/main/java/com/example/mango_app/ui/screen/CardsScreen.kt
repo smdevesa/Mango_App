@@ -11,13 +11,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -26,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
+import com.example.mango_app.model.data.Card
 import com.example.mango_app.utils.ActionButton
 import com.example.mango_app.utils.ButtonMango
 import com.example.mango_app.utils.CardDesign
@@ -37,6 +43,8 @@ fun CardsScreen(
 ) {
     val cards by cardViewModel.cards.observeAsState(emptyList())
     val isLoading by cardViewModel.isLoading.observeAsState(false)
+    var showDialog by remember { mutableStateOf(false) }
+    var cardToDelete by remember { mutableStateOf<Card?>(null) }
 
     Scaffold { paddingValues ->
         LazyColumn(
@@ -97,7 +105,11 @@ fun CardsScreen(
                                 Spacer(modifier = Modifier.width(16.dp))
                                 ActionButton(
                                     icon = painterResource(id = R.drawable.baseline_delete_24),
-                                    onClick = { cardViewModel.deleteCard(card.id) }
+                                    onClick = {
+                                       cardToDelete = card
+                                        showDialog = true
+                                    }
+
                                 )
                             }
                         }
@@ -116,7 +128,29 @@ fun CardsScreen(
             }
         }
     }
+    if(showDialog){
+        AlertDialog(
+            onDismissRequest = { showDialog = false},
+            title = {Text(text = stringResource(id = R.string.delete_card))},
+            text = {Text(text = stringResource(id = R.string.delete_card_message))},
+            confirmButton = {
+                TextButton(onClick = {
+                    cardViewModel.deleteCard(cardToDelete!!.id)
+                    showDialog = false
+                }) {
+                    Text(text = stringResource(id = R.string.delete))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            }
+
+        )
+    }
 }
+
 
 
 

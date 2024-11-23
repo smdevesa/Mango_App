@@ -19,9 +19,16 @@ class HomeViewModel(private val apiService: ApiService, private val userDataStor
     private val _balance: MutableLiveData<Int> = MutableLiveData()
     val balance: LiveData<Int> = _balance
 
+    private val _cvu: MutableLiveData<String> = MutableLiveData()
+    val cvu: LiveData<String> = _cvu
+
+    private val _alias: MutableLiveData<String> = MutableLiveData()
+    val alias: LiveData<String> = _alias
+
+
     init {
         fetchUserInfo()
-        updateBalance()
+        updateWalletInfo()
     }
 
     private fun fetchUserInfo() {
@@ -33,12 +40,14 @@ class HomeViewModel(private val apiService: ApiService, private val userDataStor
         }
     }
 
-    private fun updateBalance() {
+    private fun updateWalletInfo() {
         viewModelScope.launch {
             val response = apiService.getWalletDetails()
             if (response.isSuccessful) {
                 val walletDetails = response.body()
                 _balance.postValue(walletDetails?.balance ?: 0)
+                _cvu.postValue(walletDetails?.cbu ?: "")
+                _alias.postValue(walletDetails?.alias ?: "")
             }
         }
     }

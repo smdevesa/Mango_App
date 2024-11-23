@@ -32,7 +32,15 @@
     <string name="complete_verification_message">Your account has been successfully verified. Please log in to continue.</string>
     <string name="accept">Accept</string>
     <string name="add_card">Add card</string>
-    <string name="no_cards">No tienes tarjetas</string>
+    <string name="no_cards">No cards available</string>
+    <string name="delete_card">Confirm Delete</string>
+    <string name="delete_card_message">Are you sure you want to delete this card?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="created_at">Created at</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Log out</string>
 
 
 </resources>

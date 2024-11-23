@@ -33,6 +33,15 @@
     <string name="accept">Aceptar</string>
     <string name="add_card">Agregar tarjeta</string>
     <string name="no_cards">No tienes tarjetas</string>
+    <string name="delete_card">Confirmar Eliminación</string>
+    <string name="delete_card_message">¿Estás seguro de que deseas eliminar esta tarjeta?</string>
+    <string name="delete">Eliminar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="close">Cerrar</string>
+    <string name="created_at">Creado en</string>
+    <string name="profile">Perfil</string>
+    <string name="logout">Cerrar sesión</string>
+
 
 
 </resources>

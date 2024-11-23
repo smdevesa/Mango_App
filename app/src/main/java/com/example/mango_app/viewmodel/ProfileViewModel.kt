@@ -40,7 +40,7 @@ class ProfileViewModel(private val apiService: ApiService) : ViewModel() {
                     _fullName.postValue("${profile?.firstName} ${profile?.lastName}")
 
                     _email.postValue(profile?.email)
-                    _birthDate.postValue(profile?.birthDate)
+                    _birthDate.postValue("HARDCODEADO")
 
                     _event.postValue(ProfileEvent.None)
                 } else {

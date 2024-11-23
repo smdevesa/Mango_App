@@ -23,15 +23,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mango_app.R
+import com.example.mango_app.model.RetrofitServiceFactory
+import com.example.mango_app.model.UserDataStore
+import com.example.mango_app.utils.TitledCard
 import com.example.mango_app.viewmodel.ProfileViewModel
 
 @Composable
 fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Unit) {
     val fullName by profileViewModel.fullName.observeAsState("")
     val email by profileViewModel.email.observeAsState("")
-    val birthDate by profileViewModel.birthDate.observeAsState("")
+    val startDate by profileViewModel.birthDate.observeAsState("")
     val event by profileViewModel.event.observeAsState(ProfileEvent.None)
     val hasNavigated = remember { mutableStateOf(false) }
 
@@ -41,40 +46,57 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
 
 
     val profileItems = listOf(
-        UserProfileItem(icon = R.drawable.baseline_account_circle_24, label = "Nombre", value = fullName),
-        UserProfileItem(icon = R.drawable.baseline_email_24, label = "Email", value = email),
-        UserProfileItem(icon = R.drawable.baseline_calendar_month_24, label = "Fecha de cumpleaños", value = birthDate)
+        UserProfileItem(icon = R.drawable.baseline_account_circle_24, label = stringResource(id = R.string.full_name_hint), value = fullName),
+        UserProfileItem(icon = R.drawable.baseline_email_24, label = stringResource(id = R.string.email_hint), value = email),
+        UserProfileItem(icon = R.drawable.baseline_calendar_month_24, label = stringResource(id = R.string.created_at), value = startDate)
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.SpaceBetween, // Espaciado entre elementos
-        horizontalAlignment = Alignment.CenterHorizontally,
+    TitledCard(
+        title = stringResource(id = R.string.profile),
+        modifier = Modifier.fillMaxSize()
     ) {
-        // Mostrar los datos del perfil
-        profileItems.forEach { item ->
-            ProfileItem(
-                icon = item.icon,
-                label = item.label,
-                value = item.value
-            )
-        }
 
-        // Espaciador para llevar el botón al fondo
-        Spacer(modifier = Modifier.weight(1f))
 
-        // Botón de cerrar sesión
-        Button(
-            onClick = { profileViewModel.onLogoutClick() },
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween, // Espaciado entre elementos
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = "Cerrar Sesión")
+            // Mostrar los datos del perfil
+            profileItems.forEach { item ->
+                ProfileItem(
+                    icon = item.icon,
+                    label = item.label,
+                    value = item.value
+                )
+            }
+
+            // Espaciador para llevar el botón al fondo
+            Spacer(modifier = Modifier.weight(1f))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Button(
+                    onClick = { /* TODO: Add change password functionality */ },
+                    //modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = "Cambiar Contraseña")
+                }
+                Button(
+                    onClick = { profileViewModel.onLogoutClick() },
+                    //modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = stringResource(id = R.string.logout))
+                }
+            }
         }
     }
 
-    when (event) {
+when (event) {
         is ProfileEvent.Loading -> {
             CircularProgressIndicator()
         }
@@ -109,21 +131,21 @@ fun ProfileItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             painter = painterResource(id = icon),
             contentDescription = label,
             modifier = Modifier
-                .size(24.dp)
-                .padding(end = 8.dp),
+                .size(48.dp)
+                .padding(end = 16.dp),
             tint = MaterialTheme.colorScheme.primary
         )
         Column {
             Text(
                 text = label,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
@@ -134,4 +156,7 @@ fun ProfileItem(
         }
     }
 }
+
+
+
 

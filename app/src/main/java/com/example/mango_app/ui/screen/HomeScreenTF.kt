@@ -11,6 +11,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -29,6 +31,7 @@ import com.example.mango_app.model.UserDataStore
 import com.example.mango_app.ui.theme.Mango_AppTheme
 import com.example.mango_app.utils.ActionButton
 import com.example.mango_app.utils.BalanceIndicator
+import com.example.mango_app.utils.DataPopUp
 import com.example.mango_app.utils.FootScreenBar
 import com.example.mango_app.utils.NavbarButton
 import com.example.mango_app.utils.ThinDivider
@@ -44,11 +47,13 @@ fun HomeScreenTF(
     onTransferClick: () -> Unit,
     onDepositClick: () -> Unit,
     onInvestClick: () -> Unit,
-    onClickData:  () -> Unit,
 ) {
     val firstName: String by homeViewModel.firstName.observeAsState("")
     val lastName: String by homeViewModel.lastName.observeAsState("")
     val balance: Int by homeViewModel.balance.observeAsState(0)
+    val cvu: String by homeViewModel.cvu.observeAsState("")
+    val alias: String by homeViewModel.alias.observeAsState("")
+    val showDataPopUp = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -98,8 +103,9 @@ fun HomeScreenTF(
                                 Triple(
                                     R.drawable.baseline_account_balance_wallet_24,
                                     R.string.data,
-                                    onClickData
-                                )
+                                ) {
+                                    showDataPopUp.value = true
+                                }
                             ).forEach { (icon, textId, onClick) ->
                                 NavbarButton(
                                     icon = painterResource(id = icon),
@@ -165,6 +171,11 @@ fun HomeScreenTF(
                     }
                 }
             }
-            }
         }
     }
+    if (showDataPopUp.value) {
+        DataPopUp(cvu, alias) {
+            showDataPopUp.value = false
+        }
+    }
+}
