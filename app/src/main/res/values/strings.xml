@@ -48,7 +48,13 @@
     <string name="information">Account information</string>
     <string name="add_money">Add money</string>
     <string name="payment_link">Payment link</string>
+    <string name="invalid_payment_link">Invalid payment link</string>
+    <string name="payment_details">Payment details</string>
+    <string name="pay_with_balance">Pay with balance</string>"
+    <string name="pay_with_card">Pay with card</string>
+    <string name="success">Success</string>
     <string name="next">Continue</string>
+    <string name="money_success">Money added successfully</string>
     <string name="logout">Log out</string>
 
 

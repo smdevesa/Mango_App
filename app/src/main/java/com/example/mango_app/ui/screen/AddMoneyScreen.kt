@@ -13,8 +13,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.mango_app.R
 import com.example.mango_app.utils.CardDesign
 import com.example.mango_app.viewmodel.AddMoneyViewModel
 
@@ -116,11 +118,11 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel) {
             onDismissRequest = { addMoneyViewModel.dismissSuccessMessage() },
             confirmButton = {
                 TextButton(onClick = { addMoneyViewModel.dismissSuccessMessage() }) {
-                    Text(text = "Cerrar")
+                    Text(text = stringResource(id = R.string.close))
                 }
             },
-            title = { Text(text = "¡Éxito!") },
-            text = { Text(text = "El dinero se ha agregado correctamente.") },
+            title = { Text(text = stringResource(id = R.string.success)) },
+            text = { Text(text = stringResource(id = R.string.money_success)) },
         )
     }
 }

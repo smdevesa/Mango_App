@@ -17,13 +17,15 @@ import com.example.mango_app.ui.screen.RegisterScreen
 import com.example.mango_app.ui.theme.Mango_AppTheme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.example.mango_app.model.ApiService
 import com.example.mango_app.model.RetrofitServiceFactory
 import com.example.mango_app.model.UserDataStore
 import com.example.mango_app.ui.screen.AddMoneyScreen
 import com.example.mango_app.ui.screen.CardsScreen
 import com.example.mango_app.ui.screen.PayScreen
+import com.example.mango_app.ui.screen.PaymentDetailScreen
 import com.example.mango_app.ui.screen.ProfileScreen
 import com.example.mango_app.ui.screen.VerifyScreen
 import com.example.mango_app.utils.NavbarScaffold
@@ -139,9 +141,30 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                         backRoute = "home",
                         title = stringResource(id = R.string.pay),
                     ) {
-                        PayScreen(PayViewModel(apiService))
+                        PayScreen(
+                            payViewModel = PayViewModel(apiService),
+                            navController = navController // Pasamos el navController
+                        )
                     }
                 }
+                composable(
+                        route = "paymentDetails/{linkUuid}",
+                arguments = listOf(navArgument("linkUuid") { type = NavType.StringType })
+                ) { backStackEntry ->
+                val linkUuid = backStackEntry.arguments?.getString("linkUuid") ?: ""
+
+                TopBarScaffold(
+                    navController,
+                    backRoute = "pay",
+                    title = stringResource(id = R.string.payment_details),
+                ) {
+                    PaymentDetailScreen(
+                        linkUuid = linkUuid,
+                        navController = navController,
+                        payViewModel = PayViewModel(apiService) // Instancia del ViewModel
+                    )
+                }
+            }
             }
         }
     }

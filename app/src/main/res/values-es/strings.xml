@@ -48,7 +48,13 @@
     <string name="information">Datos de la cuenta</string>
     <string name="add_money">Agregar dinero</string>
     <string name="payment_link">Enlace de pago</string>
+    <string name="invalid_payment_link">Enlace de pago inválido</string>
+    <string name="payment_details">Detalles de pago</string>
+    <string name="pay_with_balance">Pagar con saldo</string>
+    <string name="pay_with_card">Pagar con tarjeta</string>
+    <string name="success">Éxito</string>
     <string name="next">Continuar</string>
+    <string name= "money_success">Dinero agregado con éxito</string>
     <string name="logout">Cerrar sesión</string>
 
 

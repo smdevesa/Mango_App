@@ -5,6 +5,7 @@ import com.example.mango_app.model.data.LoginRequest
 import com.example.mango_app.model.data.LoginResponse
 import com.example.mango_app.model.data.PayCardRequest
 import com.example.mango_app.model.data.PayLinkBalanceRequest
+import com.example.mango_app.model.data.PaymentDetailsResponse
 import com.example.mango_app.model.data.PaymentLinkResponse
 import com.example.mango_app.model.data.RechargeRequest
 import com.example.mango_app.model.data.RegisterRequest
@@ -58,6 +59,11 @@ interface ApiService {
 
     @GET("api/wallet/details")
     suspend fun getWalletDetails(): Response<WalletDetailsResponse>
+
+    @GET("api/payment/link/{linkUuid}")
+    suspend fun getPaymentDetails(
+        @Path("linkUuid") linkUuid: String
+    ): Response<PaymentDetailsResponse>
 
     @POST("api/payment/link/{linkUuid}")
     suspend fun paymentCardWithLink(
