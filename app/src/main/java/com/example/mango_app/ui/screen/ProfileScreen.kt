@@ -14,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -30,14 +31,19 @@ import com.example.mango_app.viewmodel.ProfileViewModel
 fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Unit) {
     val fullName by profileViewModel.fullName.observeAsState("")
     val email by profileViewModel.email.observeAsState("")
-    val startDate by profileViewModel.startDate.observeAsState("")
+    val birthDate by profileViewModel.birthDate.observeAsState("")
     val event by profileViewModel.event.observeAsState(ProfileEvent.None)
     val hasNavigated = remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        profileViewModel.loadProfile()
+    }
+
 
     val profileItems = listOf(
         UserProfileItem(icon = R.drawable.baseline_account_circle_24, label = "Nombre", value = fullName),
         UserProfileItem(icon = R.drawable.baseline_email_24, label = "Email", value = email),
-        UserProfileItem(icon = R.drawable.baseline_calendar_month_24, label = "Fecha de registro", value = startDate)
+        UserProfileItem(icon = R.drawable.baseline_calendar_month_24, label = "Fecha de cumpleaños", value = birthDate)
     )
 
     Column(

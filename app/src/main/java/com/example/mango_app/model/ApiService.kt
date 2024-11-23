@@ -58,6 +58,7 @@ interface ApiService {
 
     @POST("api/user/logout")
     suspend fun logout(): Response<Unit>
+
 }
 
 object RetrofitServiceFactory {
