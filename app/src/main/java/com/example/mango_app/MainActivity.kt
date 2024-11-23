@@ -21,6 +21,7 @@ import com.example.mango_app.model.RetrofitServiceFactory
 import com.example.mango_app.model.UserDataStore
 import com.example.mango_app.ui.screen.AddMoneyScreen
 import com.example.mango_app.ui.screen.CardsScreen
+import com.example.mango_app.ui.screen.ProfileScreen
 import com.example.mango_app.ui.screen.VerifyScreen
 import com.example.mango_app.utils.NavbarScaffold
 import com.example.mango_app.viewmodel.*
@@ -112,6 +113,11 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                 composable("history") {
                     NavbarScaffold(navController) {
                         TransactionHistoryScreen(fakeTransactions(), {})
+                    }
+                }
+                composable("profile"){
+                    NavbarScaffold(navController) {
+                        ProfileScreen(ProfileViewModel(apiService), {})
                     }
                 }
                 composable("add-money") {
