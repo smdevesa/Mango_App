@@ -37,7 +37,7 @@ Row(
 ) {
     NavbarButton(
         icon = painterResource(id = R.drawable.baseline_home_24),
-        text = "Inicio",
+        text = stringResource(id = R.string.home),
         iconColor = if(selectedRoute == "home") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary,
         size = 72,
         fontSize = 12,
@@ -45,7 +45,7 @@ Row(
     )
     NavbarButton(
         icon = painterResource(id = R.drawable.baseline_find_in_page_24),
-        text = "Historial",
+        text = stringResource(id = R.string.history),
         iconColor = if(selectedRoute == "history") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary,
         size = 72,
         fontSize = 12,
@@ -61,7 +61,7 @@ Row(
     )
     NavbarButton(
         icon = painterResource(id = R.drawable.baseline_credit_card_24),
-        text = "Tarjetas",
+        text = stringResource(id = R.string.card),
         iconColor = if(selectedRoute == "card") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary,
         size = 72,
         fontSize = 12,
@@ -69,7 +69,7 @@ Row(
     )
     NavbarButton(
         icon = painterResource(id = R.drawable.baseline_account_circle_24),
-        text = "Perfil",
+        text = stringResource(id= R.string.profile),
         iconColor = if(selectedRoute == "profile") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary,
         size = 72,
         fontSize = 12,

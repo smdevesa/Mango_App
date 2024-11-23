@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mango_app.R
@@ -54,7 +55,7 @@ fun TopScreenBarForHome(username: String = "user") {
             )
 
             Text(
-                text = "Bienvenido, \n${username}",
+                text = stringResource(id = R.string.welcome) + "\n${username}",
                 color = MaterialTheme.colorScheme.onSecondary,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)

@@ -72,7 +72,7 @@ fun HomeScreenTF(
                     .padding(bottom = 2.dp)
             ) {
                 TitledCard(
-                    "Balance actual",
+                    stringResource(id = R.string.available_balance),
                 ) {
                     Column(
                         modifier = Modifier.padding(vertical = 16.dp),
@@ -121,7 +121,7 @@ fun HomeScreenTF(
                     }
                 }
                 TitledCard(
-                    title = "Ultimas transacciones"
+                    title = stringResource(id = R.string.last_transactions),
                 ) {
                     Box(
                         Modifier

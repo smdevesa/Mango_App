@@ -16,6 +16,7 @@
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="register_message">¿No tienes cuenta? ¡Regístrate ahora!</string>
     <string name="login_message">¿Ya tienes cuenta? ¡Inicia sesión!</string>
+    <string name="welcome">Bienvenido,</string>
     <string name="transfer">Transferir</string>
     <string name="withdraw">Retirar</string>
     <string name="deposit">Depositar</string>
@@ -23,7 +24,10 @@
     <string name="card">Tarjetas</string>
     <string name="available_balance">Dinero disponible</string>
     <string name="invested_balance">Dinero invertido</string>
-    <string name="data">Datos</string>
+    <string name="data">Mi CVU</string>
+    <string name="home">Inicio</string>
+    <string name="history">Historial</string>
+
     <string name="verification_code_hint">Código de verificación</string>
     <string name="verify_account">Verificar cuenta</string>
     <string name="verify_account_title">¡Estás a un paso!</string>
@@ -35,6 +39,7 @@
     <string name="no_cards">No tienes tarjetas</string>
     <string name="delete_card">Confirmar Eliminación</string>
     <string name="delete_card_message">¿Estás seguro de que deseas eliminar esta tarjeta?</string>
+    <string name="last_transactions">Últimas transacciones</string>
     <string name="delete">Eliminar</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
