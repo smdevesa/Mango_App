@@ -57,7 +57,6 @@ class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
     private val _passwordTouched = MutableLiveData(false)
     private val _repeatPasswordTouched = MutableLiveData(false)
 
-
     fun onRegisterChanged(
         fullName: String,
         email: String,
@@ -112,11 +111,11 @@ class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
     }
 
     private fun validateAllFields(): Boolean {
-        return _fullNameError.value == null &&
-                _emailError.value == null &&
-                _phoneError.value == null &&
-                _passwordError.value == null &&
-                _repeatPasswordError.value == null
+        return _fullNameError.value == null && _fullName.value?.isNotEmpty() == true &&
+                _emailError.value == null && _email.value?.isNotEmpty() == true &&
+                _phoneError.value == null && _phone.value?.isNotEmpty() == true &&
+                _passwordError.value == null && _password.value?.isNotEmpty() == true &&
+                _repeatPasswordError.value == null && _repeatPassword.value?.isNotEmpty() == true
     }
 
     fun onFieldTouched(field: String) {

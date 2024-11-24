@@ -40,7 +40,7 @@ fun CardsScreen(
 
     TitledCard(
         title = stringResource(id = R.string.cards_title), // Título de la tarjeta
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
 
@@ -80,13 +80,13 @@ fun CardsScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(220.dp)
+                            .wrapContentHeight()
                             .padding(horizontal = 16.dp, vertical = 8.dp),
                         contentAlignment = Alignment.TopCenter
                     ) {
                         HorizontalPager(
                             state = pagerState,
-                            modifier = Modifier.fillMaxSize()
+                            modifier = Modifier.width(310.dp).wrapContentHeight()
                         ) { page ->
                             CardDesign(card = cards[page])
                         }

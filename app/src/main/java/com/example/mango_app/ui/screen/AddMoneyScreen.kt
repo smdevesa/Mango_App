@@ -75,8 +75,8 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel, navController: NavHostC
                     HorizontalPager(
                         state = pagerState,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
+                            .wrapContentHeight()
+                            .width(310.dp)
                             .padding(horizontal = 32.dp)
                     ) { page ->
                         CardDesign(card = cards[page])

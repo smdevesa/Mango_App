@@ -28,50 +28,60 @@ class ProfileViewModel(private val apiService: ApiService) : ViewModel() {
     private val _event = MutableLiveData<ProfileEvent>()
     val event: LiveData<ProfileEvent> = _event
 
-    fun loadProfile(){
+    fun loadProfile() {
         _event.postValue(ProfileEvent.Loading)
         viewModelScope.launch {
             try {
                 val response = apiService.getUserInfo()
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     val profile = response.body()
                     _firstName.postValue(profile?.firstName)
                     _lastName.postValue(profile?.lastName)
                     _fullName.postValue("${profile?.firstName} ${profile?.lastName}")
 
                     _email.postValue(profile?.email)
-                    _birthDate.postValue("HARDCODEADO")
-
                     _event.postValue(ProfileEvent.None)
                 } else {
-                    //TODO Handle error
                     _event.postValue(ProfileEvent.None)
                 }
             } catch (e: Exception) {
-                //TODO Handle error
                 _event.postValue(ProfileEvent.None)
             }
         }
-    }
 
-
-    fun onLogoutClick() {
-        _event.postValue(ProfileEvent.Loading)
         viewModelScope.launch {
+            _event.postValue(ProfileEvent.Loading)
             try {
-                val response = apiService.logout()
-                if(response.isSuccessful) {
-                    _event.postValue(ProfileEvent.Logout)
+                val response = apiService.getWalletDetails()
+                if (response.isSuccessful) {
+                    val wallet = response.body()
+                    _birthDate.postValue(wallet?.createdAt)
+                    _event.postValue(ProfileEvent.None)
                 } else {
-                    //TODO Handle error
                     _event.postValue(ProfileEvent.None)
                 }
             } catch (e: Exception) {
-                //TODO Handle error
                 _event.postValue(ProfileEvent.None)
             }
         }
-
     }
 
-}
+
+        fun onLogoutClick() {
+            _event.postValue(ProfileEvent.Loading)
+            viewModelScope.launch {
+                try {
+                    val response = apiService.logout()
+                    if (response.isSuccessful) {
+                        _event.postValue(ProfileEvent.Logout)
+                    } else {
+                        _event.postValue(ProfileEvent.None)
+                    }
+                } catch (e: Exception) {
+                    _event.postValue(ProfileEvent.None)
+                }
+            }
+
+        }
+
+    }
