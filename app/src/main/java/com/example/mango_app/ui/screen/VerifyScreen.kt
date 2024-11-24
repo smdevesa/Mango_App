@@ -31,12 +31,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
-import com.example.mango_app.model.RetrofitServiceFactory
-import com.example.mango_app.ui.theme.Mango_AppTheme
 import com.example.mango_app.utils.CustomTextField
 import com.example.mango_app.viewmodel.VerifyViewModel
 
@@ -114,7 +111,7 @@ fun SuccessDialog(onDismiss: () -> Unit) {
         title = {
             Text(
                 text = stringResource(id = R.string.complete_verification),
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.titleSmall,
                 textAlign = TextAlign.Center
             )
         },
@@ -127,7 +124,8 @@ fun SuccessDialog(onDismiss: () -> Unit) {
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("OK")
+                Text(stringResource(id = R.string.ok),
+                style = MaterialTheme.typography.titleSmall)
             }
         }
     )

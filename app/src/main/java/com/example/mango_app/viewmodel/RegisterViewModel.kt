@@ -15,7 +15,6 @@ import retrofit2.Response
 
 class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
 
-    // LiveData para los valores de entrada
     private val _fullName = MutableLiveData<String>()
     val fullName: LiveData<String> = _fullName
 
@@ -31,7 +30,6 @@ class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
     private val _repeatPassword = MutableLiveData<String>()
     val repeatPassword: LiveData<String> = _repeatPassword
 
-    // LiveData para errores específicos por campo
     private val _fullNameError = MutableLiveData<String?>()
     val fullNameError: LiveData<String?> = _fullNameError
 
@@ -164,12 +162,8 @@ class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
     }
 
     private fun validateFields(): Boolean {
-        // Verifica si ya se validaron los errores previamente
         val allFieldsValid = validateAllFields()
-
-        // Actualiza la habilitación del botón de registro
         _registerEnable.value = allFieldsValid
-
         return allFieldsValid
     }
 

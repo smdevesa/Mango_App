@@ -149,8 +149,8 @@ fun SimplifiedEmailTextField(
         label = stringResource(id = R.string.email_hint),
         leadingIcon = Icons.Default.Email,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        errorMessage = null, // No mostramos errores
-        onFieldFocusChange = {} // No hacemos nada al cambiar el foco
+        errorMessage = null,
+        onFieldFocusChange = {}
     )
 }
 
@@ -165,7 +165,7 @@ fun SimplifiedPasswordTextField(
         label = stringResource(id = R.string.password_hint),
         leadingIcon = Icons.Default.Lock,
         visualTransformation = PasswordVisualTransformation(),
-        errorMessage = null, // No mostramos errores
-        onFieldFocusChange = {} // No hacemos nada al cambiar el foco
+        errorMessage = null,
+        onFieldFocusChange = {}
     )
 }

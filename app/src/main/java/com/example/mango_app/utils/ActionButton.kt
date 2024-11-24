@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -37,72 +34,42 @@ fun ActionButton(
     fontSize: TextUnit = TextUnit.Unspecified,
     textColor: Color = MaterialTheme.colorScheme.onBackground,
     onClick: () -> Unit,
-    size: Dp = 75.dp, // Tamaño del círculo,
+    size: Dp = 75.dp,
     modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        // Círculo con ícono
         Box(
             modifier = Modifier
-                .size(size) // Tamaño del círculo
-                .background(color = MaterialTheme.colorScheme.background, shape = CircleShape) // Fondo redondo
+                .size(size)
+                .background(color = MaterialTheme.colorScheme.background, shape = CircleShape)
                 .border(
                     width = 1.5.dp,
                     color = MaterialTheme.colorScheme.outline,
                     shape = CircleShape
-                ) // Borde
-                .clickable(onClick = onClick), // Acción al clic
+                )
+                .clickable(onClick = onClick),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 painter = icon,
                 contentDescription = text,
-                modifier = Modifier.size(40.dp), // Tamaño del ícono
+                modifier = Modifier.size(40.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
         }
 
-        // Texto debajo del círculo
         if (text.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(8.dp)) // Espaciado entre círculo y texto
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = text,
                 fontSize = fontSize,
                 color = textColor,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(horizontal = 4.dp) // Opcional: para manejar textos largos
+                modifier = Modifier.padding(horizontal = 4.dp)
             )
         }
     }
 }
-
-
-@Preview
-@Composable
-fun PreviewActionButtonLight() {
-    Mango_AppTheme(darkTheme = false) {
-        ActionButton(
-            icon = painterResource(id = R.drawable.baseline_credit_card_24),
-            text = "Tarjeta",
-            fontSize = 12.sp,
-            onClick = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-fun PreviewActionButtonDark() {
-    Mango_AppTheme(darkTheme = true) {
-        ActionButton(
-            icon = painterResource(id = R.drawable.baseline_credit_card_24),
-            text = "Tarjeta",
-            fontSize = 12.sp,
-            onClick = {}
-        )
-    }
-}
-

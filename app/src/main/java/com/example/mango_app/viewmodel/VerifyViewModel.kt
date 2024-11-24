@@ -1,6 +1,5 @@
 package com.example.mango_app.viewmodel
 
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,12 +9,12 @@ import com.example.mango_app.model.ApiService
 import com.example.mango_app.model.data.VerifyRequest
 import com.example.mango_app.model.data.VerifyResponse
 import com.example.mango_app.ui.screen.VerifyEvent
+import com.example.mango_app.utils.ErrorMessagesProvider
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class VerifyViewModel(private val apiService: ApiService) : ViewModel() {
 
-    // Livedata
     private val _verificationCode = MutableLiveData<String>()
     val verificationCode: LiveData<String> = _verificationCode
 
@@ -42,10 +41,10 @@ class VerifyViewModel(private val apiService: ApiService) : ViewModel() {
                     if (response.isSuccessful) {
                         _event.postValue(VerifyEvent.VerifySuccess)
                     } else {
-                        _event.postValue(VerifyEvent.Error("Invalid code"))
+                        _event.postValue(VerifyEvent.Error(ErrorMessagesProvider.getErrorMessage(R.string.invalid_code)))
                     }
                 } catch (e: Exception) {
-                    _event.postValue(e.message?.let { VerifyEvent.Error(it) })
+                    _event.postValue(VerifyEvent.Error(ErrorMessagesProvider.getErrorMessage(R.string.internal_error)))
                 }
             }
         }

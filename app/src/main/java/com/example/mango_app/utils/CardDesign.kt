@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,14 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
 import com.example.mango_app.model.data.Card
 import com.example.mango_app.ui.theme.CardColor
-import com.example.mango_app.ui.theme.Mango_AppTheme
-
 
 @Composable
 fun CardDesign(card: Card) {
@@ -55,7 +51,7 @@ fun CardDesign(card: Card) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = card.type.uppercase(), // Ejemplo: "DEBIT" o "CREDIT"
+                    text = card.type.uppercase(),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.weight(0.4f)
@@ -65,7 +61,7 @@ fun CardDesign(card: Card) {
                 )
                 Spacer(modifier = Modifier.weight(0.4f))
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_credit_card_24), // Reemplaza con tu logo
+                    painter = painterResource(id = R.drawable.baseline_credit_card_24),
                     contentDescription = "Logo",
                     tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
@@ -74,15 +70,13 @@ fun CardDesign(card: Card) {
                 )
             }
 
-            // Número de tarjeta y detalles inferiores
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp, bottom = 0.dp) // Ajusta esta separación para que empiece más arriba
+                    .padding(top = 20.dp, bottom = 0.dp)
             ) {
-                // Número de tarjeta
                 Text(
-                    text = card.number.chunked(4).joinToString(" "), // Formato 4-4-4-4
+                    text = card.number.chunked(4).joinToString(" "),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.padding(start = 16.dp)
@@ -90,10 +84,10 @@ fun CardDesign(card: Card) {
                     fontSize = 18.sp,
                 )
 
-                Spacer(modifier = Modifier.height(10.dp)) // Separación entre el número y los detalles
+                Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    text = card.expirationDate, // Ejemplo: "Vence: 12/24"
+                    text = card.expirationDate,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.padding(start = 16.dp)
@@ -102,7 +96,7 @@ fun CardDesign(card: Card) {
                     )
 
                     Text(
-                        text = card.fullName.uppercase(), // Nombre en mayúsculas
+                        text = card.fullName.uppercase(),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.padding(start = 16.dp),

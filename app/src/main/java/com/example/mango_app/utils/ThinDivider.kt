@@ -6,16 +6,15 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun ThinDivider() {
     HorizontalDivider(
-        color = MaterialTheme.colorScheme.outline, // Color de la línea (puedes elegir otro color)
-        thickness = 1.dp, // Grosor de la línea
+        color = MaterialTheme.colorScheme.outline,
+        thickness = 1.dp,
         modifier = Modifier
-            .fillMaxWidth() // La línea ocupará todo el ancho disponible
-            .padding(vertical = 8.dp) // Espaciado opcional alrededor de la línea
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
     )
 }

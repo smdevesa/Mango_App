@@ -1,6 +1,5 @@
 package com.example.mango_app.viewmodel
 
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

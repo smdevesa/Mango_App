@@ -1,6 +1,5 @@
 package com.example.mango_app.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,6 @@ import com.example.mango_app.model.ApiService
 import com.example.mango_app.model.data.Card
 import com.example.mango_app.model.data.PayCardRequest
 import com.example.mango_app.model.data.PayLinkBalanceRequest
-import com.example.mango_app.model.data.RechargeRequest
 import kotlinx.coroutines.launch
 
 class PayViewModel(private val apiService: ApiService) : ViewModel() {
@@ -29,24 +27,27 @@ class PayViewModel(private val apiService: ApiService) : ViewModel() {
     private val _isLinkValid = MutableLiveData<Boolean>()
     val isLinkValid: LiveData<Boolean> = _isLinkValid
 
+    private val _insufficientFunds = MutableLiveData<Boolean>()
+    val insufficientFunds: LiveData<Boolean> = _insufficientFunds
+
     init {
         fetchCards()
     }
 
-    fun validatePaymentLink(linkUuid: String) {
+    fun validatePaymentLinkWithNavigation(linkUuid: String, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
             try {
                 val response = apiService.getPaymentDetails(linkUuid)
-                _isLinkValid.value = response.isSuccessful
-                if(response.isSuccessful) {
-                    _successMessageVisible.value = true
-                }
+                val isValid = response.isSuccessful
+                _isLinkValid.value = isValid
+                onResult(isValid)
             } catch (e: Exception) {
-                Log.e("PayViewModel", "Error validando el link: ${e.message}")
                 _isLinkValid.value = false
+                onResult(false)
             }
         }
     }
+
     private fun fetchCards() {
         viewModelScope.launch {
             val response = apiService.getCards()
@@ -62,7 +63,6 @@ class PayViewModel(private val apiService: ApiService) : ViewModel() {
 
     suspend fun fetchPaymentDetails(linkUuid: String) {
         try {
-            // Llama al endpoint de la API para obtener los detalles del pago
             val response = apiService.getPaymentDetails(linkUuid)
 
             if (response.isSuccessful) {
@@ -70,59 +70,54 @@ class PayViewModel(private val apiService: ApiService) : ViewModel() {
                 val amount = paymentDetails?.payment?.amount
                 _amount.value = amount?.toString()
             } else {
-                // Manejo de errores de la API
+                //
             }
         } catch (e: Exception) {
-            // nada
+            //
         }
     }
 
     fun payWithBalance(linkUuid: String) {
         viewModelScope.launch {
             try {
-                // Cuerpo de la solicitud para el pago con balance
                 val requestBody = PayLinkBalanceRequest()
 
-                // Llamada a la API
                 val response = apiService.paymentBalanceWithLink(linkUuid, requestBody)
 
-                if (response.isSuccessful && response.body()?.success == true) {
-                    // Actualiza el estado para reflejar éxito
-                    _successMessageVisible.postValue(true)
-
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody?.success == true) {
+                        _successMessageVisible.postValue(true)
+                        _insufficientFunds.postValue(false)
+                    } else {
+                        _successMessageVisible.postValue(false)
+                        _insufficientFunds.postValue(true)
+                    }
                 } else {
-                    // Registra el error y asegura que el estado no refleje éxito
-                    Log.e("PayViewModel", "Error en payWithBalance: ${response.errorBody()?.string()}")
                     _successMessageVisible.postValue(false)
+                    _insufficientFunds.postValue(true)
                 }
             } catch (e: Exception) {
-                // Registra la excepción y asegura que el estado no refleje éxito
-                Log.e("PayViewModel", "Excepción en payWithBalance: ${e.message}")
                 _successMessageVisible.postValue(false)
+                _insufficientFunds.postValue(true)
             }
         }
     }
 
+
     fun payWithCard(linkUuid: String, cardId: Int) {
         viewModelScope.launch {
             try {
-                // Cuerpo de la solicitud para el pago con tarjeta
                 val requestBody = PayCardRequest(cardId = cardId)
 
-                // Llamada a la API
                 val response = apiService.paymentCardWithLink(linkUuid, requestBody)
 
                 if (response.isSuccessful && response.body()?.success == true) {
-                    // Actualiza el estado para reflejar éxito
                     _successMessageVisible.postValue(true)
                 } else {
-                    // Registra el error y asegura que el estado no refleje éxito
-                    Log.e("PayViewModel", "Error en payWithCard: ${response.errorBody()?.string()}")
                     _successMessageVisible.postValue(false)
                 }
             } catch (e: Exception) {
-                // Registra la excepción y asegura que el estado no refleje éxito
-                Log.e("PayViewModel", "Excepción en payWithCard: ${e.message}")
                 _successMessageVisible.postValue(false)
             }
         }
@@ -131,5 +126,11 @@ class PayViewModel(private val apiService: ApiService) : ViewModel() {
     fun resetSuccessMessage() {
         _successMessageVisible.value = false
     }
+
+    fun resetInsufficientFunds() {
+        _insufficientFunds.value = false
+    }
+
+
 
 }

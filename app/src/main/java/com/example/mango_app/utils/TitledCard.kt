@@ -22,11 +22,10 @@ fun TitledCard(
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
-        shape = RoundedCornerShape(8.dp), // Esquinas menos redondeadas
-        elevation = CardDefaults.cardElevation(6.dp) // Elevación notable
+        shape = RoundedCornerShape(8.dp),
+        elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Column {
-            // Título
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -43,14 +42,11 @@ fun TitledCard(
                 )
             }
 
-            // Separador
             HorizontalDivider(
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
                 thickness = 1.dp
             )
-
-            // Contenido
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -58,20 +54,6 @@ fun TitledCard(
                     .padding(16.dp)
             ) {
                 content()
-            }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TitledCardPreview() {
-    MaterialTheme {
-        TitledCard(title = "Resumen") {
-            Column {
-                Text("Saldo disponible: $1000.00")
-                Spacer(modifier = Modifier.height(8.dp))
-                Text("Último depósito: $500.00")
             }
         }
     }

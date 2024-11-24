@@ -105,9 +105,9 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                     NavbarScaffold(navController) {
                         HomeScreenTF(
                             HomeViewModel(apiService, userDataStore),
-                            onPayClick = { navController.navigate("pay") }, // Acción vacía temporalmente
+                            onPayClick = { navController.navigate("pay") },
                             onDepositClick = { navController.navigate("add-money") },
-                            onInvestClick = {},   // Acción vacía temporalmente
+                            onInvestClick = {},
                         )
                     }
                 }
@@ -146,7 +146,7 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                     ) {
                         PayScreen(
                             payViewModel = PayViewModel(apiService),
-                            navController = navController // Pasamos el navController
+                            navController = navController
                         )
                     }
                 }
@@ -164,7 +164,7 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                     PaymentDetailScreen(
                         linkUuid = linkUuid,
                         navController = navController,
-                        payViewModel = PayViewModel(apiService) // Instancia del ViewModel
+                        payViewModel = PayViewModel(apiService)
                     )
                 }
             }

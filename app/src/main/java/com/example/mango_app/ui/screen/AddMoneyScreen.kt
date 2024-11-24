@@ -6,8 +6,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -18,9 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.mango_app.R
@@ -40,8 +36,9 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel, navController: NavHostC
     var selectedCardId by remember { mutableStateOf<Int?>(null) }
 
     TitledCard(
-        title = "", // Título de la tarjeta
-        modifier = Modifier.fillMaxSize()
+        title = "",
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
@@ -71,7 +68,6 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel, navController: NavHostC
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    // Carrusel de tarjetas
                     HorizontalPager(
                         state = pagerState,
                         modifier = Modifier
@@ -82,7 +78,6 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel, navController: NavHostC
                         CardDesign(card = cards[page])
                     }
 
-                    // Indicadores de la página del carrusel
                     Row(
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
@@ -108,24 +103,20 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel, navController: NavHostC
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Campo para ingresar el monto
                     CustomTextField(
                         value = amount,
                         onValueChange = { addMoneyViewModel.setAmount(it) },
-                        label =  stringResource(id = R.string.enter_amount)
+                        label =  stringResource(id = R.string.enter_amount),
+                        filterDigitsOnly = true,
                     )
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Botón para agregar dinero
                     Button(
                         onClick = {
                             selectedCardId = cards[pagerState.currentPage].id
-                            showDialog = true
-                            /*val selectedCardId = cards[pagerState.currentPage].id
-                            addMoneyViewModel.setCardId(selectedCardId)
-                            addMoneyViewModel.addMoney()
-                            */
-
+                            if (amount.isNotEmpty()) {
+                                showDialog = true
+                            }
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -145,20 +136,28 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel, navController: NavHostC
                     addMoneyViewModel.addMoney()
                     showDialog = false
                 }) {
-                    Text(text = stringResource(id = R.string.confirm_card))
+                    Text(
+                        text = stringResource(id = R.string.confirm_card),
+                            style = MaterialTheme.typography.titleSmall
+                    )
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDialog = false }) {
-                    Text(text = stringResource(id = R.string.cancel))
+                    Text(text = stringResource(id = R.string.cancel),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onError
+                    )
                 }
             },
             title = { Text(text = stringResource(id = R.string.add_money)) },
-            text = { Text(text = stringResource(id = R.string.add_money_confirmation)) },
+            text = { Text(
+                text = stringResource(id = R.string.add_money_confirmation),
+                style = MaterialTheme.typography.titleSmall)
+                   },
         )
     }
 
-    // Diálogo de éxito
     if (successMessageVisible) {
         AlertDialog(
             onDismissRequest = { addMoneyViewModel.dismissSuccessMessage()
@@ -168,13 +167,20 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel, navController: NavHostC
                 TextButton(onClick = { addMoneyViewModel.dismissSuccessMessage()
                     navController.navigate("home")
                 }) {
-                    Text(text = stringResource(id = R.string.close))
+                    Text(
+                        text = stringResource(id = R.string.close),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onError
+                    )
 
                 }
 
             },
             title = { Text(text = stringResource(id = R.string.success)) },
-            text = { Text(text = stringResource(id = R.string.money_success)) },
+            text = { Text(
+                text = stringResource(id = R.string.money_success),
+                style = MaterialTheme.typography.titleSmall)
+                   },
         )
     }
 }

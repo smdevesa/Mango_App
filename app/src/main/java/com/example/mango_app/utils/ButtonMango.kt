@@ -21,18 +21,18 @@ fun ButtonMango(
 ) {
     Box(
         modifier = Modifier
-            .fillMaxWidth() // Asegura que el contenido dentro del Box se centra horizontalmente
-            .padding(vertical = 16.dp) // Espaciado vertical
-            .wrapContentWidth(Alignment.CenterHorizontally) // Centra el Box horizontalmente
-            .clip(RoundedCornerShape(12.dp)) // Opcional: esquinas redondeadas
-            .background(color = MaterialTheme.colorScheme.primary) // Fondo del botón
-            .clickable { /* acción de agregar tarjeta */ },
+            .fillMaxWidth()
+            .padding(vertical = 16.dp)
+            .wrapContentWidth(Alignment.CenterHorizontally)
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = MaterialTheme.colorScheme.primary)
+            .clickable {},
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
             style = MaterialTheme.typography.titleLarge.copy(color = MaterialTheme.colorScheme.onSurface),
-            modifier = Modifier.padding(12.dp) // Padding interno para el texto
+            modifier = Modifier.padding(12.dp)
         )
     }
 }

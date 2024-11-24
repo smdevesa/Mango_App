@@ -1,24 +1,18 @@
 package com.example.mango_app.ui.screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,17 +23,20 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mango_app.R
 import com.example.mango_app.utils.CustomTextField
+import com.example.mango_app.utils.ErrorMessagesProvider
 import com.example.mango_app.utils.TitledCard
 import com.example.mango_app.viewmodel.PayViewModel
 
 @Composable
 fun PayScreen(payViewModel: PayViewModel, navController: NavController) {
     var paymentLink by remember { mutableStateOf("") }
-    val isLinkValid by payViewModel.isLinkValid.observeAsState(true) // Inicialmente válido para evitar mostrar error antes de escribir
+    var showErrorMessage by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
 
     TitledCard(
         title = "",
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
         Column(
@@ -49,42 +46,47 @@ fun PayScreen(payViewModel: PayViewModel, navController: NavController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            // Campo de texto para ingresar el enlace
             CustomTextField(
                 value = paymentLink,
-                onValueChange = {
-                    paymentLink = it
-                    if (it.isNotEmpty()) {
-                        payViewModel.validatePaymentLink(it) // Valida automáticamente al escribir
-                    }
-                },
+                onValueChange = { paymentLink = it },
                 label = stringResource(id = R.string.payment_link)
             )
 
-            // Mostrar error debajo del campo si el enlace es inválido
-            if (!isLinkValid && paymentLink.isNotEmpty()) {
+            if (showErrorMessage) {
                 Text(
-                    text = stringResource(id = R.string.invalid_payment_link),
+                    text = errorMessage,
                     style = MaterialTheme.typography.titleSmall,
                     color = androidx.compose.ui.graphics.Color.Red,
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
 
             Spacer(modifier = Modifier.height(40.dp))
-
-            // Botón deshabilitado si el enlace es inválido
             Button(
                 onClick = {
-                    navController.navigate("paymentDetails/$paymentLink")
+                    if (paymentLink.isEmpty()) {
+                        showErrorMessage = true
+                        errorMessage = ErrorMessagesProvider.getErrorMessage(R.string.error_link)
+                    } else {
+                        payViewModel.validatePaymentLinkWithNavigation(paymentLink) { isValid ->
+                            if (isValid) {
+                                navController.navigate("paymentDetails/$paymentLink")
+                            } else {
+                                showErrorMessage = true
+                                errorMessage = ErrorMessagesProvider.getErrorMessage(R.string.invalid_payment_link)
+                            }
+                        }
+                    }
                 },
-                modifier = Modifier.fillMaxWidth(),
-                enabled = isLinkValid // Habilitado solo si el enlace es válido
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(style = MaterialTheme.typography.titleSmall,
-                    text = stringResource(id = R.string.next))
+                Text(
+                    style = MaterialTheme.typography.titleSmall,
+                    text = stringResource(id = R.string.next)
+                )
             }
         }
     }
 }
+
+

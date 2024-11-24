@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
@@ -20,14 +21,18 @@ fun CustomTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     errorMessage: String? = null,
-    onFieldFocusChange: () -> Unit = {}
+    onFieldFocusChange: () -> Unit = {},
+    filterDigitsOnly: Boolean = false
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         OutlinedTextField(
             value = value,
-            onValueChange = onValueChange,
+            onValueChange = {
+                val filteredValue = if (filterDigitsOnly) it.filter { char -> char.isDigit() } else it
+                onValueChange(filteredValue)
+            },
             label = { Text(label) },
             leadingIcon = leadingIcon?.let { { Icon(it, contentDescription = null) } },
             modifier = Modifier
@@ -49,7 +54,11 @@ fun CustomTextField(
                 cursorColor = MaterialTheme.colorScheme.primary,
                 containerColor = MaterialTheme.colorScheme.surface
             ),
-            keyboardOptions = keyboardOptions,
+            keyboardOptions = if (filterDigitsOnly) {
+                KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+            } else {
+                keyboardOptions
+            },
             visualTransformation = visualTransformation
         )
 

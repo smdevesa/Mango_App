@@ -50,7 +50,7 @@ class AddMoneyViewModel(private val apiService: ApiService) : ViewModel() {
             val req = RechargeRequest(_amount.value?.toDouble() ?: 0.0)
             val response = apiService.rechargeWallet(req)
             if(response.isSuccessful) {
-                _successMessageVisible.value = true // Actualizar estado de éxito
+                _successMessageVisible.value = true
             }
         }
     }

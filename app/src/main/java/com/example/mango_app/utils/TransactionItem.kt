@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -28,7 +27,6 @@ import com.example.mango_app.ui.theme.BalanceGreen
 import com.example.mango_app.ui.theme.BalanceRed
 import com.example.mango_app.ui.screen.formatDate
 
-// Item de transacción
 @Composable
 fun TransactionItem(
     transaction: Transaction,
@@ -46,16 +44,14 @@ fun TransactionItem(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Ícono según el tipo de transacción
             Icon(
-                imageVector = if (transaction.amount > 0) Icons.Default.Add else Icons.Default.AddCircle,
+                imageVector = if (transaction.amount > 0) Icons.Default.AddCircle else Icons.Default.AddCircle,
                 contentDescription = null,
-                tint = if (transaction.amount > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+                tint = if (transaction.amount > 0) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onError,
                 modifier = Modifier.size(32.dp)
             )
             Spacer(modifier = Modifier.width(16.dp))
 
-            // Detalles de la transacción
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = transaction.description,
@@ -70,7 +66,6 @@ fun TransactionItem(
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            // Monto de la transacción
             Text(
                 text = "${if (transaction.amount > 0) "+" else ""}${transaction.amount}",
                 style = MaterialTheme.typography.bodyLarge.copy(

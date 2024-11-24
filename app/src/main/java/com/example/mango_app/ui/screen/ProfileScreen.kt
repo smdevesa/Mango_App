@@ -3,10 +3,8 @@ package com.example.mango_app.ui.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -29,11 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mango_app.R
-import com.example.mango_app.model.RetrofitServiceFactory
-import com.example.mango_app.model.UserDataStore
 import com.example.mango_app.utils.TitledCard
 import com.example.mango_app.viewmodel.ProfileViewModel
 
@@ -60,7 +55,7 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
 
     TitledCard(
         title = stringResource(id = R.string.profile),
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
 
@@ -69,10 +64,9 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceBetween, // Espaciado entre elementos
+            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            // Mostrar los datos del perfil
             profileItems.forEach { item ->
                 ProfileItem(
                     icon = item.icon,
@@ -81,9 +75,6 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
                 )
             }
 
-            // Espaciador para llevar el botón al fondo
-           // Spacer(modifier = Modifier.weight(1f))
-
             Column (
                 modifier = Modifier.fillMaxWidth()
                     .padding(top = 16.dp),
@@ -91,7 +82,7 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Button(
-                    onClick = { /* TODO: Add change password functionality */ },
+                    onClick = {},
                     modifier = Modifier.padding(bottom = 16.dp)
                 ) {
                     Text(text = stringResource(id = R.string.change_password),
@@ -113,19 +104,31 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
     if(showLogoutDialog) {
         AlertDialog(
             onDismissRequest = { showLogoutDialog = false },
-            title = { Text(text = stringResource(id = R.string.logout)) },
-            text = { Text(text = stringResource(id = R.string.logout_confirmation_message)) },
+            title = {
+                Text(text = stringResource(id = R.string.logout))
+                    },
+            text = {
+                Text(text = stringResource(id = R.string.logout_confirmation_message),
+                style = MaterialTheme.typography.titleSmall)
+                   },
             confirmButton = {
                 TextButton(onClick = {
-                    profileViewModel.onLogoutClick() // Ejecutar el logout
+                    profileViewModel.onLogoutClick()
                     showLogoutDialog = false
                 }) {
-                    Text(text = stringResource(id = R.string.confirm_card))
+                    Text(
+                        text = stringResource(id = R.string.confirm_card),
+                        style = MaterialTheme.typography.titleSmall
+                    )
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showLogoutDialog = false }) {
-                    Text(text = stringResource(id = R.string.cancel))
+                    Text(
+                        text = stringResource(id = R.string.cancel),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onError
+                    )
                 }
             }
         )
@@ -152,7 +155,7 @@ sealed class ProfileEvent {
     data object None: ProfileEvent()
 }
 data class UserProfileItem(
-    val icon: Int, // Referencia al recurso del ícono
+    val icon: Int,
     val label: String,
     val value: String
 )

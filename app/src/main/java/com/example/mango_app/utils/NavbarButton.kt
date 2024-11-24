@@ -38,14 +38,14 @@ fun NavbarButton(
                 painter = icon,
                 contentDescription = text,
                 modifier = Modifier.size(size.dp),
-                tint = iconColor // Aplicación del color del ícono
+                tint = iconColor
             )
         }
         Text(
             text = text,
             style = MaterialTheme.typography.bodySmall.copy(
                 fontSize = fontSize.sp,
-                color = textColor // Aplicación del color del texto
+                color = textColor
             )
         )
     }

@@ -40,10 +40,9 @@ fun TopScreenBar(
                 .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Espacio para posicionar el ícono al 20% del ancho
             Box(
                 modifier = Modifier
-                    .weight(0.2f) // Ocupa el 20% del espacio horizontal
+                    .weight(0.2f)
                     .fillMaxHeight(),
                 contentAlignment = Alignment.Center
             ) {
@@ -52,14 +51,12 @@ fun TopScreenBar(
                     contentDescription = "back",
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.clickable { onClick() }
-                        .size(28.dp) // Tamaño del ícono
+                        .size(28.dp)
                 )
             }
-
-            // Espacio para centrar el título al 50% del ancho
             Box(
                 modifier = Modifier
-                    .weight(0.6f) // Ocupa el 60% del espacio horizontal
+                    .weight(0.6f)
                     .fillMaxHeight(),
                 contentAlignment = Alignment.Center
             ) {
@@ -67,29 +64,11 @@ fun TopScreenBar(
                     text = title,
                     color = MaterialTheme.colorScheme.onSecondary,
                     style = MaterialTheme.typography.titleMedium,
-                    fontSize = 20.sp // Ajusta el tamaño según el diseño
+                    fontSize = 20.sp
                 )
             }
 
-            // Espacio vacío para mantener el equilibrio visual
-            Spacer(modifier = Modifier.weight(0.2f)) // Ocupa el 20% restante del ancho
+            Spacer(modifier = Modifier.weight(0.2f))
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TopScreenBarLightPreview() {
-    Mango_AppTheme(darkTheme = false, content = {
-        TopScreenBar("Prueba")
-    })
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TopScreenBarDarkPreview() {
-    Mango_AppTheme(darkTheme = true, content = {
-        TopScreenBar("Prueba")
-
-    })
 }

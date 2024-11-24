@@ -5,10 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mango_app.model.ApiService
-import com.example.mango_app.model.UserDataStore
 import com.example.mango_app.model.data.Card
-import com.example.mango_app.model.data.GetCardResponse
-import com.example.mango_app.model.data.LoginResponse
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -33,11 +30,11 @@ class CardViewModel (private val apiService: ApiService) : ViewModel() {
                 if(response.isSuccessful) {
                     _cards.value = response.body()?.toList()
                 } else {
-                    //TODO Handle error
+                    //
                 }
             }
             catch (e: Exception) {
-                //TODO Handle error
+                //
             }
             finally {
                 _isLoading.postValue(false)
@@ -52,10 +49,10 @@ class CardViewModel (private val apiService: ApiService) : ViewModel() {
                 if(response.isSuccessful) {
                     fetchCards()
                 } else {
-                    //TODO Handle error
+                    //
                 }
             } catch (e: Exception) {
-                //TODO Handle error
+                //
             }
         }
     }

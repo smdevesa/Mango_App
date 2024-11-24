@@ -1,43 +1,27 @@
 package com.example.mango_app.ui.screen
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
 import com.example.mango_app.model.Transaction
-import com.example.mango_app.model.UserDataStore
-import com.example.mango_app.ui.theme.Mango_AppTheme
-import com.example.mango_app.utils.ActionButton
 import com.example.mango_app.utils.BalanceIndicator
 import com.example.mango_app.utils.DataPopUp
-import com.example.mango_app.utils.FootScreenBar
 import com.example.mango_app.utils.NavbarButton
-import com.example.mango_app.utils.ThinDivider
 import com.example.mango_app.utils.TitledCard
 import com.example.mango_app.utils.TopScreenBarForHome
 import com.example.mango_app.utils.TransactionItem
@@ -72,9 +56,8 @@ fun HomeScreenTF(
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 state = rememberLazyListState(initialFirstVisibleItemIndex = listState.intValue),
-                verticalArrangement = Arrangement.spacedBy(16.dp) // Espaciado entre las Cards
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Card de Balance
                 item {
                     TitledCard(
                         stringResource(id = R.string.available_balance),
@@ -127,7 +110,6 @@ fun HomeScreenTF(
                     }
                 }
 
-                // Card de Transacciones Recientes
                 item {
                     TitledCard(
                         title = stringResource(id = R.string.last_transactions),
@@ -143,26 +125,26 @@ fun HomeScreenTF(
                             LazyColumn(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .heightIn(max = 300.dp), // Altura limitada para evitar conflicto con scroll
+                                    .heightIn(max = 300.dp),
                                 verticalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
                                 items(
                                     listOf(
                                         Transaction(
                                             id = "1",
-                                            description = "Pago en supermercado",
-                                            amount = -50.25,
+                                            description = "Cobro de sueldo",
+                                            amount = 50.25,
                                             date = Date()
                                         ),
                                         Transaction(
                                             id = "2",
-                                            description = "Pago en cobayeria",
-                                            amount = -20.00,
+                                            description = "Transferencia de Juan",
+                                            amount = 20.00,
                                             date = Date()
                                         ),
                                         Transaction(
                                             id = "3",
-                                            description = "Pago en devesa",
+                                            description = "Pago a Devesa",
                                             amount = -35.00,
                                             date = Date()
                                         )

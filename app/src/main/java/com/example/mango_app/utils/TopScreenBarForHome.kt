@@ -78,20 +78,3 @@ fun TopScreenBarForHome(username: String = "user") {
         }
     }
 }
-
-
-@Preview(showBackground = true)
-@Composable
-fun TopScreenBarForHomeLightPreview() {
-    Mango_AppTheme(darkTheme = false, content = {
-        TopScreenBarForHome()
-    })
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TopScreenBarForHomeDarkPreview() {
-    Mango_AppTheme(darkTheme = true, content = {
-        TopScreenBarForHome()
-    })
-}

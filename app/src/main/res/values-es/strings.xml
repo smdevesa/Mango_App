@@ -72,7 +72,12 @@
     <string name="invalid_phone_number">Número de teléfono inválido</string>
     <string name="invalid_password">La contraseña es muy corta</string>
     <string name="invalid_repeat_password">Las contraseñas no coinciden</string>
+    <string name="invalid_code">Código invalido</string>
     <string name="transaction_history">Historial de transacciones</string>
     <string name="used_email">Correo electrónico ya en uso</string>
     <string name="internal_error">Error interno</string>
+    <string name="error">Error</string>
+    <string name="insufficient_funds">Fondos insuficientes para completar la operación.</string>
+    <string name="ok">Ok</string>
+    <string name="error_link">Link no puede ser vacio</string>
 </resources>

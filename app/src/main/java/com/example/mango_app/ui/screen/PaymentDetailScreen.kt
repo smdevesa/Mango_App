@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mango_app.R
 import com.example.mango_app.utils.CardDesign
@@ -35,51 +34,61 @@ fun PaymentDetailScreen(
     var showCardCarousel by remember { mutableStateOf(false) }
     var disableBalancePayment by remember { mutableStateOf(false) }
     var disableCardPayment by remember { mutableStateOf(false) }
-    var showNoCardsMessage by remember { mutableStateOf(false) }  // Flag to show message if no cards are available
-
+    var showNoCardsMessage by remember { mutableStateOf(false) }
     var showBalanceDialog by remember { mutableStateOf(false) }
+    val insufficientFunds by payViewModel.insufficientFunds.observeAsState(false)
+    val showFailureAlert = remember { mutableStateOf(false) }
 
-    // Cargar detalles del pago al iniciar la pantalla
+
+
     LaunchedEffect(linkUuid) {
         payViewModel.fetchPaymentDetails(linkUuid)
     }
 
-    // Mostrar alerta de éxito si el pago fue exitoso
+    LaunchedEffect(insufficientFunds) {
+        if (insufficientFunds) {
+            showFailureAlert.value = true
+        }
+    }
+
+
     LaunchedEffect(successMessageVisible) {
         if (successMessageVisible) {
             showSuccessAlert.value = true
         }
+        if (insufficientFunds) {
+            showFailureAlert.value = true
+        }
     }
+
 
     TitledCard(
         title = "",
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()) // Habilitar scroll vertical
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            // Mostrar monto a pagar y botones
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text =  stringResource(id= R.string.toPay) + amount,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(bottom = 24.dp)
                 )
 
-                // Botón para pagar con saldo
                 Button(
                     onClick = {
                         showBalanceDialog = true
-                    //payViewModel.payWithBalance(linkUuid)
                               },
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !disableBalancePayment
@@ -90,11 +99,10 @@ fun PaymentDetailScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Botón para abrir el carrusel de tarjetas
                 Button(
                     onClick = {
                         if (cards.isEmpty()) {
-                            showNoCardsMessage = true // Muestra el mensaje de no hay tarjetas
+                            showNoCardsMessage = true
                         } else {
                             showCardCarousel = true
                             disableBalancePayment = true
@@ -107,7 +115,6 @@ fun PaymentDetailScreen(
                     Text(style = MaterialTheme.typography.titleSmall,
                         text = stringResource(id = R.string.pay_with_card))
                 }
-                // Verifica si hay tarjetas y muestra el mensaje si no las hay
                 if (cards.isEmpty()) {
                     if (showNoCardsMessage) {
                         Text(
@@ -120,14 +127,13 @@ fun PaymentDetailScreen(
                 }
 
                 if (showCardCarousel && cards.isNotEmpty()) {
-                    // Mostrar carrusel de tarjetas
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
                         Column(
                             modifier = Modifier
-                                .fillMaxWidth()
+                                .width(390.dp)
                                 .padding(top = 16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -141,7 +147,6 @@ fun PaymentDetailScreen(
                                 CardDesign(card = cards[page])
                             }
 
-                            // Indicador de página
                             Row(
                                 modifier = Modifier
                                     .align(Alignment.CenterHorizontally)
@@ -169,10 +174,9 @@ fun PaymentDetailScreen(
 
                             Spacer(modifier = Modifier.height(16.dp))
 
-                            // Confirmar tarjeta seleccionada y opción de cancelar
                             Row(
                                 horizontalArrangement = Arrangement.SpaceBetween,
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier.width(310.dp),
                             ) {
                                 TextButton(
                                     onClick = {
@@ -214,7 +218,10 @@ fun PaymentDetailScreen(
                 showBalanceDialog = false
             },
             title = { Text(text = stringResource(id = R.string.confirm_payment)) },
-            text = { Text(text = stringResource(id = R.string.confirm_payment_balance)) },
+            text = { Text(
+                text = stringResource(id = R.string.confirm_payment_balance),
+                style = MaterialTheme.typography.titleSmall,)
+                    },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -222,7 +229,9 @@ fun PaymentDetailScreen(
                         showBalanceDialog = false
                     }
                 ) {
-                    Text(text = stringResource(id = R.string.confirm_card))
+                    Text(text = stringResource(id = R.string.confirm_card),
+                        style = MaterialTheme.typography.titleSmall
+                    )
                 }
             },
             dismissButton = {
@@ -231,14 +240,16 @@ fun PaymentDetailScreen(
                         showBalanceDialog = false
                     }
                 ) {
-                    Text(text = stringResource(id = R.string.cancel))
+                    Text(
+                        text = stringResource(id = R.string.cancel),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onError
+                        )
                 }
             }
         )
     }
 
-
-    // Mostrar alerta de éxito al completar el pago
     if (showSuccessAlert.value) {
         AlertDialog(
             onDismissRequest = {
@@ -247,7 +258,11 @@ fun PaymentDetailScreen(
                 navController.navigate("home")
             },
             title = { Text(text = stringResource(id = R.string.success)) },
-            text = { Text(text = stringResource(id = R.string.successful_payment)) },
+            text = { Text(
+                text = stringResource(id = R.string.successful_payment),
+                style = MaterialTheme.typography.titleSmall,
+            )
+                   },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -256,9 +271,40 @@ fun PaymentDetailScreen(
                         navController.navigate("home")
                     }
                 ) {
-                    Text(text = stringResource( id = R.string.close) )
+                    Text(
+                        text = stringResource( id = R.string.close),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onError
+                    )
                 }
             }
         )
     }
+
+    if (showFailureAlert.value) {
+        AlertDialog(
+            onDismissRequest = {
+                showFailureAlert.value = false
+                payViewModel.resetInsufficientFunds()
+            },
+            title = { Text(text = stringResource(id = R.string.error)) },
+            text = { Text(text = stringResource(id = R.string.insufficient_funds)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showFailureAlert.value = false
+                        payViewModel.resetInsufficientFunds()
+                    }
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.close),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onError
+                        )
+                }
+            }
+        )
+    }
+
+
 }

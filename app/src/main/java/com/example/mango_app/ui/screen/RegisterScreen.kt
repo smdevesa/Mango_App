@@ -202,6 +202,7 @@ fun PhoneTextField(
         leadingIcon = Icons.Default.Phone,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
         errorMessage = errorMessage,
+        filterDigitsOnly = true,
         onFieldFocusChange = { onFieldTouched() }
     )
 }
