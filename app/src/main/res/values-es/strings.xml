@@ -60,6 +60,9 @@
     <string name="cards_title">Mis tarjetas</string>
     <string name="toPay">Monto a pagar: $</string>
     <string name="successful_payment">Pago realizado con éxito</string>
+    <string name="no_transactions">No hay transacciones disponibles</string>
+    <string name="enter_amount">"Ingrese el monto: "</string>
+    <string name="change_password">Cambiar contraseña</string>
 
 
 </resources>

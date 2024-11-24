@@ -41,6 +41,7 @@ fun CardsScreen(
         modifier = Modifier.fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -58,6 +59,20 @@ fun CardsScreen(
                 }
             } else {
                 // Mostrar carrusel si hay tarjetas
+                if(cards.isEmpty()){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.no_cards),
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
                 if (cards.isNotEmpty()) {
                     Box(
                         modifier = Modifier
@@ -97,12 +112,38 @@ fun CardsScreen(
                             )
                         }
                     }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // Texto de eliminar
+                        TextButton(
+                            onClick = {
+                                cardToDelete = if (cards.isNotEmpty()) cards[pagerState.currentPage] else null
+                                showDialog = true
+                            }
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.delete_card),
+                                color = MaterialTheme.colorScheme.onError,
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        }
+
+                        // Botón para agregar tarjeta
+                        ButtonMango(
+                            text = stringResource(id = R.string.add_card),
+                        )
+                    }
                 } else {
                     // Mensaje de "No hay tarjetas"
                     Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .weight(1f),
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
@@ -111,36 +152,14 @@ fun CardsScreen(
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
+                        // Botón para agregar tarjeta
+                        ButtonMango(
+                            text = stringResource(id = R.string.add_card),
+                        )
+
                 }
             }
 
-            // Controles en la parte inferior
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // Texto de eliminar
-                TextButton(
-                    onClick = {
-                        cardToDelete = if (cards.isNotEmpty()) cards[pagerState.currentPage] else null
-                        showDialog = true
-                    }
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.delete_card),
-                        color = MaterialTheme.colorScheme.onError,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                }
-
-                // Botón para agregar tarjeta
-                ButtonMango(
-                    text = stringResource(id = R.string.add_card),
-                )
-            }
         }
     }
 

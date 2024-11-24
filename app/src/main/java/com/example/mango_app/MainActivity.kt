@@ -132,7 +132,8 @@ fun AppContent(apiService: ApiService, userDataStore: UserDataStore) {
                         backRoute = "home",
                         title = stringResource(id = R.string.add_money),
                     ) {
-                        AddMoneyScreen(AddMoneyViewModel(apiService))
+                        AddMoneyScreen(AddMoneyViewModel(apiService),
+                            navController = navController)
                     }
                 }
                 composable("pay") {

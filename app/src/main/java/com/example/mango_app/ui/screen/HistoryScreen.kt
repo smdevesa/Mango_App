@@ -7,11 +7,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.mango_app.R
 import com.example.mango_app.model.Transaction
 import com.example.mango_app.ui.theme.Mango_AppTheme
 import com.example.mango_app.utils.TransactionItem
+import com.example.mango_app.utils.TitledCard
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -25,35 +28,42 @@ fun TransactionHistoryScreen(
 ) {
     Scaffold(
         content = { padding ->
-            if (transactions.isEmpty()) {
-                // Mostrar mensaje si no hay transacciones
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "No hay transacciones disponibles",
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            color = MaterialTheme.colorScheme.onSurface
+            TitledCard(
+                title = "Transaction History", // Título centrado
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+            ) {
+                if (transactions.isEmpty()) {
+                    // Mostrar mensaje si no hay transacciones
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.no_transactions),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
                         )
-                    )
-                }
-            } else {
-                // Lista de transacciones
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(transactions) { transaction ->
-                        TransactionItem(
-                            transaction = transaction,
-                            onClick = { onTransactionClick(transaction) }
-                        )
+                    }
+                } else {
+                    // Lista de transacciones
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(transactions) { transaction ->
+                            TransactionItem(
+                                transaction = transaction,
+                                onClick = { onTransactionClick(transaction) }
+                            )
+                        }
                     }
                 }
             }
@@ -61,14 +71,11 @@ fun TransactionHistoryScreen(
     )
 }
 
-
-
 // Función auxiliar para formato de fecha
 fun formatDate(date: Date): String {
     val formatter = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
     return formatter.format(date)
 }
-
 
 @Preview(showBackground = true)
 @Composable

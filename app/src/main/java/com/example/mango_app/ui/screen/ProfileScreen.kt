@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -54,6 +57,7 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
     TitledCard(
         title = stringResource(id = R.string.profile),
         modifier = Modifier.fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
 
 
@@ -74,23 +78,27 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
             }
 
             // Espaciador para llevar el botón al fondo
-            Spacer(modifier = Modifier.weight(1f))
+           // Spacer(modifier = Modifier.weight(1f))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+            Column (
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Button(
                     onClick = { /* TODO: Add change password functionality */ },
-                    //modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.padding(bottom = 16.dp)
                 ) {
-                    Text(text = "Cambiar Contraseña")
+                    Text(text = stringResource(id = R.string.change_password),
+                        style = MaterialTheme.typography.titleSmall)
                 }
                 Button(
                     onClick = { profileViewModel.onLogoutClick() },
                     //modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = stringResource(id = R.string.logout))
+                    Text(text = stringResource(id = R.string.logout),
+                        style = MaterialTheme.typography.titleSmall)
                 }
             }
         }
