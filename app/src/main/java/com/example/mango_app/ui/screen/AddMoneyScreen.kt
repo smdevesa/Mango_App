@@ -13,6 +13,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +35,9 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel, navController: NavHostC
     val amount by addMoneyViewModel.amount.observeAsState("")
     val successMessageVisible by addMoneyViewModel.successMessageVisible.observeAsState(false)
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { cards.size })
+
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
 
     TitledCard(
         title = "", // Título de la tarjeta
@@ -108,15 +114,18 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel, navController: NavHostC
                         onValueChange = { addMoneyViewModel.setAmount(it) },
                         label =  stringResource(id = R.string.enter_amount)
                     )
-
                     Spacer(modifier = Modifier.height(24.dp))
 
                     // Botón para agregar dinero
                     Button(
                         onClick = {
-                            val selectedCardId = cards[pagerState.currentPage].id
+                            selectedCardId = cards[pagerState.currentPage].id
+                            showDialog = true
+                            /*val selectedCardId = cards[pagerState.currentPage].id
                             addMoneyViewModel.setCardId(selectedCardId)
                             addMoneyViewModel.addMoney()
+                            */
+
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -126,6 +135,27 @@ fun AddMoneyScreen(addMoneyViewModel: AddMoneyViewModel, navController: NavHostC
                 }
             }
         }
+    }
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    selectedCardId?.let { addMoneyViewModel.setCardId(it) }
+                    addMoneyViewModel.addMoney()
+                    showDialog = false
+                }) {
+                    Text(text = stringResource(id = R.string.confirm_card))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+            title = { Text(text = stringResource(id = R.string.add_money)) },
+            text = { Text(text = stringResource(id = R.string.add_money_confirmation)) },
+        )
     }
 
     // Diálogo de éxito

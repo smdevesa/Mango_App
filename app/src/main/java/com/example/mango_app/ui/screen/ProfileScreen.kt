@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,6 +44,8 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
     val startDate by profileViewModel.birthDate.observeAsState("")
     val event by profileViewModel.event.observeAsState(ProfileEvent.None)
     val hasNavigated = remember { mutableStateOf(false) }
+
+    var showLogoutDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         profileViewModel.loadProfile()
@@ -94,14 +98,37 @@ fun ProfileScreen(profileViewModel: ProfileViewModel, onLogoutSuccess: () -> Uni
                         style = MaterialTheme.typography.titleSmall)
                 }
                 Button(
-                    onClick = { profileViewModel.onLogoutClick() },
-                    //modifier = Modifier.fillMaxWidth()
+                    onClick = {
+                        showLogoutDialog = true
+                              },
+
                 ) {
                     Text(text = stringResource(id = R.string.logout),
                         style = MaterialTheme.typography.titleSmall)
                 }
             }
         }
+    }
+
+    if(showLogoutDialog) {
+        AlertDialog(
+            onDismissRequest = { showLogoutDialog = false },
+            title = { Text(text = stringResource(id = R.string.logout)) },
+            text = { Text(text = stringResource(id = R.string.logout_confirmation_message)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    profileViewModel.onLogoutClick() // Ejecutar el logout
+                    showLogoutDialog = false
+                }) {
+                    Text(text = stringResource(id = R.string.confirm_card))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLogoutDialog = false }) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            }
+        )
     }
 
 when (event) {

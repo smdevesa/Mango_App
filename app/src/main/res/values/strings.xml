@@ -55,7 +55,11 @@
     <string name="success">Success</string>
     <string name="next">Continue</string>
     <string name="money_success">Money added successfully</string>
+    <string name= "logout_confirmation_message">Are you sure you want to log out?</string>
     <string name="logout">Log out</string>
+    <string name="confirm_payment">Confirm payment</string>
+    <string name="confirm_payment_balance"> Are you sure you want to pay with balance?</string>
+    <string name="add_money_confirmation">Are you sure you want to deposit money?</string>
     <string name="confirm_card">Confirm</string>
     <string name="cards_title">My cards</string>
     <string name="toPay">Amount to pay: $</string>
@@ -63,6 +67,7 @@
     <string name="no_transactions">No transactions available</string>
     <string name="enter_amount">"Enter amount: "</string>
     <string name="change_password">Change password</string>
+    <string name="invalid_full_name">Invalid full name</string>
 
 
 </resources>

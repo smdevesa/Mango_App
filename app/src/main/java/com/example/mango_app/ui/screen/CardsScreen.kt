@@ -6,6 +6,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
@@ -16,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -65,6 +67,7 @@ fun CardsScreen(
                             .fillMaxSize()
                             .weight(1f),
                         contentAlignment = Alignment.Center
+
                     ) {
                         Text(
                             text = stringResource(id = R.string.no_cards),
@@ -131,6 +134,7 @@ fun CardsScreen(
                                 color = MaterialTheme.colorScheme.onError,
                                 style = MaterialTheme.typography.titleMedium
                             )
+
                         }
 
                         // Botón para agregar tarjeta

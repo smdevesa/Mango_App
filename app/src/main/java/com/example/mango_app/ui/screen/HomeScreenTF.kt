@@ -86,12 +86,12 @@ fun HomeScreenTF(
                         ) {
                             listOf(
                                 Triple(
-                                    R.drawable.baseline_send_24,
+                                    R.drawable.baseline_attach_money_24,
                                     R.string.pay,
                                     onPayClick
                                 ),
                                 Triple(
-                                    R.drawable.baseline_call_received_24,
+                                    R.drawable.baseline_account_balance_24,
                                     R.string.deposit,
                                     onDepositClick
                                 ),

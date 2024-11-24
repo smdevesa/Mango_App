@@ -37,6 +37,8 @@ fun PaymentDetailScreen(
     var disableCardPayment by remember { mutableStateOf(false) }
     var showNoCardsMessage by remember { mutableStateOf(false) }  // Flag to show message if no cards are available
 
+    var showBalanceDialog by remember { mutableStateOf(false) }
+
     // Cargar detalles del pago al iniciar la pantalla
     LaunchedEffect(linkUuid) {
         payViewModel.fetchPaymentDetails(linkUuid)
@@ -75,7 +77,10 @@ fun PaymentDetailScreen(
 
                 // Botón para pagar con saldo
                 Button(
-                    onClick = { payViewModel.payWithBalance(linkUuid) },
+                    onClick = {
+                        showBalanceDialog = true
+                    //payViewModel.payWithBalance(linkUuid)
+                              },
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !disableBalancePayment
                 ) {
@@ -202,6 +207,36 @@ fun PaymentDetailScreen(
             }
         }
     }
+
+    if(showBalanceDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                showBalanceDialog = false
+            },
+            title = { Text(text = stringResource(id = R.string.confirm_payment)) },
+            text = { Text(text = stringResource(id = R.string.confirm_payment_balance)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        payViewModel.payWithBalance(linkUuid)
+                        showBalanceDialog = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.confirm_card))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showBalanceDialog = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            }
+        )
+    }
+
 
     // Mostrar alerta de éxito al completar el pago
     if (showSuccessAlert.value) {

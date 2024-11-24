@@ -59,7 +59,11 @@ class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
 
 
     fun onRegisterChanged(
-        fullName: String, email: String, phone: String, password: String, repeatPassword: String
+        fullName: String,
+        email: String,
+        phone: String,
+        password: String,
+        repeatPassword: String
     ) {
         _fullName.value = fullName
         _email.value = email
