@@ -1,9 +1,11 @@
 package com.example.mango_app.viewmodel
 
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mango_app.R
 import com.example.mango_app.model.ApiService
 import com.example.mango_app.model.UserDataStore
 import com.example.mango_app.model.data.LoginRequest
@@ -45,7 +47,7 @@ class LoginViewModel(private val apiService: ApiService, private val userDataSto
                         fetchUserInfo()
                         _event.postValue(LoginEvent.Success)
                     } else {
-                        _event.postValue(LoginEvent.Error(response.message()))
+                        _event.postValue(LoginEvent.Error("Invalid username or password"))
                     }
                 } catch (e: Exception) {
                     _event.postValue(e.message?.let { LoginEvent.Error(it) })

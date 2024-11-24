@@ -3,7 +3,11 @@ package com.example.mango_app.ui.screen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -11,8 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.sp
 import com.example.mango_app.R
+import com.example.mango_app.utils.CustomTextField
 import com.example.mango_app.utils.MangoLogo
 import com.example.mango_app.viewmodel.LoginViewModel
 
@@ -45,11 +52,11 @@ fun LoginScreen(loginViewModel: LoginViewModel, onRegisterClick : () -> Unit, on
                 Spacer(modifier = Modifier.height(32.dp))
 
                 MangoLogo()
-                EmailTextField(email) {
+                SimplifiedEmailTextField(email) {
                     loginViewModel.onLoginChanged(it, password)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                PasswordTextField(password) {
+                SimplifiedPasswordTextField(password) {
                     loginViewModel.onLoginChanged(email, it)
                 }
                 Row(
@@ -128,5 +135,37 @@ fun GoToRegisterText(onClick: () -> Unit) {
         text = stringResource(id = R.string.register_message),
         style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onBackground),
         modifier = Modifier.clickable { onClick() }
+    )
+}
+
+@Composable
+fun SimplifiedEmailTextField(
+    email: String,
+    onValueChange: (String) -> Unit
+) {
+    CustomTextField(
+        value = email,
+        onValueChange = { onValueChange(it) },
+        label = stringResource(id = R.string.email_hint),
+        leadingIcon = Icons.Default.Email,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        errorMessage = null, // No mostramos errores
+        onFieldFocusChange = {} // No hacemos nada al cambiar el foco
+    )
+}
+
+@Composable
+fun SimplifiedPasswordTextField(
+    password: String,
+    onValueChange: (String) -> Unit
+) {
+    CustomTextField(
+        value = password,
+        onValueChange = { onValueChange(it) },
+        label = stringResource(id = R.string.password_hint),
+        leadingIcon = Icons.Default.Lock,
+        visualTransformation = PasswordVisualTransformation(),
+        errorMessage = null, // No mostramos errores
+        onFieldFocusChange = {} // No hacemos nada al cambiar el foco
     )
 }

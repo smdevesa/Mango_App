@@ -13,7 +13,7 @@ import retrofit2.Response
 
 class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
 
-    // Live data
+    // LiveData para los valores de entrada
     private val _fullName = MutableLiveData<String>()
     val fullName: LiveData<String> = _fullName
 
@@ -29,23 +29,106 @@ class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
     private val _repeatPassword = MutableLiveData<String>()
     val repeatPassword: LiveData<String> = _repeatPassword
 
+    // LiveData para errores específicos por campo
+    private val _fullNameError = MutableLiveData<String?>()
+    val fullNameError: LiveData<String?> = _fullNameError
+
+    private val _emailError = MutableLiveData<String?>()
+    val emailError: LiveData<String?> = _emailError
+
+    private val _phoneError = MutableLiveData<String?>()
+    val phoneError: LiveData<String?> = _phoneError
+
+    private val _passwordError = MutableLiveData<String?>()
+    val passwordError: LiveData<String?> = _passwordError
+
+    private val _repeatPasswordError = MutableLiveData<String?>()
+    val repeatPasswordError: LiveData<String?> = _repeatPasswordError
+
     private val _registerEnable = MutableLiveData<Boolean>()
     val registerEnable: LiveData<Boolean> = _registerEnable
 
     private val _event = MutableLiveData<RegisterEvent>()
     val event: LiveData<RegisterEvent> = _event
 
-    fun onRegisterChanged(fullName: String, email: String, phone: String, password: String, repeatPassword: String) {
+    private val _fullNameTouched = MutableLiveData(false)
+    private val _emailTouched = MutableLiveData(false)
+    private val _phoneTouched = MutableLiveData(false)
+    private val _passwordTouched = MutableLiveData(false)
+    private val _repeatPasswordTouched = MutableLiveData(false)
+
+
+    fun onRegisterChanged(
+        fullName: String, email: String, phone: String, password: String, repeatPassword: String
+    ) {
         _fullName.value = fullName
         _email.value = email
         _phone.value = phone
         _password.value = password
         _repeatPassword.value = repeatPassword
-        _registerEnable.value = isValidRegisterForm(fullName, email, phone, password, repeatPassword)
+
+        validateFullName(fullName)
+        validateEmail(email)
+        validatePhone(phone)
+        validatePassword(password)
+        validateRepeatPassword(password, repeatPassword)
+
+        _registerEnable.value = validateAllFields()
     }
 
+
+    private fun validateFullName(fullName: String) {
+        if (_fullNameTouched.value == true) {
+            _fullNameError.value = if (CommonValidations.isValidFullName(fullName)) null else "Nombre completo no válido"
+        }
+    }
+
+    private fun validateEmail(email: String) {
+        if (_emailTouched.value == true) {
+            _emailError.value = if (CommonValidations.isValidEmail(email)) null else "Correo electrónico no válido"
+        }
+    }
+
+    private fun validatePhone(phone: String) {
+        if (_phoneTouched.value == true) {
+            _phoneError.value = if (CommonValidations.isValidPhone(phone)) null else "Teléfono no válido"
+        }
+    }
+
+    private fun validatePassword(password: String) {
+        if (_passwordTouched.value == true) {
+            _passwordError.value = if (CommonValidations.isValidPassword(password)) null else "Contraseña demasiado corta"
+        }
+    }
+
+    private fun validateRepeatPassword(password: String, repeatPassword: String) {
+        if (_repeatPasswordTouched.value == true) {
+            _repeatPasswordError.value = if (CommonValidations.isValidRepeatPassword(password, repeatPassword)) null else "Las contraseñas no coinciden"
+        }
+    }
+
+    private fun validateAllFields(): Boolean {
+        return _fullNameError.value == null &&
+                _emailError.value == null &&
+                _phoneError.value == null &&
+                _passwordError.value == null &&
+                _repeatPasswordError.value == null
+    }
+
+    fun onFieldTouched(field: String) {
+        when (field) {
+            "fullName" -> _fullNameTouched.value = true
+            "email" -> _emailTouched.value = true
+            "phone" -> _phoneTouched.value = true
+            "password" -> _passwordTouched.value = true
+            "repeatPassword" -> _repeatPasswordTouched.value = true
+        }
+    }
+
+
+
     fun onRegisterClick() {
-        if(isValidRegisterForm(fullName.value!!, email.value!!, phone.value!!, password.value!!, repeatPassword.value!!)) {
+        if (validateFields()) {
             _event.postValue(RegisterEvent.Loading)
             val req = RegisterRequest(
                 firstName = fullName.value!!.split(" ")[0],
@@ -55,11 +138,10 @@ class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
                 password = password.value!!
             )
 
-            // TODO: manejar los errores de la petición
             viewModelScope.launch {
                 try {
                     val response: Response<RegisterResponse> = apiService.registerUser(req)
-                    if(response.isSuccessful) {
+                    if (response.isSuccessful) {
                         _event.postValue(RegisterEvent.RegisterSuccess)
                     } else {
                         _event.postValue(RegisterEvent.Error(response.errorBody()?.string() ?: "Error"))
@@ -71,11 +153,14 @@ class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
         }
     }
 
-    private fun isValidRegisterForm(fullName: String, email: String, phone: String, password: String, repeatPassword: String): Boolean {
-        return CommonValidations.isValidFullName(fullName) &&
-                CommonValidations.isValidEmail(email) &&
-                CommonValidations.isValidPhone(phone) &&
-                CommonValidations.isValidPassword(password) &&
-                CommonValidations.isValidRepeatPassword(password, repeatPassword)
+    private fun validateFields(): Boolean {
+        // Verifica si ya se validaron los errores previamente
+        val allFieldsValid = validateAllFields()
+
+        // Actualiza la habilitación del botón de registro
+        _registerEnable.value = allFieldsValid
+
+        return allFieldsValid
     }
+
 }

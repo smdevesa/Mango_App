@@ -30,9 +30,9 @@ import com.example.mango_app.viewmodel.RegisterViewModel
 
 sealed class RegisterEvent {
     data class Error(val message: String) : RegisterEvent()
-    data object RegisterSuccess : RegisterEvent()
-    data object Loading : RegisterEvent()
-    data object None : RegisterEvent()
+    object RegisterSuccess : RegisterEvent()
+    object Loading : RegisterEvent()
+    object None : RegisterEvent()
 }
 
 @Composable
@@ -47,6 +47,12 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onLoginClick: () -> Uni
     val repeatPassword: String by registerViewModel.repeatPassword.observeAsState("")
     val registerEnable: Boolean by registerViewModel.registerEnable.observeAsState(false)
     val event: RegisterEvent by registerViewModel.event.observeAsState(RegisterEvent.None)
+
+    val fullNameError: String? by registerViewModel.fullNameError.observeAsState(null)
+    val emailError: String? by registerViewModel.emailError.observeAsState(null)
+    val phoneError: String? by registerViewModel.phoneError.observeAsState(null)
+    val passwordError: String? by registerViewModel.passwordError.observeAsState(null)
+    val repeatPasswordError: String? by registerViewModel.repeatPasswordError.observeAsState(null)
 
     val hasNavigated = remember { mutableStateOf(false) }
 
@@ -64,57 +70,62 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onLoginClick: () -> Uni
                 verticalArrangement = Arrangement.Center
             ) {
                 MangoLogo()
-                FullNameTextField(fullName) {
-                    registerViewModel.onRegisterChanged(
-                        it,
-                        email,
-                        phone,
-                        password,
-                        repeatPassword
-                    )
-                }
+                FullNameTextField(
+                    fullName = fullName,
+                    errorMessage = fullNameError,
+                    onValueChange = {
+                        registerViewModel.onRegisterChanged(
+                            it, email, phone, password, repeatPassword
+                        )
+                    },
+                    onFieldTouched = { registerViewModel.onFieldTouched("fullName") }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
-                EmailTextField(email) {
-                    registerViewModel.onRegisterChanged(
-                        fullName,
-                        it,
-                        phone,
-                        password,
-                        repeatPassword
-                    )
-                }
+                EmailTextField(
+                    email = email,
+                    errorMessage = emailError,
+                    onValueChange = {
+                        registerViewModel.onRegisterChanged(
+                            fullName, it, phone, password, repeatPassword
+                        )
+                    },
+                    onFieldTouched = { registerViewModel.onFieldTouched("email") }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
-                PhoneTextField(phone) {
-                    registerViewModel.onRegisterChanged(
-                        fullName,
-                        email,
-                        it,
-                        password,
-                        repeatPassword
-                    )
-                }
+                PhoneTextField(
+                    phone = phone,
+                    errorMessage = phoneError,
+                    onValueChange = {
+                        registerViewModel.onRegisterChanged(
+                            fullName, email, it, password, repeatPassword
+                        )
+                    },
+                    onFieldTouched = { registerViewModel.onFieldTouched("phone") }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
-                PasswordTextField(password) {
-                    registerViewModel.onRegisterChanged(
-                        fullName,
-                        email,
-                        phone,
-                        it,
-                        repeatPassword
-                    )
-                }
+                PasswordTextField(
+                    password = password,
+                    errorMessage = passwordError,
+                    onValueChange = {
+                        registerViewModel.onRegisterChanged(
+                            fullName, email, phone, it, repeatPassword
+                        )
+                    },
+                    onFieldTouched = { registerViewModel.onFieldTouched("password") }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
-                RepeatPasswordTextField(repeatPassword) {
-                    registerViewModel.onRegisterChanged(
-                        fullName,
-                        email,
-                        phone,
-                        password,
-                        it
-                    )
-                }
+                RepeatPasswordTextField(
+                    repeatPassword = repeatPassword,
+                    errorMessage = repeatPasswordError,
+                    onValueChange = {
+                        registerViewModel.onRegisterChanged(
+                            fullName, email, phone, password, it
+                        )
+                    },
+                    onFieldTouched = { registerViewModel.onFieldTouched("repeatPassword") }
+                )
                 Spacer(modifier = Modifier.height(32.dp))
-                if(event is RegisterEvent.Error) {
+                if (event is RegisterEvent.Error) {
                     ErrorMessage((event as RegisterEvent.Error).message)
                 }
                 RegisterButton(registerEnable, event is RegisterEvent.Loading) {
@@ -130,9 +141,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onLoginClick: () -> Uni
         }
     )
 
-    when(event) {
+    when (event) {
         is RegisterEvent.RegisterSuccess -> {
-            if(!hasNavigated.value) {
+            if (!hasNavigated.value) {
                 hasNavigated.value = true
                 onRegisterSuccess()
             }
@@ -142,58 +153,94 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onLoginClick: () -> Uni
 }
 
 @Composable
-fun FullNameTextField(fullName: String = "", onValueChange: (String) -> Unit) {
+fun FullNameTextField(
+    fullName: String = "",
+    errorMessage: String? = null,
+    onValueChange: (String) -> Unit,
+    onFieldTouched: () -> Unit
+) {
     CustomTextField(
         value = fullName,
         onValueChange = { onValueChange(it) },
         label = stringResource(id = R.string.full_name_hint),
-        leadingIcon = Icons.Default.Person
+        leadingIcon = Icons.Default.Person,
+        errorMessage = errorMessage,
+        onFieldFocusChange = { onFieldTouched() }
     )
 }
 
 @Composable
-fun EmailTextField(email: String = "", onValueChange: (String) -> Unit) {
+fun EmailTextField(
+    email: String = "",
+    errorMessage: String? = null,
+    onValueChange: (String) -> Unit,
+    onFieldTouched: () -> Unit
+) {
     CustomTextField(
         value = email,
         onValueChange = { onValueChange(it) },
         label = stringResource(id = R.string.email_hint),
         leadingIcon = Icons.Default.Email,
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        errorMessage = errorMessage,
+        onFieldFocusChange = { onFieldTouched() }
     )
 }
 
 @Composable
-fun PasswordTextField(password: String = "", onValueChange: (String) -> Unit) {
+fun PhoneTextField(
+    phone: String = "",
+    errorMessage: String? = null,
+    onValueChange: (String) -> Unit,
+    onFieldTouched: () -> Unit
+) {
+    CustomTextField(
+        value = phone,
+        onValueChange = { onValueChange(it) },
+        label = stringResource(id = R.string.phone_number_hint),
+        leadingIcon = Icons.Default.Phone,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+        errorMessage = errorMessage,
+        onFieldFocusChange = { onFieldTouched() }
+    )
+}
+
+@Composable
+fun PasswordTextField(
+    password: String = "",
+    errorMessage: String? = null,
+    onValueChange: (String) -> Unit,
+    onFieldTouched: () -> Unit
+) {
     CustomTextField(
         value = password,
         onValueChange = { onValueChange(it) },
         label = stringResource(id = R.string.password_hint),
         leadingIcon = Icons.Default.Lock,
-        visualTransformation = PasswordVisualTransformation()
+        visualTransformation = PasswordVisualTransformation(),
+        errorMessage = errorMessage,
+        onFieldFocusChange = { onFieldTouched() }
     )
 }
 
 @Composable
-fun RepeatPasswordTextField(password: String = "", onValueChange: (String) -> Unit) {
+fun RepeatPasswordTextField(
+    repeatPassword: String = "",
+    errorMessage: String? = null,
+    onValueChange: (String) -> Unit,
+    onFieldTouched: () -> Unit
+) {
     CustomTextField(
-        value = password,
+        value = repeatPassword,
         onValueChange = { onValueChange(it) },
         label = stringResource(id = R.string.repeat_password_hint),
         leadingIcon = Icons.Default.Lock,
-        visualTransformation = PasswordVisualTransformation()
+        visualTransformation = PasswordVisualTransformation(),
+        errorMessage = errorMessage,
+        onFieldFocusChange = { onFieldTouched() }
     )
 }
 
-@Composable
-fun PhoneTextField(phoneNumber: String = "", onValueChange: (String) -> Unit) {
-    CustomTextField(
-        value = phoneNumber,
-        onValueChange = { onValueChange(it) },
-        label = stringResource(id = R.string.phone_number_hint),
-        leadingIcon = Icons.Default.Phone,
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
-    )
-}
 
 @Composable
 fun RegisterButton(registerEnable: Boolean, loading: Boolean, onClick: () -> Unit) {
@@ -203,7 +250,7 @@ fun RegisterButton(registerEnable: Boolean, loading: Boolean, onClick: () -> Uni
         modifier = Modifier.height(60.dp).width(200.dp),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {
-        if(loading) {
+        if (loading) {
             CircularProgressIndicator(
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.size(24.dp)
@@ -216,7 +263,6 @@ fun RegisterButton(registerEnable: Boolean, loading: Boolean, onClick: () -> Uni
             )
         }
     }
-
 }
 
 @Composable
@@ -235,3 +281,5 @@ fun ErrorMessage(message: String) {
         style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.error)
     )
 }
+
+
