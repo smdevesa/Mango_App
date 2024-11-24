@@ -11,6 +11,7 @@ import com.example.mango_app.model.UserDataStore
 import com.example.mango_app.model.data.LoginRequest
 import com.example.mango_app.model.data.LoginResponse
 import com.example.mango_app.ui.screen.LoginEvent
+import com.example.mango_app.utils.ErrorMessagesProvider
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -47,10 +48,10 @@ class LoginViewModel(private val apiService: ApiService, private val userDataSto
                         fetchUserInfo()
                         _event.postValue(LoginEvent.Success)
                     } else {
-                        _event.postValue(LoginEvent.Error("Invalid username or password"))
+                        _event.postValue(LoginEvent.Error(ErrorMessagesProvider.getErrorMessage(R.string.login_error)))
                     }
                 } catch (e: Exception) {
-                    _event.postValue(e.message?.let { LoginEvent.Error(it) })
+                    _event.postValue(LoginEvent.Error(ErrorMessagesProvider.getErrorMessage(R.string.internal_error)))
                 }
             }
         }

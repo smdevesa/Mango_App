@@ -32,11 +32,13 @@ import com.example.mango_app.utils.NavbarScaffold
 import com.example.mango_app.viewmodel.*
 import com.example.mango_app.ui.screen.TransactionHistoryScreen
 import com.example.mango_app.ui.screen.fakeTransactions
+import com.example.mango_app.utils.ErrorMessagesProvider
 import com.example.mango_app.utils.TopBarScaffold
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ErrorMessagesProvider.init(this)
         val userDataStore = UserDataStore(this)
         val apiService: ApiService = RetrofitServiceFactory.makeRetrofitService(userDataStore)
 

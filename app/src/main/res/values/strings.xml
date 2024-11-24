@@ -68,6 +68,12 @@
     <string name="enter_amount">"Enter amount: "</string>
     <string name="change_password">Change password</string>
     <string name="invalid_full_name">Invalid full name</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_phone_number">Invalid phone number</string>
+    <string name="invalid_password">Password too short</string>
+    <string name="invalid_repeat_password">Passwords do not match</string>
     <string name="transaction_history">Transaction History</string>
+    <string name="used_email">Email already in use</string>
+    <string name="internal_error">Internal error</string>
 
 </resources>

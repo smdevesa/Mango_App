@@ -36,7 +36,6 @@ class PayViewModel(private val apiService: ApiService) : ViewModel() {
     fun validatePaymentLink(linkUuid: String) {
         viewModelScope.launch {
             try {
-                // Llama a un endpoint para validar el link (ajusta según tu API)
                 val response = apiService.getPaymentDetails(linkUuid)
                 _isLinkValid.value = response.isSuccessful
                 if(response.isSuccessful) {
@@ -67,19 +66,14 @@ class PayViewModel(private val apiService: ApiService) : ViewModel() {
             val response = apiService.getPaymentDetails(linkUuid)
 
             if (response.isSuccessful) {
-                // Extrae el monto del cuerpo de la respuesta
                 val paymentDetails = response.body()
                 val amount = paymentDetails?.payment?.amount
-
-                // Actualiza el LiveData con el monto
                 _amount.value = amount?.toString()
             } else {
                 // Manejo de errores de la API
-                Log.e("PayViewModel", "Error al obtener detalles del pago: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
-            // Manejo de excepciones (red, tiempo de espera, etc.)
-            Log.e("PayViewModel", "Excepción al obtener detalles del pago: ${e.message}")
+            // nada
         }
     }
 

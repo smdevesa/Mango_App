@@ -68,7 +68,11 @@
     <string name="enter_amount">"Ingrese el monto: "</string>
     <string name="change_password">Cambiar contraseña</string>
     <string name="invalid_full_name">Nombre completo inválido</string>
+    <string name="invalid_email">Correo electrónico inválido</string>
+    <string name="invalid_phone_number">Número de teléfono inválido</string>
+    <string name="invalid_password">La contraseña es muy corta</string>
+    <string name="invalid_repeat_password">Las contraseñas no coinciden</string>
     <string name="transaction_history">Historial de transacciones</string>
-
-
+    <string name="used_email">Correo electrónico ya en uso</string>
+    <string name="internal_error">Error interno</string>
 </resources>

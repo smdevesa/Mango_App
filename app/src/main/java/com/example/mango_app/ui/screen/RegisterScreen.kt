@@ -127,6 +127,7 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onLoginClick: () -> Uni
                 Spacer(modifier = Modifier.height(32.dp))
                 if (event is RegisterEvent.Error) {
                     ErrorMessage((event as RegisterEvent.Error).message)
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
                 RegisterButton(registerEnable, event is RegisterEvent.Loading) {
                     registerViewModel.onRegisterClick()

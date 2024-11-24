@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mango_app.R
 import com.example.mango_app.model.ApiService
 import com.example.mango_app.model.data.RegisterRequest
 import com.example.mango_app.model.data.RegisterResponse
 import com.example.mango_app.ui.screen.RegisterEvent
+import com.example.mango_app.utils.ErrorMessagesProvider
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -82,31 +84,36 @@ class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
 
     private fun validateFullName(fullName: String) {
         if (_fullNameTouched.value == true) {
-            _fullNameError.value = if (CommonValidations.isValidFullName(fullName)) null else "Nombre completo no válido"
+            _fullNameError.value = if (CommonValidations.isValidFullName(fullName)) null else ErrorMessagesProvider.getErrorMessage(
+                R.string.invalid_full_name)
         }
     }
 
     private fun validateEmail(email: String) {
         if (_emailTouched.value == true) {
-            _emailError.value = if (CommonValidations.isValidEmail(email)) null else "Correo electrónico no válido"
+            _emailError.value = if (CommonValidations.isValidEmail(email)) null else ErrorMessagesProvider.getErrorMessage(
+                R.string.invalid_email)
         }
     }
 
     private fun validatePhone(phone: String) {
         if (_phoneTouched.value == true) {
-            _phoneError.value = if (CommonValidations.isValidPhone(phone)) null else "Teléfono no válido"
+            _phoneError.value = if (CommonValidations.isValidPhone(phone)) null else ErrorMessagesProvider.getErrorMessage(
+                R.string.invalid_phone_number)
         }
     }
 
     private fun validatePassword(password: String) {
         if (_passwordTouched.value == true) {
-            _passwordError.value = if (CommonValidations.isValidPassword(password)) null else "Contraseña demasiado corta"
+            _passwordError.value = if (CommonValidations.isValidPassword(password)) null else ErrorMessagesProvider.getErrorMessage(
+                R.string.invalid_password)
         }
     }
 
     private fun validateRepeatPassword(password: String, repeatPassword: String) {
         if (_repeatPasswordTouched.value == true) {
-            _repeatPasswordError.value = if (CommonValidations.isValidRepeatPassword(password, repeatPassword)) null else "Las contraseñas no coinciden"
+            _repeatPasswordError.value = if (CommonValidations.isValidRepeatPassword(password, repeatPassword)) null else ErrorMessagesProvider.getErrorMessage(
+                R.string.invalid_repeat_password)
         }
     }
 
@@ -147,10 +154,10 @@ class RegisterViewModel(private val apiService: ApiService) : ViewModel() {
                     if (response.isSuccessful) {
                         _event.postValue(RegisterEvent.RegisterSuccess)
                     } else {
-                        _event.postValue(RegisterEvent.Error(response.errorBody()?.string() ?: "Error"))
+                        _event.postValue(RegisterEvent.Error(ErrorMessagesProvider.getErrorMessage(R.string.used_email)))
                     }
                 } catch (e: Exception) {
-                    _event.postValue(RegisterEvent.Error(e.message ?: "Error"))
+                    _event.postValue(RegisterEvent.Error(ErrorMessagesProvider.getErrorMessage(R.string.internal_error)))
                 }
             }
         }
