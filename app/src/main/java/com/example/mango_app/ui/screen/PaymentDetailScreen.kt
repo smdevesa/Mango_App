@@ -1,27 +1,23 @@
 package com.example.mango_app.ui.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mango_app.R
+import com.example.mango_app.utils.CardDesign
 import com.example.mango_app.utils.TitledCard
 import com.example.mango_app.viewmodel.PayViewModel
 
@@ -34,7 +30,12 @@ fun PaymentDetailScreen(
     val amount by payViewModel.amount.observeAsState("")
     val cards by payViewModel.cards.observeAsState(emptyList())
     val successMessageVisible by payViewModel.successMessageVisible.observeAsState(false)
+    val pagerState = rememberPagerState(initialPage = 0, pageCount = { cards.size })
     val showSuccessAlert = remember { mutableStateOf(false) }
+    var showCardCarousel by remember { mutableStateOf(false) }
+    var disableBalancePayment by remember { mutableStateOf(false) }
+    var disableCardPayment by remember { mutableStateOf(false) }
+    var showNoCardsMessage by remember { mutableStateOf(false) }  // Flag to show message if no cards are available
 
     // Cargar detalles del pago al iniciar la pantalla
     LaunchedEffect(linkUuid) {
@@ -49,66 +50,178 @@ fun PaymentDetailScreen(
     }
 
     TitledCard(
-        title = stringResource(id = R.string.payment_details),
-        modifier = Modifier.fillMaxSize()
+        title = "",
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()) // Habilitar scroll vertical
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.Start,
+                .padding(16.dp)
         ) {
-            Text(text = "Monto a pagar: $amount", style = MaterialTheme.typography.bodyMedium)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = {
-                    payViewModel.payWithBalance(linkUuid)
-                },
-                modifier = Modifier.fillMaxWidth()
+            // Mostrar monto a pagar y botones
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(id = R.string.pay_with_balance))
-            }
+                Text(
+                    text =  stringResource(id= R.string.toPay) + amount,
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(bottom = 24.dp)
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                // Botón para pagar con saldo
+                Button(
+                    onClick = { payViewModel.payWithBalance(linkUuid) },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !disableBalancePayment
+                ) {
+                    Text(text = stringResource(id = R.string.pay_with_balance),
+                        style = MaterialTheme.typography.titleSmall)
+                }
 
-            Text(text = stringResource(id = R.string.pay_with_card))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            cards.forEach { card ->
+                // Botón para abrir el carrusel de tarjetas
                 Button(
                     onClick = {
-                        payViewModel.payWithCard(linkUuid, card.id)
+                        if (cards.isEmpty()) {
+                            showNoCardsMessage = true // Muestra el mensaje de no hay tarjetas
+                        } else {
+                            showCardCarousel = true
+                            disableBalancePayment = true
+                            disableCardPayment = true
+                        }
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !disableCardPayment
                 ) {
-                    Text(text = "Pagar con ${card.number}")
+                    Text(style = MaterialTheme.typography.titleSmall,
+                        text = stringResource(id = R.string.pay_with_card))
                 }
-                Spacer(modifier = Modifier.height(8.dp))
+                // Verifica si hay tarjetas y muestra el mensaje si no las hay
+                if (cards.isEmpty()) {
+                    if (showNoCardsMessage) {
+                        Text(
+                            text = stringResource(id = R.string.no_cards),
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                if (showCardCarousel && cards.isNotEmpty()) {
+                    // Mostrar carrusel de tarjetas
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            HorizontalPager(
+                                state = pagerState,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp)
+                                    .padding(horizontal = 32.dp)
+                            ) { page ->
+                                CardDesign(card = cards[page])
+                            }
+
+                            // Indicador de página
+                            Row(
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .padding(16.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                repeat(cards.size) { index ->
+                                    Box(
+                                        modifier = Modifier
+                                            .size(16.dp)
+                                            .padding(horizontal = 6.dp)
+                                            .background(
+                                                color = if (index == pagerState.currentPage) {
+                                                    MaterialTheme.colorScheme.primary
+                                                } else {
+                                                    MaterialTheme.colorScheme.onBackground.copy(
+                                                        alpha = 0.5f
+                                                    )
+                                                },
+                                                shape = CircleShape
+                                            )
+                                    )
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            // Confirmar tarjeta seleccionada y opción de cancelar
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                TextButton(
+                                    onClick = {
+                                        showCardCarousel = false
+                                        disableBalancePayment = false
+                                        disableCardPayment = false
+                                    }
+                                ) {
+                                    Text(color = MaterialTheme.colorScheme.onError,
+                                        style = MaterialTheme.typography.titleSmall,
+                                        text = stringResource(id = R.string.cancel))
+
+                                }
+
+                                Button(
+                                    onClick = {
+                                        val selectedCardId = cards[pagerState.currentPage].id
+                                        payViewModel.setCardId(selectedCardId)
+                                        payViewModel.payWithCard(linkUuid, selectedCardId)
+                                        showCardCarousel = false
+                                        disableBalancePayment = false
+                                        disableCardPayment = false
+                                    }
+                                ) {
+                                    Text(style = MaterialTheme.typography.titleSmall,
+                                        text = stringResource(id = R.string.confirm_card))
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
     // Mostrar alerta de éxito al completar el pago
     if (showSuccessAlert.value) {
-        androidx.compose.material3.AlertDialog(
+        AlertDialog(
             onDismissRequest = {
                 showSuccessAlert.value = false
-                payViewModel.resetSuccessMessage() // Restablece el estado en el ViewModel
-                navController.navigate("home") // Navega a la pantalla principal
+                payViewModel.resetSuccessMessage()
+                navController.navigate("home")
             },
             title = { Text(text = stringResource(id = R.string.success)) },
-            text = { Text(text = "Pago realizado con éxito") },
+            text = { Text(text = stringResource(id = R.string.successful_payment)) },
             confirmButton = {
-                androidx.compose.material3.TextButton(
+                TextButton(
                     onClick = {
                         showSuccessAlert.value = false
-                        payViewModel.resetSuccessMessage() // Restablece el estado en el ViewModel
-                        navController.navigate("home") // Navega a la pantalla principal
+                        payViewModel.resetSuccessMessage()
+                        navController.navigate("home")
                     }
                 ) {
-                    Text("OK")
+                    Text(text = stringResource( id = R.string.close) )
                 }
             }
         )

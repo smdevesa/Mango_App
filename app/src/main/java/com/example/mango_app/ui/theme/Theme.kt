@@ -21,7 +21,8 @@ private val DarkColorScheme = darkColorScheme(
     surfaceContainer = Purple40,
     outline = Color.White,
     outlineVariant = Color(0x001A1C1B),
-    surfaceVariant = MangoOrange
+    surfaceVariant = MangoOrange,
+    onError = Color.Red
     )
 
 private val LightColorScheme = lightColorScheme(
@@ -37,7 +38,8 @@ private val LightColorScheme = lightColorScheme(
     surfaceContainer = Purple40,
     outline = Color.Black,
     outlineVariant = Color(0xFFB3AE9F),
-    surfaceVariant = MangoOrange
+    surfaceVariant = MangoOrange,
+    onError = Color.Red
 )
 
 @Composable

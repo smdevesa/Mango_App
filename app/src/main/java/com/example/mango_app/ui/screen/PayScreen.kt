@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -35,14 +38,15 @@ fun PayScreen(payViewModel: PayViewModel, navController: NavController) {
     val isLinkValid by payViewModel.isLinkValid.observeAsState(true) // Inicialmente válido para evitar mostrar error antes de escribir
 
     TitledCard(
-        title = stringResource(id = R.string.pay),
+        title = "",
         modifier = Modifier.fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // Campo de texto para ingresar el enlace
@@ -61,13 +65,14 @@ fun PayScreen(payViewModel: PayViewModel, navController: NavController) {
             if (!isLinkValid && paymentLink.isNotEmpty()) {
                 Text(
                     text = stringResource(id = R.string.invalid_payment_link),
+                    style = MaterialTheme.typography.titleSmall,
                     color = androidx.compose.ui.graphics.Color.Red,
                     modifier = Modifier
                         .fillMaxWidth()
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             // Botón deshabilitado si el enlace es inválido
             Button(
@@ -77,7 +82,8 @@ fun PayScreen(payViewModel: PayViewModel, navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 enabled = isLinkValid // Habilitado solo si el enlace es válido
             ) {
-                Text(text = stringResource(id = R.string.next))
+                Text(style = MaterialTheme.typography.titleSmall,
+                    text = stringResource(id = R.string.next))
             }
         }
     }

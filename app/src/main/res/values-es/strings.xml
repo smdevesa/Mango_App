@@ -37,7 +37,7 @@
     <string name="accept">Aceptar</string>
     <string name="add_card">Agregar tarjeta</string>
     <string name="no_cards">No tienes tarjetas</string>
-    <string name="delete_card">Confirmar Eliminación</string>
+    <string name="delete_card">Eliminar tarjeta</string>
     <string name="delete_card_message">¿Estás seguro de que deseas eliminar esta tarjeta?</string>
     <string name="last_transactions">Últimas transacciones</string>
     <string name="delete">Eliminar</string>
@@ -56,7 +56,10 @@
     <string name="next">Continuar</string>
     <string name= "money_success">Dinero agregado con éxito</string>
     <string name="logout">Cerrar sesión</string>
-
+    <string name="confirm_card">Confirmar</string>
+    <string name="cards_title">Mis tarjetas</string>
+    <string name="toPay">Monto a pagar: $</string>
+    <string name="successful_payment">Pago realizado con éxito</string>
 
 
 </resources>

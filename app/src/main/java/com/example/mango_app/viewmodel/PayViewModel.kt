@@ -17,6 +17,9 @@ class PayViewModel(private val apiService: ApiService) : ViewModel() {
     private val _cards = MutableLiveData<List<Card>>()
     val cards: LiveData<List<Card>> = _cards
 
+    private val _cardId = MutableLiveData<Int>()
+    val cardId: LiveData<Int> = _cardId
+
     private val _amount = MutableLiveData<String>()
     val amount: LiveData<String> = _amount
 
@@ -25,6 +28,10 @@ class PayViewModel(private val apiService: ApiService) : ViewModel() {
 
     private val _isLinkValid = MutableLiveData<Boolean>()
     val isLinkValid: LiveData<Boolean> = _isLinkValid
+
+    init {
+        fetchCards()
+    }
 
     fun validatePaymentLink(linkUuid: String) {
         viewModelScope.launch {
@@ -41,6 +48,19 @@ class PayViewModel(private val apiService: ApiService) : ViewModel() {
             }
         }
     }
+    private fun fetchCards() {
+        viewModelScope.launch {
+            val response = apiService.getCards()
+            if (response.isSuccessful) {
+                _cards.value = response.body()
+            }
+        }
+    }
+    fun setCardId(cardId: Int) {
+        _cardId.value = cardId
+    }
+
+
     suspend fun fetchPaymentDetails(linkUuid: String) {
         try {
             // Llama al endpoint de la API para obtener los detalles del pago
