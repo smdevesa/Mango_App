@@ -29,7 +29,7 @@ fun TransactionHistoryScreen(
     Scaffold(
         content = { padding ->
             TitledCard(
-                title = "Transaction History", // Título centrado
+                title = stringResource(R.string.transaction_history), // Título centrado
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
