@@ -113,4 +113,9 @@ class PayViewModel(private val apiService: ApiService) : ViewModel() {
             }
         }
     }
+
+    fun resetSuccessMessage() {
+        _successMessageVisible.value = false
+    }
+
 }

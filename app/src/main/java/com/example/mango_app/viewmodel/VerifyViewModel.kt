@@ -1,9 +1,11 @@
 package com.example.mango_app.viewmodel
 
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mango_app.R
 import com.example.mango_app.model.ApiService
 import com.example.mango_app.model.data.VerifyRequest
 import com.example.mango_app.model.data.VerifyResponse
@@ -40,7 +42,7 @@ class VerifyViewModel(private val apiService: ApiService) : ViewModel() {
                     if (response.isSuccessful) {
                         _event.postValue(VerifyEvent.VerifySuccess)
                     } else {
-                        _event.postValue(VerifyEvent.Error(response.errorBody()?.string() ?: "Error"))
+                        _event.postValue(VerifyEvent.Error("Invalid code"))
                     }
                 } catch (e: Exception) {
                     _event.postValue(e.message?.let { VerifyEvent.Error(it) })

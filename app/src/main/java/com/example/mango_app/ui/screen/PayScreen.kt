@@ -32,8 +32,7 @@ import com.example.mango_app.viewmodel.PayViewModel
 @Composable
 fun PayScreen(payViewModel: PayViewModel, navController: NavController) {
     var paymentLink by remember { mutableStateOf("") }
-    val isLinkValid by payViewModel.isLinkValid.observeAsState(false)
-    val showAlert = remember { mutableStateOf(false) }
+    val isLinkValid by payViewModel.isLinkValid.observeAsState(true) // Inicialmente válido para evitar mostrar error antes de escribir
 
     TitledCard(
         title = stringResource(id = R.string.pay),
@@ -46,55 +45,40 @@ fun PayScreen(payViewModel: PayViewModel, navController: NavController) {
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            // Campo de texto para ingresar el enlace
             CustomTextField(
                 value = paymentLink,
-                onValueChange = { paymentLink = it },
+                onValueChange = {
+                    paymentLink = it
+                    if (it.isNotEmpty()) {
+                        payViewModel.validatePaymentLink(it) // Valida automáticamente al escribir
+                    }
+                },
                 label = stringResource(id = R.string.payment_link)
             )
 
+            // Mostrar error debajo del campo si el enlace es inválido
+            if (!isLinkValid && paymentLink.isNotEmpty()) {
+                Text(
+                    text = stringResource(id = R.string.invalid_payment_link),
+                    color = androidx.compose.ui.graphics.Color.Red,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón deshabilitado si el enlace es inválido
             Button(
                 onClick = {
-                    if (paymentLink.isNotEmpty()) {
-                        payViewModel.validatePaymentLink(paymentLink)
-                    }
-
-
+                    navController.navigate("paymentDetails/$paymentLink")
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = isLinkValid // Habilitado solo si el enlace es válido
             ) {
                 Text(text = stringResource(id = R.string.next))
-
-                // Utilizar LaunchedEffect para manejar la navegación de forma asincrónica
-                LaunchedEffect(isLinkValid) {
-                    if (isLinkValid) {
-                        // Navegar solo cuando el link sea válido
-                        navController.navigate("paymentDetails/$paymentLink")
-                    } else if(paymentLink.isNotEmpty()) {
-                        // Mostrar el alert dialog solo si el link no es vacío y no es válido
-                        showAlert.value = true
-                    }
-                }
             }
-
-
         }
-    }
-
-    // Mostrar el AlertDialog cuando el link es inválido
-    if (showAlert.value) {
-        AlertDialog(
-            onDismissRequest = { showAlert.value = false },
-            title = { Text(text = "Error") },
-            text = { Text(text = stringResource(id = R.string.invalid_payment_link)) },
-            confirmButton = {
-                TextButton(
-                    onClick = { showAlert.value = false }
-                ) {
-                    Text(text = "Ok")
-                }
-            }
-        )
     }
 }
