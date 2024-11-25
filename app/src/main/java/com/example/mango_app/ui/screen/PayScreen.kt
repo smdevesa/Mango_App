@@ -53,15 +53,14 @@ fun PayScreen(payViewModel: PayViewModel, navController: NavController) {
             )
 
             if (showErrorMessage) {
+                Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = errorMessage,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = androidx.compose.ui.graphics.Color.Red,
-                    modifier = Modifier.fillMaxWidth()
+                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.error)
                 )
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
                     if (paymentLink.isEmpty()) {
